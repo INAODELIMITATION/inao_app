@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "jr",
+    "password": "teletoon",
+    "database": "projet_dev",
+    "host": "54.36.120.233",
+    "port":5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "jr",
+    "password": "teletoon",
+    "database": "projet_dev",
+    "host": "54.36.120.233",
+    "port":5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "jr",
+    "password": "teletoon",
+    "database": "projet_dev",
+    "host": "54.36.120.233",
+    "port":5432,
+    "dialect": "postgres"
+  }
+}

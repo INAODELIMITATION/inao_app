@@ -1,0 +1,104 @@
+<!--
+created on the 29/05/2018 by Guiala Jean Roger
+-->
+<!-- Application de visualisation des AOC viticoles -->
+<!--Work starting : 29/05/2018
+View conception and test
+
+19/06/2018: problème affichage carte à moitié sur mobile (responsive)
+-->
+
+<!DOCTYPE html>
+
+
+<html>
+
+    <head>
+        <!--META-->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+        <meta name="fragment" content="!" />
+        <!-- Fin META -->
+
+        <title>
+            <%= title %>
+          </title>
+        <!-- appel bibliothèque de style-->
+        <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+        <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="/stylesheets/animate.css" rel="stylesheet">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <!--Fin appel bibliothèque de style-->
+
+        <!--OpenLayers version 4.6.5 CSS-->
+        <link href="/stylesheets/ol.css" rel="stylesheet">
+
+        <!--Geoportail openLayerExtension CSS-->
+        <link href="/stylesheets/GpPluginOpenLayers.css" rel="stylesheet">
+
+    </head>
+
+    <body class="top-navigation">
+
+        <div id="wrapper">
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom white-bg">
+                    <!-- ENTETE DE LA PAGE -->
+                    <nav class="navbar navbar-static-top" role="navigation"  >
+                        <div class="navbar-header">
+
+                            <!-- Bouton qui apparait à partir d'une certaine taille -->
+                            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="right-sidebar-toggle navbar-toggle collapsed" type="button">
+                                <i class="fa fa-reorder"></i>
+                            </button>
+
+                            <!-- logo de l'inao-->
+                            <a href="http:/www.inao.gouv.fr" target="_blank" class="navbar-brand"><img src="/images/Configuration_inao_logo.png" class="logoInao"></a>
+
+                            <!--Bouton de recherche pour le mobile-->
+                            <div class="dropdown searchMobile text-center" >
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-search fa-2x"></i> 
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu">
+                                    <li>
+                                        <div class="input-group">
+                                            <input type="text" placeholder="chercher une Appelation, une commune, une parcelle... " class="input form-control">  
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <!-- élément de l'entete (form recherche et menu)-->
+                        <ul class="nav navbar-top-links "  >
+
+
+                            <!-- recherche sur ecran de dimension supérieure à 768px-->
+                            <li class="recherche " >
+                                <div class=" searchGroup1" >
+                                    <div class="input-group inputSearch1">
+                                        <input type="text" placeholder="chercher une Appelation, une commune, une parcelle... " class="input form-control">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn btn-primary" data-toggle="modal" data-target="#myModal4"> <i class="fa fa-plus fa-1x"></i> </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </li>
+
+
+                            <!-- Bouton de menu-->
+                            <li class="menu-desktop navbar-right">
+                                <a href="#" class="right-sidebar-toggle">
+                                    <i class=" fa fa-tasks fa-3x"></i> <!--modif ici-->
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </nav>
+                </div>
