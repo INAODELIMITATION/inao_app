@@ -8,4 +8,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/api',languedocController.list);
 
+router.get('/api/:AppelId', languedocController.retrieve);
+router.get('/api/denomination/:denom', languedocController.retrieveBydenomination);
 module.exports = router;
