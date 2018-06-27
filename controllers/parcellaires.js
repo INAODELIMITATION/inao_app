@@ -46,7 +46,7 @@ module.exports={
                 'denomination','id_app','appellation'
             ]
         })
-        .then(aire_parcelles=>res.status(200).send(aire_parcelles))
+        .then(aire_parcelles=>res.status(200).send(JSON.stringify(aire_parcelles)))
         .catch(error=> res.status(400).send(error));
     },
 
