@@ -5,7 +5,8 @@
     "database": "projet_dev",
     "host": "54.36.120.233",
     "port":5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "operatorsAliases": "Sequelize.Op"
   },
   "test": {
     "username": "jr",
@@ -13,7 +14,8 @@
     "database": "projet_dev",
     "host": "54.36.120.233",
     "port":5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "operatorsAliases": "Sequelize.Op"
   },
   "production": {
     "username": "jr",
@@ -21,6 +23,7 @@
     "database": "projet_dev",
     "host": "54.36.120.233",
     "port":5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "operatorsAliases": "Sequelize.Op"
   }
 }

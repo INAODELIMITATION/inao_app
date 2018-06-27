@@ -1,5 +1,5 @@
-const languedocs = require('./languedocs');
+const parcellaires = require('./parcellaires');
 
 module.exports = {
-    languedocs,
+    parcellaires,
 }
