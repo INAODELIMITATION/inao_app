@@ -30,7 +30,8 @@ View conception and test
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="/stylesheets/animate.css" rel="stylesheet">
     <link rel='stylesheet' href='/stylesheets/style.css' />
-
+    <link rel="stylesheet" href="/stylesheets/plugins/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/plugins/select2/select2.min.css" />
    
 
     <!--Fin appel bibliothèque de style-->
@@ -89,14 +90,15 @@ View conception and test
                             <div class=" searchGroup1">
                                 <form  onsubmit="return false;">
                                     <div class="input-group inputSearch1" id="multiple-datasets" >
-                                        <input type="text" id="search" placeholder="chercher une Appelation, une commune, une parcelle... " class="input form-control typeahead">
-                                        <span class="input-group-btn">
+                                        <input type="text" id="search" placeholder="chercher une Appelation, une commune, une parcelle... " class="input form-control typeahead " autocomplete="off"><!--form-control -->
+                                       
+                                     <span class="input-group-btn">
                                             <button type="button" class="btn btn btn-primary" data-toggle="modal" data-target="#myModal4">
                                                 <i class="fa fa-plus fa-1x"></i>
                                             </button>
                                         </span>
                                     </div>
-                                    
+                                   
                                 </form>
                             </div>
                         </li>

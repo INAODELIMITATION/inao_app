@@ -1,5 +1,6 @@
 const Aire_P = require('../models').aire_parcellaire;
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports={
 
@@ -81,6 +82,33 @@ module.exports={
                 });
             }
             return res.status(200).send(aire_parcelles);
+        })
+        .catch(error => res.status(400).send(error));
+    },
+
+    findDeno(req,res){
+        console.log("debut");
+        var regex = new RegExp(req.body.denom,'i');
+        console.log(regex);
+        return Aire_P
+        .findAll({
+          raw:true,
+            where:{
+                denomination:{[Op.iLike]:'%'+req.body.denom+'%'}
+            },
+           
+            limit:15,
+            attributes:[[Sequelize.fn('DISTINCT',Sequelize.col('id_denom')),'id_denom'],'denomination'],
+        })
+        .then(aire_parcelles =>{
+            if(!aire_parcelles){
+                return res.status(404).send({
+                    message:'denomination pas trouvé',
+                });
+            }
+            console.log("success");
+            return res.status(200).send(JSON.stringify(aire_parcelles));
+           
         })
         .catch(error => res.status(400).send(error));
     },
