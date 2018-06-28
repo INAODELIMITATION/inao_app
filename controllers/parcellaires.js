@@ -97,8 +97,36 @@ module.exports={
                 denomination:{[Op.iLike]:'%'+req.body.denom+'%'}
             },
            
-            limit:15,
+            limit:30,
             attributes:[[Sequelize.fn('DISTINCT',Sequelize.col('id_denom')),'id_denom'],'denomination'],
+        })
+        .then(aire_parcelles =>{
+            if(!aire_parcelles){
+                return res.status(404).send({
+                    message:'denomination pas trouvé',
+                });
+            }
+            console.log("success");
+            return res.status(200).send(JSON.stringify(aire_parcelles));
+           
+        })
+        .catch(error => res.status(400).send(error));
+    },
+
+
+    findAppel(req,res){
+        console.log("debut");
+        var regex = new RegExp(req.body.appel,'i');
+        console.log(regex);
+        return Aire_P
+        .findAll({
+          raw:true,
+            where:{
+                appellation:{[Op.iLike]:'%'+req.body.appel+'%'}
+            },
+           
+            limit:30,
+            attributes:[[Sequelize.fn('DISTINCT',Sequelize.col('id_app')),'id_app'],'appellation'],
         })
         .then(aire_parcelles =>{
             if(!aire_parcelles){

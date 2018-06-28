@@ -13,4 +13,5 @@ router.get('/api/denomination/:denom', parcellaireController.retrieveBydenominat
 
 
 router.post('/search',parcellaireController.findDeno);
+router.post('/search/appel',parcellaireController.findAppel);
 module.exports = router;
