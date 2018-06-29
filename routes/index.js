@@ -6,9 +6,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'SeekInao'});
 });
 
-router.get('/api',parcellaireController.listAppel);
 
-router.get('/api/appel',( parcellaireController.listAppel));
 router.get('/api/denomination/:denom', parcellaireController.retrieveBydenomination);
 
 

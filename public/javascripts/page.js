@@ -17,12 +17,20 @@ $(document).ready(function () {
                 }
             });
         },
+      updater:function(item){
+          result = item;
+         //window.location.replace("/api/denomination/"+item);
+         var url = "/api/denomination/"+item;
+         $( location ).attr("href", url);
+      }
 
     });
     
 });
-$('#search').change(function(){
-    var result = $(this).val()
+var result;
+/*$('#search').change(function(){
+    var result = $(this).val();
+   
     //call your function here
     bob(result);
 });
@@ -30,4 +38,4 @@ $('#search').change(function(){
 
 function bob(result) {
     alert('hi bob, you typed: '+ result);
-}
+}*/

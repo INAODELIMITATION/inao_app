@@ -34,12 +34,15 @@ module.exports={
 
     /** recupérer la liste des appellation de dénomination donnée */
     retrieveBydenomination(req,res){
+        console.log("debut requete retrieveByDenomination sur "+req.params.denom)
         return Aire_P
         .findAll({
+            raw:true,
             where:{
                 denomination: req.params.denom,
             }, 
-            attributes:{exclude:['geom']},
+            limit:10,
+            // attributes:{exclude:['geom']},
         })
         .then(aire_parcelles =>{
             if(!aire_parcelles){
@@ -47,7 +50,9 @@ module.exports={
                     message:'denomination pas trouvé',
                 });
             }
-            return res.status(200).send(aire_parcelles);
+            console.log("success");
+            return res.status(200).send(JSON.stringify(aire_parcelles));
+            
         })
         .catch(error => res.status(400).send(error));
     },

@@ -1,5 +1,16 @@
 function go() {
 
+    var styleMultipolygon = [new ol.style.Style({
+        strole : new ol.style.Stroke({
+            color:'yellow',
+            width:1
+        }),
+        fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 0, 0.1)'
+          })
+    })];
+
+
     var scaleLineControl = new ol.control.ScaleLine();
     scaleLineControl.setUnits("metric");
     var projection = new ol.proj.Projection({
@@ -34,12 +45,14 @@ function go() {
         origin: ol.extent.getTopLeft(projectionExtent),
         // origin:[-378300, 7235610],
         resolutions: resolutions,
-        matrixIds: matrixIds
+        matrixIds: matrixIds,
+       
     });
 
     var languedoc_source = new ol.source.WMTS({
         url: 'http://127.0.0.1:8080/geoserver/gwc/service/wmts?REQUEST=getcapabilities',
         layer: 'test:languedoc',
+       
         matrixSet: 'EPSG:2154',
         format: 'image/png',
         projection: proj2154,
@@ -53,9 +66,13 @@ function go() {
     var lang = new ol.layer.Tile({
         opacity: 0.7,
         source: languedoc_source,
+     
 
     });
 
+
+    //zone de test
+   
     var coucheIGN = new ol.layer.Tile({
         source: new ol.source.GeoportalWMTS({
             projection: "EPSG:2154",
