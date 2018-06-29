@@ -16,41 +16,7 @@ module.exports={
         .catch(error => res.status(400).send(error));
     },
 
-    /**
-     * liste de toutes les appellations
-     * @param {*} req  recupère la requete de l'utilisateur
-     * @param {*} res  reponse renvoyé
-     */
-    listAppel(req,res){
-        return Aire_P
-       .findAll({
-           attributes:[
-               [Sequelize.fn('DISTINCT',Sequelize.col('id_app')),'id_app'],
-               'appellation'
-           ]
-       })
-        //.aggregate('id_app', 'DISTINCT', {attributes:['appellation'],plain:false,})
-        .then(aire_parcelles=>res.status(200).send(aire_parcelles))
-        .catch(error => res.status(400).send(error));
-    },
-
-    /**
-     * liste de toutes les dénominations
-     * @param {*} req  recupère la requete de l'utilisateur
-     * @param {*} res  reponse renvoyé
-     */
-    listDenom(req,res){
-        return Aire_P
-        .findAll({
-            attributes:[
-                [Sequelize.fn('DISTINCT',Sequelize.col('id_denom')),'id_denom'],
-                'denomination','id_app','appellation'
-            ]
-        })
-        .then(aire_parcelles=>res.status(200).send(JSON.stringify(aire_parcelles)))
-        .catch(error=> res.status(400).send(error));
-    },
-
+   
     /**recupérer un élément en fonction de son id  */
     retrieve(req,res){
         return Aire_P
@@ -87,9 +53,9 @@ module.exports={
     },
 
     findDeno(req,res){
-        console.log("debut");
-        var regex = new RegExp(req.body.denom,'i');
-        console.log(regex);
+        console.log("debut méthode FindDeno");
+       
+       
         return Aire_P
         .findAll({
           raw:true,
@@ -115,9 +81,9 @@ module.exports={
 
 
     findAppel(req,res){
-        console.log("debut");
-        var regex = new RegExp(req.body.appel,'i');
-        console.log(regex);
+        console.log("debut méthode FindAppel");
+       
+        
         return Aire_P
         .findAll({
           raw:true,
