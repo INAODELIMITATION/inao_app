@@ -1,13 +1,13 @@
 function go() {
 
     var styleMultipolygon = [new ol.style.Style({
-        strole : new ol.style.Stroke({
-            color:'yellow',
-            width:1
+        strole: new ol.style.Stroke({
+            color: 'yellow',
+            width: 1
         }),
         fill: new ol.style.Fill({
             color: 'rgba(255, 255, 0, 0.1)'
-          })
+        })
     })];
 
 
@@ -46,33 +46,32 @@ function go() {
         // origin:[-378300, 7235610],
         resolutions: resolutions,
         matrixIds: matrixIds,
-       
+
     });
 
     var languedoc_source = new ol.source.WMTS({
         url: 'http://127.0.0.1:8080/geoserver/gwc/service/wmts?REQUEST=getcapabilities',
         layer: 'test:languedoc',
-       
         matrixSet: 'EPSG:2154',
         format: 'image/png',
         projection: proj2154,
         tileGrid: tileGrid,
         style: 'polygon',
-        wrapX: true
-
+        wrapX: true,
+        bgcolor: '0x80BDE3'
 
     });
 
     var lang = new ol.layer.Tile({
         opacity: 0.7,
         source: languedoc_source,
-     
+
 
     });
 
 
     //zone de test
-   
+
     var coucheIGN = new ol.layer.Tile({
         source: new ol.source.GeoportalWMTS({
             projection: "EPSG:2154",
@@ -84,19 +83,48 @@ function go() {
 
         opacity: 0.8
     });
+
+    var sourceL = new ol.source.VectorTile({
+        
+        format: new ol.format.MVT({
+           
+        }),
+        tileGrid: ol.tilegrid.createXYZ({
+           // extent :projectionExtent,
+          
+            origin: ol.extent.getTopLeft(projectionExtent),
+            resolutions: resolutions,
+            matrixIds: matrixIds,
+            
+        }),
+        maxZoom:20,
+        url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:languedoc@EPSG:2154@pbf/{z}/{y}/{x}.pbf'
+    });
+    var layerMVT = new ol.layer.VectorTile({
+        opacity: 0.8,
+        source: sourceL,
+      
+       
+
+    });
+    // map.addLayer(layerMVT);
+
     var map = new ol.Map({
 
         target: 'map',
-        layers: [coucheIGN, lang],
+
+        layers: [coucheIGN],
         view: new ol.View({
+
             // projection: proj2154,
             projection: "EPSG:3857",
             //center: [690294.769471, 6206792.476654], //coord en 2154
             center: [320729.77, 5305952.76], //coordonnées en 3857   
-            zoom: 10
+            zoom: 8
         })
     });
-    // map.addLayer(lang); //ajout du layer languedoc à la carte
+    map.addLayer(lang); //ajout du layer languedoc à la carte
+
 }
 
 Gp.Services.getConfig({

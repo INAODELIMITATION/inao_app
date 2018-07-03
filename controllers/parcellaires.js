@@ -37,7 +37,7 @@ module.exports={
         console.log("debut requete retrieveByDenomination sur "+req.params.denom)
         return Aire_P
         .findAll({
-            raw:true,
+            //raw:true,
             where:{
                 denomination: req.params.denom,
             }, 
