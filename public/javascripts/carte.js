@@ -16,7 +16,8 @@ function go() {
     var projection = new ol.proj.Projection({
         code: 'EPSG:2154',
         extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
-        units: 'm'
+        units: 'm',
+        axisOrientation: 'neu'
     }); // definition du EPSG 2154
     ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
     var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
@@ -84,47 +85,46 @@ function go() {
         opacity: 0.8
     });
 
+   
+
+    var map = new ol.Map({
+
+        target: 'map',
+
+        layers: [],
+        view: new ol.View({
+
+            projection: "EPSG:2154",
+           // projection: "EPSG:3857",
+            center: [690294.769471, 6206792.476654], //coord en 2154
+            //center: [320729.77, 5305952.76], //coordonnées en 3857   
+            zoom: 8
+        })
+    });
+    //map.addLayer(lang); //ajout du layer languedoc à la carte
     var sourceL = new ol.source.VectorTile({
-        
-        format: new ol.format.MVT({
+       
+        tilePixelRatio: 1,
+        format: new ol.format.MVT(),
+        tileGrid: ol.tilegrid.createXYZ({
+            extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
+            resolutions: resolutions,
+           origin: ol.extent.getTopRight(projectionExtent),
            
         }),
-        tileGrid: ol.tilegrid.createXYZ({
-           // extent :projectionExtent,
-          
-            origin: ol.extent.getTopLeft(projectionExtent),
-            resolutions: resolutions,
-            matrixIds: matrixIds,
-            
-        }),
-        maxZoom:20,
-        url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:languedoc@EPSG:2154@pbf/{z}/{y}/{x}.pbf'
+       
+        url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:languedoc@EPSG:2154@pbf/{z}/{y}/{x}.pbf',
+        crossOrigin: 'anonymous'
     });
     var layerMVT = new ol.layer.VectorTile({
+      
         opacity: 0.8,
         source: sourceL,
       
        
 
     });
-    // map.addLayer(layerMVT);
-
-    var map = new ol.Map({
-
-        target: 'map',
-
-        layers: [coucheIGN],
-        view: new ol.View({
-
-            // projection: proj2154,
-            projection: "EPSG:3857",
-            //center: [690294.769471, 6206792.476654], //coord en 2154
-            center: [320729.77, 5305952.76], //coordonnées en 3857   
-            zoom: 8
-        })
-    });
-    map.addLayer(lang); //ajout du layer languedoc à la carte
-
+    map.addLayer(layerMVT);
 }
 
 Gp.Services.getConfig({
