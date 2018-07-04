@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    $('#search').typeahead({
-
+    $('#search,#searchM').typeahead({
         minLength: 3,
         maxItem: 10,
         source: function (query, result) {
@@ -17,6 +16,11 @@ $(document).ready(function () {
                 }
             });
         },
+        templates:{
+            empty: (context)=>{
+                $(".tt-dataset").text('pas de résultat');
+            }
+        },
       updater:function(item){
           result = item;
          //window.location.replace("/api/denomination/"+item);
@@ -25,6 +29,8 @@ $(document).ready(function () {
       }
 
     });
+
+   
     
 });
 var result;

@@ -13,6 +13,7 @@ function go() {
 
     var scaleLineControl = new ol.control.ScaleLine();
     scaleLineControl.setUnits("metric");
+    var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
     var projection = new ol.proj.Projection({
         code: 'EPSG:2154',
         extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
@@ -21,9 +22,10 @@ function go() {
     }); // definition du EPSG 2154
     ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
     var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
+    proj2154.setExtent(extent);
     var projectionExtent = proj2154.getExtent(); //recupération de l'étendu de la projection 
 
-    var variable = 22;
+    var variable = 21;
     var resolutions = new Array(variable);
 
 
@@ -31,8 +33,8 @@ function go() {
 
     //alert(proj2154.getExtent());
 
-    //var maxResolution = ol.extent.getWidth(projectionExtent) / 256; //recupérationd des résolutions
-    var maxResolution = 104579.224549894;
+    var maxResolution = ol.extent.getWidth(projectionExtent) / 256; //recupérationd des résolutions
+    //var maxResolution = 104579.224549894;
     //alert(maxResolution);
 
     for (var i = 0; i < variable; ++i) {
@@ -91,14 +93,14 @@ function go() {
 
         target: 'map',
 
-        layers: [],
+        layers: [coucheIGN],
         view: new ol.View({
 
-            projection: "EPSG:2154",
-           // projection: "EPSG:3857",
+            projection: proj2154,
+            //projection: "EPSG:3857",
             center: [690294.769471, 6206792.476654], //coord en 2154
             //center: [320729.77, 5305952.76], //coordonnées en 3857   
-            zoom: 8
+            zoom: 7
         })
     });
     //map.addLayer(lang); //ajout du layer languedoc à la carte
@@ -109,11 +111,11 @@ function go() {
         tileGrid: ol.tilegrid.createXYZ({
             extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
             resolutions: resolutions,
-           origin: ol.extent.getTopRight(projectionExtent),
+           origin: ol.extent.getTopLeft(projectionExtent),
            
         }),
        
-        url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:languedoc@EPSG:2154@pbf/{z}/{y}/{x}.pbf',
+        url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:languedoc@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
         crossOrigin: 'anonymous'
     });
     var layerMVT = new ol.layer.VectorTile({
@@ -124,7 +126,7 @@ function go() {
        
 
     });
-    map.addLayer(layerMVT);
+   map.addLayer(layerMVT);
 }
 
 Gp.Services.getConfig({

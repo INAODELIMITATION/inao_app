@@ -3686,6 +3686,7 @@ ol.unstyled {
     padding: 10px 20px;
     position: absolute;
     right: 0;
+    
 }
 .footer.fixed_full {
     position: fixed;
@@ -8604,7 +8605,7 @@ body.md-skin {
     
 }
 .logoInao{
-    height: 40px;
+    height: 30px;
 }
 @media (min-width : 769px){
     .inputSearch input{
@@ -8650,19 +8651,14 @@ body.md-skin {
         display: none!important;
         
     }
-    .menu-desktop{
-      
-    }
+   
 
 }
 .carte{
     margin: 0 !important;
     padding: 0!important;
-    border: 0 !important;  
-}
-.full-map {
-  width: 100%;
-  height: 100%;
+    border: 0 !important;
+ 
  
 }
 
