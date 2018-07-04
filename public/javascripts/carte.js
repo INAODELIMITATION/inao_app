@@ -1,14 +1,37 @@
 function go() {
 
     var styleMultipolygon = [new ol.style.Style({
-        strole: new ol.style.Stroke({
+        stroke: new ol.style.Stroke({
             color: 'yellow',
             width: 1
         }),
         fill: new ol.style.Fill({
-            color: 'rgba(255, 255, 0, 0.1)'
+            color: 'rgba(255, 255, 0, 0.4)'
         })
     })];
+
+    var styleMultipolygonred = [new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: 'red',
+            width: 1
+        }),
+        fill: new ol.style.Fill({
+            color: 'rgba(255, 0, 0,0.4 )'
+        })
+    })];
+
+
+
+    function simpleStyle(feature) {
+        if(parseInt(feature.get("insee")) < 20000 ){
+            return styleMultipolygon;
+            // to hide new ol.style.Style({})
+           
+        }
+        else{
+            return styleMultipolygonred;
+        }
+      }
 
 
     var scaleLineControl = new ol.control.ScaleLine();
@@ -100,7 +123,7 @@ function go() {
             //projection: "EPSG:3857",
             center: [690294.769471, 6206792.476654], //coord en 2154
             //center: [320729.77, 5305952.76], //coordonnées en 3857   
-            zoom: 7
+            zoom: 5
         })
     });
     //map.addLayer(lang); //ajout du layer languedoc à la carte
@@ -116,10 +139,11 @@ function go() {
         }),
        
         url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:languedoc@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
-        crossOrigin: 'anonymous'
+        crossOrigin: 'anonymous',
+        
     });
     var layerMVT = new ol.layer.VectorTile({
-      
+        style:simpleStyle,
         opacity: 0.8,
         source: sourceL,
       
