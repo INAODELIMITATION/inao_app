@@ -1,36 +1,66 @@
 function go() {
-
-    var styleMultipolygon = [new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: 'yellow',
-            width: 1
-        }),
-        fill: new ol.style.Fill({
-            color: 'rgba(255, 255, 0, 0.4)'
-        })
-    })];
-
-    var styleMultipolygonred = [new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: 'red',
-            width: 1
-        }),
-        fill: new ol.style.Fill({
-            color: 'rgba(255, 0, 0,0.4 )'
-        })
-    })];
+    function styleColor(couleur ,code){
+        return [new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color:couleur,
+                width: 1
+            }),
+            fill: new ol.style.Fill({
+                color: code
+            })
+        })];
+    }
+    var styleYellow = styleColor('yellow','rgba(255,255,0,0.6)');
+    var styleRed = styleColor('red','rgba(255,0,0,0.6)');
+    var styleGreen = styleColor('green','rgba(0,128,0,0.6)');
+    var styleBlue = styleColor('blue','rgba(0,0,255,0.6)');
+    var styleAqua = styleColor('aqua','rgba(0,255,255,0.6)');
+    var styleFuschia = styleColor('fuchsia','rgba(255,0,255,0.6)');
+    var styleNavy = styleColor('navy','rgba(0,0,128,0.6)');
+    var styleOlive = styleColor('olive','rgba(128,128,0,0.6)');
 
 
 
     function simpleStyle(feature) {
-        if(parseInt(feature.get("insee")) < 20000 ){
-            return styleMultipolygon;
-            // to hide new ol.style.Style({})
-           
+        switch(feature.get("crinao")){
+            case "Provence Corse":{
+                return styleYellow;
+                break;
+            }
+            case "Bourgogne, Beaujolais, Savoie, Jura":{
+                return styleRed;
+                break
+            }
+            case "Val de Loire":{
+                return styleGreen;
+                break;
+            }
+            case "Sud-Ouest":{
+                return styleBlue;
+                break;
+            }
+            case "Languedoc-Roussillon":{
+                return styleAqua;
+                break;
+            }
+            case "Alsace et Est":{
+                return styleFuschia;
+                break;
+            }
+            case "Vallée du Rhône":{
+                return styleNavy;
+                break;
+            }
+            case "Aquitaine":{
+                return styleOlive;
+                break
+            }
+            default:{
+                return 'polygon';
+                break;
+            }
         }
-        else{
-            return styleMultipolygonred;
-        }
+       
       }
 
 
@@ -98,7 +128,7 @@ function go() {
 
     //zone de test
 
-    var coucheIGN = new ol.layer.Tile({
+   var coucheIGN = new ol.layer.Tile({
         source: new ol.source.GeoportalWMTS({
             projection: "EPSG:2154",
             layer: "CADASTRALPARCELS.PARCELS",
@@ -123,7 +153,7 @@ function go() {
             //projection: "EPSG:3857",
             center: [690294.769471, 6206792.476654], //coord en 2154
             //center: [320729.77, 5305952.76], //coordonnées en 3857   
-            zoom: 5
+            zoom: 2
         })
     });
     //map.addLayer(lang); //ajout du layer languedoc à la carte
@@ -138,22 +168,36 @@ function go() {
            
         }),
        
-        url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:languedoc@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+        url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
         crossOrigin: 'anonymous',
         
     });
     var layerMVT = new ol.layer.VectorTile({
-        style:simpleStyle,
+       style:simpleStyle,
         opacity: 0.8,
         source: sourceL,
       
        
 
     });
-   map.addLayer(layerMVT);
+    map.addLayer(layerMVT);
+    var info = document.createElement('div');
+    var overlay = new ol.Overlay({element:info});
+    map.addOverlay(overlay);
+   
+  
+   map.on('pointermove',(e)=>{
+    var crin = map.forEachFeatureAtPixel(e.pixel, function(feature){
+        return feature.get('crinao');
+    });
+    info.style.display = crin ? '':'none';
+    info.innerHTML = crin;
+    overlay.setPosition(e.coordinate);
+});
 }
 
 Gp.Services.getConfig({
     apiKey: "1g3c8evz5w5tcus9a7oawl77",
     onSuccess: go
 });
+//go();

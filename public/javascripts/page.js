@@ -4,7 +4,7 @@ $(document).ready(function () {
         maxItem: 10,
         source: function (query, result) {
             $.ajax({
-                url: "http://127.0.0.1:3000/search",
+                url: "/search",
                 data: 'denom=' + query,
                 dataType: "json",
                 type: "POST",
