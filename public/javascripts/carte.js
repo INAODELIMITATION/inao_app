@@ -3,7 +3,7 @@ function go() {
         return [new ol.style.Style({
             stroke: new ol.style.Stroke({
                 color:couleur,
-                width: 1
+                width: 2
             }),
             fill: new ol.style.Fill({
                 color: code
@@ -153,7 +153,7 @@ function go() {
             //projection: "EPSG:3857",
             center: [690294.769471, 6206792.476654], //coord en 2154
             //center: [320729.77, 5305952.76], //coordonnées en 3857   
-            zoom: 2
+            zoom: 3
         })
     });
     //map.addLayer(lang); //ajout du layer languedoc à la carte
