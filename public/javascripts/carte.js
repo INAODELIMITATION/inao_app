@@ -70,22 +70,23 @@ var sourceL = new ol.source.VectorTile({
 /**
  * fonction exécutant la carte de base
  */
+function InitStyle(feature) {
+    switch (feature.get("crinao")) {
+        case "Provence Corse": { return styles.yellow; break; }
+        case "Bourgogne, Beaujolais, Savoie, Jura": { return styles.red; break; }
+        case "Val de Loire": { return styles.green; break; }
+        case "Sud-Ouest": { return styles.bluebreak; }
+        case "Languedoc-Roussillon": { return styles.aqua; break; }
+        case "Alsace et Est": { return styles.fuchsia; break; }
+        case "Vallée du Rhône": { return styles.navy; break; }
+        case "Aquitaine": { return styles.olive; break }
+        default: { return 'polygon'; break; }
+    }
+}
+
 function initialisation() {
 
-    function InitStyle(feature) {
-        switch (feature.get("crinao")) {
-            case "Provence Corse": { return styles.yellow; break; }
-            case "Bourgogne, Beaujolais, Savoie, Jura": { return styles.red; break; }
-            case "Val de Loire": { return styles.green; break; }
-            case "Sud-Ouest": { return styles.bluebreak; }
-            case "Languedoc-Roussillon": { return styles.aqua; break; }
-            case "Alsace et Est": { return styles.fuchsia; break; }
-            case "Vallée du Rhône": { return styles.navy; break; }
-            case "Aquitaine": { return styles.olive; break }
-            default: { return 'polygon'; break; }
-        }
-    }
-
+    
     //setup coucheIGN  doit etre mis dans un fichier ou on charge toutes les couches IGN? avec possibilité de les activer et les désactiver
     var coucheIGN = new ol.layer.Tile({
         source: new ol.source.GeoportalWMTS({
