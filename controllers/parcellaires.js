@@ -41,7 +41,8 @@ module.exports={
             where:{
                 denomination: req.params.denom,
             }, 
-            limit:10,
+            attributes:{exclude:['geom']},
+            //limit:10,
             // attributes:{exclude:['geom']},
         })
         .then(aire_parcelles =>{

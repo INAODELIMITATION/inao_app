@@ -33,15 +33,3 @@ $(document).ready(function () {
    
     
 });
-var result;
-/*$('#search').change(function(){
-    var result = $(this).val();
-   
-    //call your function here
-    bob(result);
-});
-
-
-function bob(result) {
-    alert('hi bob, you typed: '+ result);
-}*/
