@@ -83,43 +83,7 @@ function InitStyle(feature) {
         default: { return 'polygon'; break; }
     }
 }
-
-function initialisation() {
-
-    
-    //setup coucheIGN  doit etre mis dans un fichier ou on charge toutes les couches IGN? avec possibilité de les activer et les désactiver
-    var coucheIGN = new ol.layer.Tile({
-        source: new ol.source.GeoportalWMTS({
-            projection: "EPSG:2154",
-            layer: "CADASTRALPARCELS.PARCELS",
-            //layer: "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.ROUTIER.L93",
-            style: "normal",
-        }),
-
-        opacity: 0.8
-    });
-
-    map = new ol.Map({
-        target: 'map',
-        layers: [coucheIGN],
-        view: new ol.View({
-            projection: proj2154,
-            //projection: "EPSG:3857",
-            center: [690294.769471, 6206792.476654], //coord en 2154
-            //center: [320729.77, 5305952.76], //coordonnées en 3857   
-            zoom: 3
-        })
-    });
-
-
-    layerMVT = new ol.layer.VectorTile({
-        style: InitStyle,
-        opacity: 0.8,
-        source: sourceL,
-    }); //definition de la couche en affectant le style initial
-
-    map.addLayer(layerMVT); //ajout de la couche à la carte
-
+function crinaoHover(map) {
     var info = document.createElement('div');
     var overlay = new ol.Overlay({ element: info });
     map.addOverlay(overlay);
@@ -131,7 +95,32 @@ function initialisation() {
         info.innerHTML = crin;
         overlay.setPosition(e.coordinate);
     });
-
+}
+function initialisation() {
+    var coucheIGN = new ol.layer.Tile({ //setup coucheIGN
+        source: new ol.source.GeoportalWMTS({
+            projection: "EPSG:2154",
+            layer: "CADASTRALPARCELS.PARCELS",
+            style: "normal",
+        }),
+        opacity: 0.8
+    });
+    map = new ol.Map({
+        target: 'map',
+        layers: [coucheIGN],
+        view: new ol.View({ //center: [320729.77, 5305952.76], //coordonnées en 3857   //projection: "EPSG:3857",
+            projection: proj2154,
+            center: [690294.769471, 6206792.476654], //coord en 2154
+            zoom: 3
+        })
+    });
+    layerMVT = new ol.layer.VectorTile({
+        style: InitStyle,
+        opacity: 0.8,
+        source: sourceL,
+    }); //definition de la couche en affectant le style initial
+    map.addLayer(layerMVT); //ajout de la couche à la carte
+    crinaoHover(map);
 }
 
 Gp.Services.getConfig({
