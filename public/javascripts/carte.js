@@ -1,33 +1,3 @@
-/**
- * fonction permettant de créer un style
- * @param {string} couleur la couleur des traits
- * @param {string} code le code en rgba du remplissage 
- */
-function styleColor(couleur, code) {
-    return [new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: couleur,
-            width: 2
-        }),
-        fill: new ol.style.Fill({
-            color: code
-        })
-    })];
-}
-
-// différentes couleur
-var styles = {
-    yellow: styleColor('yellow', 'rgba(255,255,0,0.6)'),
-    red: styleColor('red', 'rgba(255,0,0,0.6)'),
-    green: styleColor('green', 'rgba(0,128,0,0.6)'),
-    blue: styleColor('blue', 'rgba(0,0,255,0.6)'),
-    aqua: styleColor('aqua', 'rgba(0,255,255,0.6)'),
-    fuchsia: styleColor('fuchsia', 'rgba(255,0,255,0.6)'),
-    navy: styleColor('navy', 'rgba(0,0,128,0.6)'),
-    olive: styleColor('olive', 'rgba(128,128,0,0.6)')
-};
-//FIN COULEURS
-var map, layerMVT;
 var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
 var projection = new ol.proj.Projection({
     code: 'EPSG:2154',
@@ -51,9 +21,37 @@ for (var i = 0; i < variable; ++i) {
 
 }
 
+/**
+ * fonction permettant de créer un style
+ * @param {string} couleur la couleur des traits
+ * @param {string} code le code en rgba du remplissage 
+ */
+function styleColor(couleur, code) {
+    return [new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: couleur,
+            width: 2
+        }),
+        fill: new ol.style.Fill({
+            color: code
+        })
+    })];
+}
+
+// différentes couleur dans un objet 
+var styles = {
+    yellow: styleColor('yellow', 'rgba(255,255,0,0.6)'),
+    red: styleColor('red', 'rgba(255,0,0,0.6)'),
+    green: styleColor('green', 'rgba(0,128,0,0.6)'),
+    blue: styleColor('blue', 'rgba(0,0,255,0.6)'),
+    aqua: styleColor('aqua', 'rgba(0,255,255,0.6)'),
+    fuchsia: styleColor('fuchsia', 'rgba(255,0,255,0.6)'),
+    navy: styleColor('navy', 'rgba(0,0,128,0.6)'),
+    olive: styleColor('olive', 'rgba(128,128,0,0.6)')
+};
+
 //setup source couche aire_parcellaire
 var sourceL = new ol.source.VectorTile({
-
     tilePixelRatio: 1,
     format: new ol.format.MVT(),
     tileGrid: ol.tilegrid.createXYZ({
@@ -66,6 +64,14 @@ var sourceL = new ol.source.VectorTile({
     crossOrigin: 'anonymous',
 });
 
+var map = new ol.Map({
+    target: 'map',
+});
+var layerMVT = new ol.layer.VectorTile({
+    style: InitStyle,
+    opacity: 0.8,
+    source: sourceL,
+});
 
 /**
  * fonction exécutant la carte de base
@@ -99,27 +105,19 @@ function crinaoHover(map) {
 function initialisation() {
     var coucheIGN = new ol.layer.Tile({ //setup coucheIGN
         source: new ol.source.GeoportalWMTS({
-            projection: "EPSG:2154",
+            projection: proj2154,
             layer: "CADASTRALPARCELS.PARCELS",
             style: "normal",
         }),
         opacity: 0.8
     });
-    map = new ol.Map({
-        target: 'map',
-        layers: [coucheIGN],
-        view: new ol.View({ //center: [320729.77, 5305952.76], //coordonnées en 3857   //projection: "EPSG:3857",
-            projection: proj2154,
-            center: [690294.769471, 6206792.476654], //coord en 2154
-            zoom: 3
-        })
-    });
-    layerMVT = new ol.layer.VectorTile({
-        style: InitStyle,
-        opacity: 0.8,
-        source: sourceL,
-    }); //definition de la couche en affectant le style initial
+    map.addLayer(coucheIGN);
     map.addLayer(layerMVT); //ajout de la couche à la carte
+    map.setView(new ol.View({ //center: [320729.77, 5305952.76], //coordonnées en 3857   //projection: "EPSG:3857",
+        projection: proj2154,
+        center: [690294.769471, 6206792.476654], //coord en 2154
+        zoom: 3
+    }));
     crinaoHover(map);
 }
 
@@ -127,4 +125,5 @@ Gp.Services.getConfig({
     apiKey: "1g3c8evz5w5tcus9a7oawl77",
     onSuccess: initialisation
 });
+
 

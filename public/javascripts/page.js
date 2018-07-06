@@ -23,13 +23,21 @@ $(document).ready(function () {
         },
       updater:function(item){
           result = item;
-         //window.location.replace("/api/denomination/"+item);
-         var url = "/api/denomination/"+item;
+        
+        /* var url = "/api/denomination/"+item;
          $( location ).attr("href", url);
+         */
+         $.ajax({
+             url:"/api/denomination/"+item,
+             type:'GET',
+             dataType:"json",
+             success:function (data){
+               console.log(data);
+             }
+         })
+         
       }
 
     });
-
-   
     
 });
