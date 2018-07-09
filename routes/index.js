@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var sess;
 const parcellaireController = require('../controllers').parcellaires;
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  sess = req.session;
   res.render('index', { title: 'SeekInao'});
   next();
 });
