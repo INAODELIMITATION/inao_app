@@ -66,6 +66,7 @@ var sourceL = new ol.source.VectorTile({
 
 var map = new ol.Map({
     target: 'map',
+    renderer: 'canvas' //canvas,WebGL,DOM
 });
 var layerMVT = new ol.layer.VectorTile({
     style: InitStyle,
@@ -76,7 +77,8 @@ var layerMVT = new ol.layer.VectorTile({
 /**
  * fonction exécutant la carte de base
  */
-function InitStyle(feature) {
+function InitStyle(feature,resolution) {
+    //console.log(feature);
     switch (feature.get("crinao")) {
         case "Provence Corse": { return styles.yellow; break; }
         case "Bourgogne, Beaujolais, Savoie, Jura": { return styles.red; break; }

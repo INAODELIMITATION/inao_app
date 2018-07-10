@@ -7,6 +7,7 @@ const parcellaireController = require('../controllers').parcellaires;
 router.get('/', function(req, res, next) {
   sess = req.session;
   res.render('index', { title: 'SeekInao'});
+  res.locals.aire = sess.aire;
   next();
 });
 

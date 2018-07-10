@@ -1,6 +1,7 @@
 const Aire_P = require('../models').aire_parcellaire;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+var sess;
 
 module.exports={
 
@@ -37,7 +38,7 @@ module.exports={
         console.log("debut requete retrieveByDenomination sur "+req.params.denom)
         return Aire_P
         .findAll({
-            //raw:true,
+            raw:true,
             where:{
                 denomination: req.params.denom,
             }, 
@@ -52,7 +53,16 @@ module.exports={
                 });
             }
             console.log("success");
-            return res.status(200).send(JSON.stringify(aire_parcelles));
+            sess = req.session;
+            if (typeof(sess.aire)=='undefined'){
+              sess.aire = [];
+            }
+            var params = {
+              type : "denomination",
+              valeur:req.params.denom
+            };
+            sess.aire.push(params);
+            return res.status(200).send({denomination:aire_parcelles,filter:sess.aire});
             
         })
         .catch(error => res.status(400).send(error));
