@@ -16,54 +16,55 @@ $(document).ready(function () {
                 }
             });
         },
-        templates:{
-            empty: (context)=>{
+        templates: {
+            empty: (context) => {
                 $(".tt-dataset").text('pas de résultat');
             }
         },
-      updater:function(item){
-          result = item;
-        
-        /* var url = "/api/denomination/"+item;
-         $( location ).attr("href", url);
-         */
-         $.ajax({
-             url:"/api/denomination/"+item,
-             type:'GET',
-             dataType:"json",
-             success:function (data){
-              console.log(data.denomination);
-               console.log(typeof data.filter);
-               var feature = new ol.Feature({
-                   geometry: new ol.geom.MultiPolygon("2154"),
-                   name:"denomination"
-               });
-               layerMVT.setStyle(filters(data.filter,feature));
-           
-             }
-         })
-         
-      }
+        updater: function (item) {
+            result = item;
+
+
+            $.ajax({
+                url: "/api/denomination/" + item,
+                type: 'GET',
+                dataType: "json",
+                success: function (data) {
+                    console.log(data.denomination);
+                    console.log(typeof data.filter);
+                    //layerMVT.setStyle(filters(data.filter,map.get));
+                    var data1 = data.filter;
+                    function filters(feature) {
+
+                        for (let i = 0; i <= data1.length; i++) {
+
+                            if (feature.get(data1[i].type) == data1[i].valeur) {
+
+                                console.log("success");
+
+                                return styles.green;
+
+                            }
+                            else if(feature.get(data1[i].type) != data1[i].valeur) {
+                                //console.log("failure");
+                                return new ol.style.Style({});
+                            }
+                        }
+
+                    }
+                    layerMVT.setStyle(filters);
+                    console.log(data1.length);
+                    layerMVT.setVisible(true);
+                    map.updateSize();
+                }
+            })
+
+        }
 
     });
-    
+
 });
 
-function filters(tab,feature){
-   
-    for(var i=0; i<=tab.length; i++){
-        console.log("enyet");
-       if(feature.get(tab[i].type)== tab[i].valeur){
-           console.log("success");
-           return styles.green;
-           
-       }
-       else{
-           console.log("failure");
-           return new ol.style.Style({});
-       }
-    }
-}
 
 
 
