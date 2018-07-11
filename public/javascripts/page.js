@@ -22,35 +22,22 @@ $(document).ready(function () {
             }
         },
         updater: function (item) {
-            result = item;
-
-
             $.ajax({
                 url: "/api/denomination/" + item,
                 type: 'GET',
                 dataType: "json",
                 success: function (data) {
-                    console.log(data.denomination);
-                    console.log(typeof data.filter);
-                    //layerMVT.setStyle(filters(data.filter,map.get));
                     var data1 = data.filter;
                     function filters(feature) {
-
                         for (let i = 0; i <= data1.length; i++) {
-
                             if (feature.get(data1[i].type) == data1[i].valeur) {
-
                                 console.log("success");
-
                                 return styles.green;
-
                             }
                             else if(feature.get(data1[i].type) != data1[i].valeur) {
-                                //console.log("failure");
                                 return new ol.style.Style({});
                             }
                         }
-
                     }
                     layerMVT.setStyle(filters);
                     console.log(data1.length);

@@ -43,8 +43,6 @@ module.exports={
                 denomination: req.params.denom,
             }, 
             attributes:{exclude:['geom']},
-            //limit:10,
-            // attributes:{exclude:['geom']},
         })
         .then(aire_parcelles =>{
             if(!aire_parcelles){
