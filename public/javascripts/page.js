@@ -28,21 +28,60 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (data) {
                     var data1 = data.filter;
+                    var source = [];
+                    var vectorSource = new ol.source.Vector({  projection: 'EPSG:2154',  /*format: new ol.format.MVT(),*/ });
+                    console.log(data1.length);
+                    console.log(sourceL);
                     function filters(feature) {
-                        for (let i = 0; i <= data1.length; i++) {
-                            if (feature.get(data1[i].type) == data1[i].valeur) {
+                        /*for (let i = 0; i <= data1.length; i++) {
+                            if (feature.get(data1[i].type) == data1[i].valeur ) {
                                 console.log("success");
                                 return styles.green;
                             }
                             else if(feature.get(data1[i].type) != data1[i].valeur) {
                                 return new ol.style.Style({});
                             }
+                        }*/ 
+                      
+                        for(var i = 0; i < data1.length; i++){
+                            
+                         if (feature.get(data1[i].type) ==  data1[i].valeur){
+                           /*let newFeature = new ol.Feature({
+                               geometry: feature.getGeometry(),
+                               name:data1[i].type
+                           });*/
+                         
+                           
+                           vectorSource.addFeatures(feature.getGeometry());
+                        
+                          /* map.addLayer(new ol.layer.VectorTile({
+                               source :  new ol.source.Vector({}),
+                              // style: InitStyle
+                           }));*/
+                           source.push(vectorSource);
+                           console.log(source[i]);
+                         }
+                       
+                        
                         }
+                           
+                        return styles.green;                     
                     }
-                    layerMVT.setStyle(filters);
-                    console.log(data1.length);
+                   
+                   //layerMVT.setStyle(filters);
+                 
                     layerMVT.setVisible(true);
+                    console.log(source[0].getFeatures());
+                   /* map.addLayer(new ol.layer.Vector({
+                        style:styles.red,
+                        opacity: 1,
+                        source: source[0],
+                    }));*/
+
+                  
                     map.updateSize();
+                    //map.renderSync();
+                  
                 }
             })
 
