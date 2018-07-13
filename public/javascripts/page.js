@@ -28,56 +28,41 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (data) {
                     var data1 = data.filter;
-                    var source = [];
-                    var vectorSource = new ol.source.Vector({  projection: 'EPSG:2154',  /*format: new ol.format.MVT(),*/ });
-                    console.log(data1.length);
-                    console.log(sourceL);
-                    function filters(feature) {
-                        /*for (let i = 0; i <= data1.length; i++) {
-                            if (feature.get(data1[i].type) == data1[i].valeur ) {
-                                console.log("success");
-                                return styles.green;
-                            }
-                            else if(feature.get(data1[i].type) != data1[i].valeur) {
-                                return new ol.style.Style({});
-                            }
-                        }*/ 
-                      
-                        for(var i = 0; i < data1.length; i++){
-                            
-                         if (feature.get(data1[i].type) ==  data1[i].valeur){
-                           /*let newFeature = new ol.Feature({
-                               geometry: feature.getGeometry(),
-                               name:data1[i].type
-                           });*/
-                         
-                           
-                           vectorSource.addFeatures(feature.getGeometry());
-                        
-                          /* map.addLayer(new ol.layer.VectorTile({
-                               source :  new ol.source.Vector({}),
-                              // style: InitStyle
-                           }));*/
-                           source.push(vectorSource);
-                           console.log(source[i]);
-                         }
+                    var vectorSource = new ol.source.Vector({  
+                        projection: proj2154,  
+                        extent:[-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
+                        format: new ol.format.MVT(),
                        
-                        
-                        }
-                           
-                        return styles.green;                     
-                    }
-                   
-                   //layerMVT.setStyle(filters);
+                    });
+                   var filteredFeatures= [];
                  
-                    layerMVT.setVisible(true);
-                    console.log(source[0].getFeatures());
-                   /* map.addLayer(new ol.layer.Vector({
-                        style:styles.red,
-                        opacity: 1,
-                        source: source[0],
-                    }));*/
-
+                  
+                 for(var i=0; i<data1.length; i++){
+                     for(var j=0; j<features.length; j++){
+                         
+                         if(features[j].get(data1[i].type)== data1[i].valeur){
+                            
+                            filteredFeatures.push(features[j]);
+                         }
+                        
+                     }
+                     
+                     var source = new ol.source.Vector({
+                        features:filteredFeatures,
+                        projection: proj2154,
+                    });
+                    map.addLayer(new ol.layer.Vector({
+                        source:source,
+                        style:styles.red
+                    }));
+                    
+                    filteredFeatures = [];
+                    
+                 }
+                
+            
+                    layerMVT.setVisible(false);
+                   
                   
                     map.updateSize();
                     //map.renderSync();
