@@ -123,11 +123,35 @@ function initialisation() {
         zoom: 3
     }));
     crinaoHover(map);
+    successMessage();
+   
+}
+function successMessage(){
+    setTimeout(function() {
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            showMethod: 'slideDown',
+            timeOut: 8000
+        };
+        toastr.success('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
+
+    }, 1300);
+
 }
 
+function fail(){
+    swal({
+        title:"ERREUR!",
+        text:"Service  indisponible!!! Veuillez contacter votre administrateur (BDDC)",
+        type:"warning",
+        showConfirmButton:false,
+    });
+}
 Gp.Services.getConfig({
     apiKey: "1g3c8evz5w5tcus9a7oawl77",
-    onSuccess: initialisation
+    onSuccess: initialisation,
+    onFailure:fail,
 });
 
 
