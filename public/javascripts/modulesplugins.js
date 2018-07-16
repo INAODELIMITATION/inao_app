@@ -1,17 +1,29 @@
-function filters(data){
-    for(let i=0; i<data.length; i++){
-       if(feature.get(data[i].type)== data[i].valeur){
-           return styles.green;
-       }
-       else{
-           return new ol.style.Style({});
-       }
-    }
+/**
+ * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
+ */
+
+var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
+var projection = new ol.proj.Projection({
+    code: 'EPSG:2154',
+    extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
+    units: 'm',
+    axisOrientation: 'neu'
+}); // definition du EPSG 2154
+
+ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
+var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
+proj2154.setExtent(extent);
+var projectionExtent = proj2154.getExtent(); //recupération de l'étendu de la projection 
+var variable = 21;
+var resolutions = new Array(variable);
+var matrixIds = new Array(variable);
+var maxResolution = ol.extent.getWidth(projectionExtent) / 256; //recupérationd des résolutions
+for (var i = 0; i < variable; ++i) {
+    matrixIds[i] = 'EPSG:2154:' + i;
+    resolutions[i] = (maxResolution) / Math.pow(2, i);
+    //alert(resolutions[i]);
+
 }
-
-
-
-
 
 /**
  * fonction permettant de créer un style
@@ -41,3 +53,47 @@ var styles = {
     navy: styleColor('navy', 'rgba(0,0,128,0.6)'),
     olive: styleColor('olive', 'rgba(128,128,0,0.6)')
 };
+
+//setup source couche aire_parcellaire
+var sourceL = new ol.source.VectorTile({
+    tilePixelRatio: 1,
+    format: new ol.format.MVT(),
+    tileGrid: ol.tilegrid.createXYZ({
+        extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
+        resolutions: resolutions,
+        origin: ol.extent.getTopLeft(projectionExtent),
+
+    }),
+    url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+    crossOrigin: 'anonymous',
+});
+
+
+var map = new ol.Map({
+    target: 'map',
+    renderer: 'canvas' //canvas,WebGL,DOM
+});
+var layerMVT = new ol.layer.VectorTile({
+    style: InitStyle,
+    opacity: 0.8,
+    source: sourceL,
+});
+var features = [];
+/**
+ * fonction exécutant la carte de base
+ */
+function InitStyle(feature,resolution) {
+    //console.log(feature);
+    features.push(feature);
+    switch (feature.get("crinao")) {
+        case "Provence Corse": { return styles.yellow; break; }
+        case "Bourgogne, Beaujolais, Savoie, Jura": { return styles.red; break; }
+        case "Val de Loire": { return styles.green; break; }
+        case "Sud-Ouest": { return styles.bluebreak; }
+        case "Languedoc-Roussillon": { return styles.aqua; break; }
+        case "Alsace et Est": { return styles.fuchsia; break; }
+        case "Vallée du Rhône": { return styles.navy; break; }
+        case "Aquitaine": { return styles.olive; break }
+        default: { return 'polygon'; break; }
+    }
+}
