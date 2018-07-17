@@ -91,23 +91,37 @@ var sourceL = new ol.source.VectorTile({
     crossOrigin: 'anonymous',
 });
 
-
+/**
+ * Déclaration de la carte ici, ol::Map
+ */
 var map = new ol.Map({
     target: 'map',
     renderer: 'canvas' //canvas,WebGL,DOM
 });
+/**
+ * Déclaration de la couche principale LayerMvt. ol.layer.VectorTile
+ */
 var layerMVT = new ol.layer.VectorTile({
     style: InitStyle,
     opacity: 0.8,
     source: sourceL,
 });
-var features = [];
 /**
- * fonction exécutant la carte de base
+ * tableau qui va accueillir nos objets features
+ */
+var features = [];
+
+/**
+ *  Fonction initialisant les styles de la carte, qui charge également le tableau de feature
+ * @param {ol.Feature} feature 
+ * @param {ol.resolution} resolution 
  */
 function InitStyle(feature,resolution) {
-    //console.log(feature);
-    features.push(feature);
+   
+    features.push(feature); // à l'initalisation, on ajoute le feature au tableau de feature
+    /**
+     * Affectation des styles en fonction de la valeur du feature crinao (attribut)
+     */
     switch (feature.get("crinao")) {
         case "Provence Corse": { return styles.yellow; break; }
         case "Bourgogne, Beaujolais, Savoie, Jura": { return styles.red; break; }
