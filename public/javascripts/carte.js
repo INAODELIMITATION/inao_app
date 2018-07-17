@@ -1,4 +1,7 @@
-
+/**
+ * fonction permettant d'afficher le nom du crinao lors du passage sur la carte
+ * @param {ol:map} map la carte 
+ */
 function crinaoHover(map) {
     var info = document.createElement('div');
     var overlay = new ol.Overlay({ element: info });
@@ -12,6 +15,9 @@ function crinaoHover(map) {
         overlay.setPosition(e.coordinate);
     });
 }
+/**
+ * Fonction d'initialisation de notre carte lors du lancement de l'application
+ */
 function initialisation() {
     var coucheIGN = new ol.layer.Tile({ //setup coucheIGN
         source: new ol.source.GeoportalWMTS({
@@ -29,22 +35,10 @@ function initialisation() {
         zoom: 3
     }));
     crinaoHover(map);
-    successMessage();
+    successMessage('Chargement terminé','Bienvenue sur la plateforme de visualisation cartographique');
    
 }
-function successMessage(){
-    setTimeout(function() {
-        toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            showMethod: 'slideDown',
-            timeOut: 8000
-        };
-        toastr.success('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
 
-    }, 1300);
-
-}
 
 function fail(){
     swal({

@@ -1,4 +1,27 @@
 /**
+ * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
+ * Javascript
+ */
+
+
+/**
+ * Fonction qui affiche un message une fois que la carte a chargé pour la premiere fois.
+ */
+function successMessage(libelle, valeur){
+    setTimeout(function() {
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            showMethod: 'slideDown',
+            timeOut: 8000
+        };
+        toastr.success(libelle, valeur);
+
+    }, 1300);
+
+}
+
+/**
  * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
  */
 
