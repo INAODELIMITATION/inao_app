@@ -21,7 +21,7 @@ function crinaoHover(map) {
 function initialisation() {
     var coucheIGN = new ol.layer.Tile({ //setup coucheIGN
         source: new ol.source.GeoportalWMTS({
-            projection: proj2154,
+            projection: "IGNF:RGF93G",
             layer: "CADASTRALPARCELS.PARCELS",
             style: "normal",
         }),
@@ -30,9 +30,9 @@ function initialisation() {
     map.addLayer(coucheIGN);
     map.addLayer(layerMVT); //ajout de la couche à la carte
     map.setView(new ol.View({ //center: [320729.77, 5305952.76], //coordonnées en 3857   //projection: "EPSG:3857",
-        projection: proj2154,
-        center: [690294.769471, 6206792.476654], //coord en 2154
-        zoom: 3
+    projection : "EPSG:2154",
+        center: [489353.59,  6587552.20], //coord en 2154
+        zoom: 2.5
     }));
     crinaoHover(map);
     successMessage('Chargement terminé','Bienvenue sur la plateforme de visualisation cartographique');

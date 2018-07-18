@@ -35,7 +35,7 @@ module.exports={
 
     /** recupérer la liste des appellation de dénomination donnée */
     retrieveBydenomination(req,res){
-        console.log("debut requete retrieveByDenomination sur "+req.params.denom)
+        console.log("debut requete retrieveByDenomination sur "+req.params.denom);
         return Aire_P
         .findAll({
             raw:true,
