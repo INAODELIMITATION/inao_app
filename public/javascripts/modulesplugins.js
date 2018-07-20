@@ -134,3 +134,4 @@ function InitStyle(feature,resolution) {
         default: { return 'polygon'; break; }
     }
 }
+
