@@ -1,5 +1,7 @@
 "use strict";
 $(document).ready(function () {
+ 
+  
     $('#search,#searchM').typeahead({
         minLength: 3,
         maxItem: 10,
@@ -41,7 +43,7 @@ $(document).ready(function () {
                                     }
                                 }),
                             }));
-                            successMessage("ajout de la couche "+data1[iterator].valeur, "ajout termnié avec succès");
+                            successMessage( "ajout termnié avec succès","ajout de la couche "+data1[iterator].valeur);
                           }catch(e){
                             swal({
                                 title:"ERREUR lors du chargement de la couche : "+data1[iterator].valeur+" "+e,
@@ -51,9 +53,10 @@ $(document).ready(function () {
                             });
                           }
                        
-                          fitToextent(data1[iterator].valeur, iterator);
+                         
                        
                     }
+                    fitToextent(data1[iterator].valeur, iterator);
                    
                    map.removeLayer(layerMVT);
                     map.updateSize();

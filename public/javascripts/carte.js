@@ -28,6 +28,7 @@ function initialisation() {
         opacity: 0.8
     });
     map.addLayer(coucheIGN);
+    if(layerss)
     map.addLayer(layerMVT); //ajout de la couche à la carte
     map.setView(new ol.View({ //center: [320729.77, 5305952.76], //coordonnées en 3857   //projection: "EPSG:3857",
     projection : "EPSG:2154",
@@ -37,6 +38,34 @@ function initialisation() {
     crinaoHover(map);
     successMessage('Chargement terminé','Bienvenue sur la plateforme de visualisation cartographique');
    
+}
+
+function initSession(val){
+    for (var i = 0; i < val.length; i++) {
+        iterator = i;
+        try{
+          map.addLayer(new ol.layer.VectorTile({
+              opacity: 0.8,
+              source: sourceL,
+              style :(feature=>{
+                  if(feature.get(val[iterator].type) === val[iterator].valeur){
+                      return styles.red;
+                  }else{
+                      return new ol.style.Style({});
+                  }
+              }),
+          }));
+          successMessage( "ajout termnié avec succès","ajout de la couche "+val[iterator].valeur);
+        }catch(e){
+          swal({
+              title:"ERREUR lors du chargement de la couche : "+val[iterator].valeur+" "+e,
+              text:"Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
+              type:"warning",
+              showConfirmButton:true,
+          });
+        } 
+  }
+  fitToextent(val[iterator].valeur, iterator);
 }
 
 

@@ -2,7 +2,8 @@
  * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
  * Javascript
  */
-
+var layerss = '<%= layerSess %>';
+    alert(layerss.length+"iciciciciciciciciciciicicicicic");
 
 /**
  * Fonction qui affiche un message une fois que la carte a chargé pour la premiere fois.
@@ -67,14 +68,14 @@ function styleColor(couleur, code) {
 
 // différentes couleur dans un objet 
 var styles = {
-    yellow: styleColor('yellow', 'rgba(255,255,0,0.6)'),
-    red: styleColor('red', 'rgba(255,0,0,0.6)'),
-    green: styleColor('green', 'rgba(0,128,0,0.6)'),
-    blue: styleColor('blue', 'rgba(0,0,255,0.6)'),
-    aqua: styleColor('aqua', 'rgba(0,255,255,0.6)'),
-    fuchsia: styleColor('fuchsia', 'rgba(255,0,255,0.6)'),
-    navy: styleColor('navy', 'rgba(0,0,128,0.6)'),
-    olive: styleColor('olive', 'rgba(128,128,0,0.6)')
+    yellow: styleColor('yellow', 'rgba(255,255,0,0.4)'),
+    red: styleColor('red', 'rgba(255,0,0,0.4)'),
+    green: styleColor('green', 'rgba(0,128,0,0.4)'),
+    blue: styleColor('blue', 'rgba(0,0,255,0.4)'),
+    aqua: styleColor('aqua', 'rgba(0,255,255,0.4)'),
+    fuchsia: styleColor('fuchsia', 'rgba(255,0,255,0.4)'),
+    navy: styleColor('navy', 'rgba(0,0,128,0.4)'),
+    olive: styleColor('olive', 'rgba(128,128,0,0.4)')
 };
 
 //setup source couche aire_parcellaire
