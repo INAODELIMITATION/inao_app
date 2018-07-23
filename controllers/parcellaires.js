@@ -1,6 +1,9 @@
 const Aire_P = require('../models').aire_parcellaire;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+var env       = process.env.NODE_ENV || 'development';
+var config    = require(__dirname + '/../config/config.json')[env];
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var sess;
 
 module.exports={
@@ -139,4 +142,19 @@ module.exports={
         })
         .catch(error => res.status(400).send(error));
     },
+    getExtend(req,res){
+        return sequelize
+        .query("SELECT ST_XMIN(ST_EXTENT(aire_p.geom)), ST_YMIN(ST_EXTENT(aire_p.geom)), ST_XMAX(ST_EXTENT(aire_p.geom)), ST_YMAX(ST_EXTENT(aire_p.geom)) from  test.aire_p where denomination = $denom;",
+        {bind:{denom:req.params.denom},
+        type:Sequelize.QueryTypes.SELECT})
+        .then(extend =>{
+            if(!extend){
+                return res.status(404).send({
+                    message:'Not found'
+                });
+            }
+            return res.status(200).send(extend);
+        })
+        .catch(error => res.status(400).send(error));
+    }
 }

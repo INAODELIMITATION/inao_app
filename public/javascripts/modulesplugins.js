@@ -135,3 +135,7 @@ function InitStyle(feature,resolution) {
     }
 }
 
+function fitToextent(extent){
+    map.getView().fit(extent,map.getSize());
+}
+

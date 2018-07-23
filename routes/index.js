@@ -27,4 +27,5 @@ router.route('/search')
 
 //router.post('/search',parcellaireController.findDeno);
 router.post('/search/appel',parcellaireController.findAppel);
+router.get('/extendTest/:denom', parcellaireController.getExtend);
 module.exports = router;

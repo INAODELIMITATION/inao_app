@@ -29,33 +29,49 @@ $(document).ready(function () {
 
                     for (var i = 0; i < data1.length; i++) {
                         function simpleStyle(feature) {
-                            if(feature.get(data1[0].type) == data1[0].valeur){
-                                return styles.red;
-                            }else{
-                                return new ol.style.Style({});
-                            }
+                           
                           }
                           try{
                             map.addLayer(new ol.layer.VectorTile({
                                 opacity: 0.8,
                                 source: sourceL,
-                                style :simpleStyle
+                                style :((feature)=>{
+                                    if(feature.get(data1[i].type) === data1[i].valeur){
+                                        return styles.red;
+                                    }else{
+                                        return new ol.style.Style({});
+                                    }
+                                })()
                             }));
                             successMessage("ajout de la couche "+data1[0].valeur, "ajout termnié avec succès");
                           }catch(e){
-                            successMessage("erreur lors de l'ajout de la couche "+data1[0].valeur, "erreur :"+e);
+                            swal({
+                                title:"ERREUR lors du chargement de la couche : "+data1[0].valeur+" "+e,
+                                text:"Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
+                                type:"warning",
+                                showConfirmButton:true,
+                            });
                           }
                        
-                      
-                        console.log("parcours du tableau terminé");
-
+                          $.ajax({
+                            url:"/extendTest/"+data1[i].valeur,
+                            type:'GET',
+                            dataType:"json",
+                            success:function(data){
+                                
+                                var ex = [data[0].st_xmin,data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
+                               
+                                fitToextent(ex);
+                            }
+                        });
                        
                     }
 
-
+                    
                     layerMVT.setVisible(false);
                     
-                  
+                    
+                    /*map.getView().fit([738812.1, 6286127.87, 742802.05, 6292430.82], map.getSize());*/
                     map.updateSize();
                     //map.renderSync();
 
