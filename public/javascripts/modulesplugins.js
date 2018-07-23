@@ -142,11 +142,13 @@ function fitToextent(valeur,iterateur){
         dataType:"json",
         success:function(data){
             
-            var ex = [data[iterateur].st_xmin,data[iterateur].st_ymin, data[iterateur].st_xmax, data[iterateur].st_ymax];
+            var ex = [data[0].st_xmin,data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
            
             map.getView().fit(ex,map.getSize());
         }
     });
    
 }
+
+
 

@@ -50,12 +50,12 @@ $(document).ready(function () {
                                 showConfirmButton:true,
                             });
                           }
-                         // 
+                       
                           fitToextent(data1[iterator].valeur, iterator);
                        
                     }
-               
-                    layerMVT.setVisible(false);
+                   
+                   map.removeLayer(layerMVT);
                     map.updateSize();
 
                 }
