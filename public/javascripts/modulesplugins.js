@@ -135,7 +135,18 @@ function InitStyle(feature,resolution) {
     }
 }
 
-function fitToextent(extent){
-    map.getView().fit(extent,map.getSize());
+function fitToextent(valeur,iterateur){
+    $.ajax({
+        url:"/extendTest/"+valeur,
+        type:'GET',
+        dataType:"json",
+        success:function(data){
+            
+            var ex = [data[iterateur].st_xmin,data[iterateur].st_ymin, data[iterateur].st_xmax, data[iterateur].st_ymax];
+           
+            map.getView().fit(ex,map.getSize());
+        }
+    });
+   
 }
 

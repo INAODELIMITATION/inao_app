@@ -26,54 +26,37 @@ $(document).ready(function () {
                 success: function (data) {
                     var data1 = data.filter;
                     var filteredFeatures = [];
-
+                    var iterator = 0;
                     for (var i = 0; i < data1.length; i++) {
-                        function simpleStyle(feature) {
-                           
-                          }
+                          iterator = i;
                           try{
                             map.addLayer(new ol.layer.VectorTile({
                                 opacity: 0.8,
                                 source: sourceL,
-                                style :((feature)=>{
-                                    if(feature.get(data1[i].type) === data1[i].valeur){
+                                style :(feature=>{
+                                    if(feature.get(data1[iterator].type) === data1[iterator].valeur){
                                         return styles.red;
                                     }else{
                                         return new ol.style.Style({});
                                     }
-                                })()
+                                }),
                             }));
-                            successMessage("ajout de la couche "+data1[0].valeur, "ajout termnié avec succès");
+                            successMessage("ajout de la couche "+data1[iterator].valeur, "ajout termnié avec succès");
                           }catch(e){
                             swal({
-                                title:"ERREUR lors du chargement de la couche : "+data1[0].valeur+" "+e,
+                                title:"ERREUR lors du chargement de la couche : "+data1[iterator].valeur+" "+e,
                                 text:"Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
                                 type:"warning",
                                 showConfirmButton:true,
                             });
                           }
-                       
-                          $.ajax({
-                            url:"/extendTest/"+data1[i].valeur,
-                            type:'GET',
-                            dataType:"json",
-                            success:function(data){
-                                
-                                var ex = [data[0].st_xmin,data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
-                               
-                                fitToextent(ex);
-                            }
-                        });
+                         // 
+                          fitToextent(data1[iterator].valeur, iterator);
                        
                     }
-
-                    
+               
                     layerMVT.setVisible(false);
-                    
-                    
-                    /*map.getView().fit([738812.1, 6286127.87, 742802.05, 6292430.82], map.getSize());*/
                     map.updateSize();
-                    //map.renderSync();
 
                 }
             });
