@@ -2,14 +2,50 @@
  * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
  * Javascript
  */
-var layerss = '<%= layerSess %>';
-    alert(layerss.length+"iciciciciciciciciciciicicicicic");
+
+function removeDuplicates(arr, key) {
+    if (!(arr instanceof Array) || key && typeof key !== 'string') {
+        return false;
+    }
+
+    if (key && typeof key === 'string') {
+        return arr.filter((obj, index, arr) => {
+            return arr.map(mapObj => mapObj[key]).indexOf(obj[key]) === index;
+        });
+
+    } else {
+        return arr.filter(function (item, index, arr) {
+            return arr.indexOf(item) == index;
+        });
+    }
+}
+
+function LoadSessionLayers() {
+ 
+    $.ajax({
+        url: "/session/aireCharge",
+        type: 'GET',
+        dataType: "json",
+        success: function (session) {
+            var sess = session.filter;
+            if (sess.length > 0) {
+                var filtered = removeDuplicates(sess, 'valeur');
+               
+                return filtered;
+            } else { sess =[]; return sess; }
+
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+        }    
+    });
+}
 
 /**
  * Fonction qui affiche un message une fois que la carte a chargé pour la premiere fois.
  */
-function successMessage(libelle, valeur){
-    setTimeout(function() {
+function successMessage(libelle, valeur) {
+    setTimeout(function () {
         toastr.options = {
             closeButton: true,
             progressBar: true,
@@ -117,8 +153,8 @@ var features = [];
  * @param {ol.Feature} feature 
  * @param {ol.resolution} resolution 
  */
-function InitStyle(feature,resolution) {
-   
+function InitStyle(feature, resolution) {
+
     features.push(feature); // à l'initalisation, on ajoute le feature au tableau de feature
     /**
      * Affectation des styles en fonction de la valeur du feature crinao (attribut)
@@ -135,21 +171,22 @@ function InitStyle(feature,resolution) {
         default: { return 'polygon'; break; }
     }
 }
-
-function fitToextent(valeur,iterateur){
+/**
+ * 
+ * @param {string} valeur ce qui est recherché, dénomination ou appellation 
+ * 
+ */
+function fitToextent(valeur) {
     $.ajax({
-        url:"/extendTest/"+valeur,
-        type:'GET',
-        dataType:"json",
-        success:function(data){
-            
-            var ex = [data[0].st_xmin,data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
-           
-            map.getView().fit(ex,map.getSize());
+        url: "/extendTest/" + valeur,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+
+            var ex = [data[0].st_xmin, data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
+
+            map.getView().fit(ex, map.getSize());
         }
     });
-   
+
 }
-
-
-

@@ -159,6 +159,15 @@ module.exports={
     },
 
 
+    getSess(req,res){
+        sess = req.session;
+        if (typeof(sess.aire)=='undefined'){
+            sess.aire = [];
+          }
+        return res.status(200).send({filter:sess.aire});
+    }
+
+
 
 
 

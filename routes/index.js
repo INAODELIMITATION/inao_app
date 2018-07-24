@@ -32,4 +32,5 @@ router.route('/search')
 //router.post('/search',parcellaireController.findDeno);
 router.post('/search/appel',parcellaireController.findAppel);
 router.get('/extendTest/:denom', parcellaireController.getExtend);
+router.get('/session/aireCharge', parcellaireController.getSess);
 module.exports = router;
