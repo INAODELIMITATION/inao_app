@@ -59,6 +59,7 @@ function initialisation() {
 }
 
 function initSession(val) {
+    var valeurExtent = [];
     for (var i = 0; i < val.length; i++) {
        let iterator = i;
         try {
@@ -74,6 +75,7 @@ function initSession(val) {
                 }),
             }));
             successMessage("ajout termnié avec succès", "ajout de la couche " + val[i].valeur);
+            valeurExtent.push(val[i].valeur);
         } catch (e) {
             swal({
                 title: "ERREUR lors du chargement de la couche : " + val[i].valeur + " " + e,
