@@ -1,5 +1,8 @@
 "use strict";
+//WinMove();
+var clicked = 0;
 $(document).ready(function () {
+    nestableList();
     $('#search,#searchM').typeahead({
         minLength: 3,
         maxItem: 10,
@@ -17,7 +20,7 @@ $(document).ready(function () {
                 }
             });
         },
-
+        
         updater: function (item) {
             $.ajax({
                 url: "/api/denomination/" + item,
@@ -25,7 +28,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (data) {
                     var data1 = data.filter;
-                    var filteredFeatures = [];
+                   
                     
                     try{
                         map.addLayer(new ol.layer.VectorTile({
@@ -39,6 +42,7 @@ $(document).ready(function () {
                                 }
                             }),
                         }));
+                        createLayerRow();
                         successMessage( "ajout termnié avec succès","ajout de la couche "+data1[ data1.length -1].valeur);
                       }catch(e){
                         swal({
@@ -51,7 +55,11 @@ $(document).ready(function () {
                    
                  
                     fitToextent(data1[ data1.length -1].valeur);
-                  
+                    if(clicked == 0){
+                        clickSidebar();
+                        clicked = 1;
+                    }
+                   
 
                    map.removeLayer(layerMVT);
                     map.updateSize();
