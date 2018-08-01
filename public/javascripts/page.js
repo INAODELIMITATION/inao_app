@@ -42,7 +42,7 @@ $(document).ready(function () {
                                 }
                             }),
                         }));
-                        createLayerRow();
+                        createLayerRow(data1[data1.length -1]);
                         successMessage( "ajout termnié avec succès","ajout de la couche "+data1[ data1.length -1].valeur);
                       }catch(e){
                         swal({
