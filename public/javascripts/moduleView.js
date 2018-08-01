@@ -31,32 +31,15 @@ function parcoursTabCouche() {
 
 }
 
-function nestableList(){
-    var updateOutput = function (e) {
-    var list = e.length ? e : $(e.target),
-            output = list.data('output');
-    if (window.JSON) {
-        output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
-    } else {
-        output.val('JSON browser support required for this demo.');
-    }
-};
-// activate Nestable for list 2
-$('#nestable2').nestable({
-    group: 1
-}).on('change', updateOutput);
+function list(){
+    $("#todo, #inprogress, #completed").sortable({
+        connectWith: ".connectList",
+        update: function( event, ui ) {
 
-// output initial serialised data
-updateOutput($('#nestable2').data('output', $('#nestable2-output')));
-
-$('#nestable-menu').on('click', function (e) {
-    var target = $(e.target),
-            action = target.data('action');
-    if (action === 'expand-all') {
-        $('.dd').nestable('expandAll');
-    }
-    if (action === 'collapse-all') {
-        $('.dd').nestable('collapseAll');
-    }
-});
+            var todo = $( "#todo" ).sortable( "toArray" );
+            var inprogress = $( "#inprogress" ).sortable( "toArray" );
+            var completed = $( "#completed" ).sortable( "toArray" );
+            $('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress) + "<br/>" + "Completed: " + window.JSON.stringify(completed));
+        }
+    }).disableSelection();
 }

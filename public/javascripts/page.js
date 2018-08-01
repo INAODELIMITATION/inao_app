@@ -2,7 +2,7 @@
 //WinMove();
 var clicked = 0;
 $(document).ready(function () {
-    nestableList();
+    list();
     $('#search,#searchM').typeahead({
         minLength: 3,
         maxItem: 10,

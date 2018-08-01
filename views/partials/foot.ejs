@@ -34,38 +34,46 @@
             </li>
         </ul>
         <div class="tab-content">
-            <div id="tab-1" class=" active">
+            <!--debut onglet couche-->
+            <div id="tab-1" class="tab-pane active">
 
                 <div class="sidebar-title">
                     <h3>
                         <i class="fa fa-location-arrow"></i> Couches chargées</h3>
                     <small>
-                        <i class="fa fa-tim"></i>Les différentes couches chargées :</small>
+                        <i class="fa fa-tim"></i>Les différentes couches chargées :
+                    </small>
                 </div>
-                <div class="dd" id="nestable2">
-                    <ol class="dd-list">
-                        <li class="dd-item" data-id="1">
-                            <div class="dd-handle">
-                                <span class="label label-info"><i class="fa fa-users"></i></span> Cras ornare tristique.
-                            </div>
-                            <ol class="dd-list">
-                                
-                            </ol>
-                        </li>
 
-                        <li class="dd-item" data-id="5">
-                            <div class="dd-handle">
-                                <span class="label label-warning"><i class="fa fa-users"></i></span> Integer vitae libero.
-                            </div>
-                            <ol class="dd-list">
-                                
-                            </ol>
-                        </li>
-                    </ol>
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <ul class="sortable-list connectList agile-list" id="todo">
+                            <li class="warning-element" id="task5">
+                                Which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic
+                                words etc.
+                                <div class="agile-detail">
+                                    <a href="#" class="pull-right btn btn-xs btn-white">Tag</a>
+                                    <i class="fa fa-clock-o"></i> 09.12.2015
+                                </div>
+                            </li>
+                            <li class="warning-element" id="task6">
+                                Packages and web page editors now use Lorem Ipsum as
+                                <div class="agile-detail">
+                                    <a href="#" class="pull-right btn btn-xs btn-primary">Done</a>
+                                    <i class="fa fa-clock-o"></i> 08.04.2015
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+
+
+
 
             </div>
+            <!--FIN onglet couche-->
 
+            <!--debut onglet Projects-->
             <div id="tab-2" class="tab-pane">
 
                 <div class="sidebar-title">
@@ -81,7 +89,9 @@
                 </ul>
 
             </div>
+            <!--fin onglet Projects-->
 
+            <!--debut onglet Params-->
             <div id="tab-3" class="tab-pane">
 
                 <div class="sidebar-title">
@@ -142,6 +152,7 @@
                 </div>
 
             </div>
+            <!--fin onglet params-->
         </div>
 
     </div>
@@ -160,8 +171,12 @@
 <script src="/javascripts/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="/javascripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-<!-- Nestable List -->
-<script src="/javascripts/plugins/nestable/jquery.nestable.js"></script>
+<!-- jquery UI -->
+<script src="/javascripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<!-- Touch Punch - Touch Event Support for jQuery UI -->
+<script src="/javascripts/plugins/touchpunch/jquery.ui.touch-punch.min.js"></script>
+
 
 <!--OpenLayers version 5.0.3 JS-->
 <script src="/javascripts/ol/ol-debug.js" type="text/javascript"></script>
