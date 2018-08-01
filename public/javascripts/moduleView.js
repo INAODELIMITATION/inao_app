@@ -29,11 +29,17 @@ function clickSidebar() {
     $('#sidebarmenu').click();
 
 }
-
-function parcoursTabCouche() {
+/**
+ * Quand les couches sont déja chargées en session fonction qui va parcourir le tableau à la réactualisation de la page
+ * @param {Array} data 
+ */
+function parcoursTabCouche(data) {
 
 }
 
+/**
+ * Fonction qui permet de déclarer la liste des couches et les rendres triable (modification ordre)
+ */
 function list(){
     $("#couches").sortable({
         connectWith: ".connectList",
