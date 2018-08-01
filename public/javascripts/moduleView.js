@@ -32,14 +32,11 @@ function parcoursTabCouche() {
 }
 
 function list(){
-    $("#todo, #inprogress, #completed").sortable({
+    $("#couches").sortable({
         connectWith: ".connectList",
         update: function( event, ui ) {
-
-            var todo = $( "#todo" ).sortable( "toArray" );
-            var inprogress = $( "#inprogress" ).sortable( "toArray" );
-            var completed = $( "#completed" ).sortable( "toArray" );
-            $('.output').html("ToDo: " + window.JSON.stringify(todo) + "<br/>" + "In Progress: " + window.JSON.stringify(inprogress) + "<br/>" + "Completed: " + window.JSON.stringify(completed));
+            var couches = $( "#couches" ).sortable( "toArray" );
+            $('.output').html("couches: " + window.JSON.stringify(couches));
         }
     }).disableSelection();
 }
