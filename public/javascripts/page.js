@@ -60,9 +60,16 @@ $(document).ready(function () {
                         clicked = 1;
                     }
                    
-
+                   
                    map.removeLayer(layerMVT);
                     map.updateSize();
+                    
+                   map.getLayers().forEach(layer => {
+                       if(layer instanceof ol.layer.VectorTile){
+                           console.log(Object.keys(layer));
+                       }
+                       
+                   });
 
                 }
             });

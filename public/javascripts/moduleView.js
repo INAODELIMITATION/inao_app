@@ -17,6 +17,9 @@ function createLayerRow(data) {
                 ' <a href="#" class=" btn btn-xs btn-white">'+
                     ' <i class="fa fa-1x fa-eye"></i>'+
                 ' </a>'+
+                ' <a href="#" class="btn btn-xs btn-primary">'+
+                    ' <i class="fa fa-1x fa-paint-brush"></i>'+
+                ' </a>'+
                 ' <a href="#" class="pull-right btn btn-xs btn-danger">'+
                     ' <i class="fa fa-1x fa-trash"></i>'+
                 '  </a>'+
