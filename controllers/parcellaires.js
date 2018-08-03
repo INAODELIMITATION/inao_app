@@ -1,3 +1,9 @@
+/**
+ * @author Guiala Jean Roger
+ * @description Controlleur contenant toutes les fonctions nécessaires pour les couches (aire parcellaire)
+ * 
+ */
+
 const Aire_P = require('../models').aire_parcellaire;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
