@@ -25,6 +25,7 @@ router.route('/api/denomination/:denom)
 */
 router.route('/api/denomination/:denom')
     .get(parcellaireController.retrieveBydenomination);
+
 //router.get('/api/denomination/:denom', parcellaireController.retrieveBydenomination);
 router.route('/search')
   .post(parcellaireController.findDeno);

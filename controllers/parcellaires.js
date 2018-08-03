@@ -20,8 +20,11 @@ module.exports={
         .catch(error => res.status(400).send(error));
     },
 
-   
-    /**recupérer un élément en fonction de son id  */
+    /**
+     * recupérer un élément en fonction de son id 
+     * @param {*} req requete de l'utilisateur
+     * @param {*} res reponse renvoyé
+     */
     retrieve(req,res){
         return Aire_P
         .findById(req.params.AppelId)
@@ -36,7 +39,12 @@ module.exports={
         .catch(error => res.status(400).send(error));
     },
 
-    /** recupérer la liste des appellation de dénomination donnée */
+    
+    /**
+     * recupérer la liste des appellation de dénomination donnée
+     * @param {*} req requete de l'utilisateur
+     * @param {*} res reponse renvoyé
+     */
     retrieveBydenomination(req,res){
         console.log("debut requete retrieveByDenomination sur "+req.params.denom);
         return Aire_P
@@ -69,10 +77,13 @@ module.exports={
         .catch(error => res.status(400).send(error));
     },
 
+    /**
+     * recupérer la liste des aire parcellaire d'une denomination
+     * @param {*} req 
+     * @param {*} res 
+     */
     findDeno(req,res){
         console.log("debut méthode FindDeno");
-       
-       
         return Aire_P
         .findAll({
           raw:true,
@@ -97,6 +108,11 @@ module.exports={
     },
 
 
+    /**
+     * recupérer la liste des aire parcellaires d'une appellation
+     * @param {*} req 
+     * @param {*} res 
+     */
     findAppel(req,res){
         console.log("debut méthode FindAppel");
        
@@ -124,7 +140,11 @@ module.exports={
         .catch(error => res.status(400).send(error));
     },
 
-    /**recupérer la liste des appellations ayant le code insee */
+    /**
+     * recupérer la liste des appellations ayant le code insee
+     * @param {*} req 
+     * @param {*} res 
+     */
     retrieveByInsee(req,res){
         return Aire_P
         .findAll({
@@ -142,6 +162,12 @@ module.exports={
         })
         .catch(error => res.status(400).send(error));
     },
+
+    /**
+     * récuper l'extend d'une denomination/appellation
+     * @param {*} req 
+     * @param {*} res 
+     */
     getExtend(req,res){
         return sequelize
         .query("SELECT ST_XMIN(ST_EXTENT(aire_p.geom)), ST_YMIN(ST_EXTENT(aire_p.geom)), ST_XMAX(ST_EXTENT(aire_p.geom)), ST_YMAX(ST_EXTENT(aire_p.geom)) from  test.aire_p where denomination = $denom;",
@@ -159,6 +185,11 @@ module.exports={
     },
 
 
+    /**
+     * récupérer les couches chargées
+     * @param {*} req 
+     * @param {*} res 
+     */
     getSess(req,res){
         sess = req.session;
         if (typeof(sess.aire)=='undefined'){
