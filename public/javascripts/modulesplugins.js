@@ -1,4 +1,6 @@
 /**
+ *  @author Guiala Jean Roger
+ * @module Plugin toutes les fonctions d'interaction et de création de vue
  * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
  * Javascript
  */
