@@ -23,7 +23,7 @@ function initialisation() {
         source: new ol.source.GeoportalWMTS({
             projection: "IGNF:RGF93G",
             layer: "CADASTRALPARCELS.PARCELS",
-            style: "normal",
+            style: "normal"
         }),
         opacity: 0.8
     });

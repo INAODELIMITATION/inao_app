@@ -1,10 +1,14 @@
 /**
- *  @author Guiala Jean Roger
- * @module Plugin toutes les fonctions d'interaction et de création de vue
+ *@author Guiala Jean Roger
+ *@module Plugin toutes les fonctions d'interaction et de création de vue
  * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
  * Javascript
  */
 
+ 
+ /**
+  * fonction qui retire les doublons dans un tableau d'objet
+  */
 function removeDuplicates(arr, key) {
     if (!(arr instanceof Array) || key && typeof key !== 'string') {
         return false;
@@ -22,6 +26,9 @@ function removeDuplicates(arr, key) {
     }
 }
 
+/**
+ * charge les couches en session
+ */
 function LoadSessionLayers() {
  
     $.ajax({
@@ -45,6 +52,8 @@ function LoadSessionLayers() {
 
 /**
  * Fonction qui affiche un message une fois que la carte a chargé pour la premiere fois.
+ * @param {libelle} string titre du message
+ * @param {valeur} string contenu du message
  */
 function successMessage(libelle, valeur) {
     setTimeout(function () {
@@ -57,7 +66,6 @@ function successMessage(libelle, valeur) {
         toastr.success(libelle, valeur);
 
     }, 1300);
-
 }
 
 /**
@@ -116,7 +124,7 @@ var styles = {
     olive: styleColor('olive', 'rgba(128,128,0,0.4)')
 };
 
-//setup source couche aire_parcellaire
+//setup source couche qui va etre utilisé pour toute les aire parcellaires
 var sourceL = new ol.source.VectorTile({
     tilePixelRatio: 1,
     format: new ol.format.MVT(),
@@ -145,10 +153,7 @@ var layerMVT = new ol.layer.VectorTile({
     opacity: 0.8,
     source: sourceL,
 });
-/**
- * tableau qui va accueillir nos objets features
- */
-var features = [];
+
 
 /**
  *  Fonction initialisant les styles de la carte, qui charge également le tableau de feature
@@ -156,8 +161,6 @@ var features = [];
  * @param {ol.resolution} resolution 
  */
 function InitStyle(feature, resolution) {
-
-    features.push(feature); // à l'initalisation, on ajoute le feature au tableau de feature
     /**
      * Affectation des styles en fonction de la valeur du feature crinao (attribut)
      */
