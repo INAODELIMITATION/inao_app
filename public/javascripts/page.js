@@ -1,6 +1,7 @@
 "use strict";
 //WinMove();
 var clicked = 0;
+
 $(document).ready(function () {
     list();
     $('#search,#searchM').typeahead({
@@ -28,47 +29,18 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (data) {
                     var data1 = data.filter;
-                   
-                    
-                    try{
-                        map.addLayer(new ol.layer.VectorTile({
-                            opacity: 0.8,
-                            source: sourceL,
-                            style :(feature=>{
-                                if(feature.get(data1[ data1.length -1].type) === data1[ data1.length -1].valeur){
-                                    return styles.red;
-                                }else{
-                                    return new ol.style.Style({});
-                                }
-                            }),
-                        }));
-                        createLayerRow(data1[data1.length -1]);
-                        successMessage( "ajout termnié avec succès","ajout de la couche "+data1[ data1.length -1].valeur);
-                      }catch(e){
-                        swal({
-                            title:"ERREUR lors du chargement de la couche : "+data1[ data1.length -1].valeur+" "+e,
-                            text:"Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
-                            type:"warning",
-                            showConfirmButton:true,
-                        });
-                      }
-                   
-                 
-                    fitToextent(data1[ data1.length -1].valeur);
-                    if(clicked == 0){
-                        clickSidebar();
-                        clicked = 1;
-                    }
-                   
-                   
-                   map.removeLayer(layerMVT);
-                    map.updateSize();
-                    
+                    layerAdder(data1[ data1.length -1]);
+
                    map.getLayers().forEach(layer => {
                        if(layer instanceof ol.layer.VectorTile){
-                           console.log(Object.keys(layer));
-                       }
-                       
+                        console.log(layer.get('name'));
+                            if(layer == layerMVT){
+                                map.removeLayer(layerMVT);
+                                console.log("retiré");
+                                map.updateSize();
+                            }
+                           
+                       }  
                    });
 
                 }

@@ -74,7 +74,8 @@ module.exports={
             }
             var params = {
               type : "denomination",
-              valeur:req.params.denom
+              valeur:req.params.denom,
+             
             };
             sess.aire.push(params);
             return res.status(200).send({denomination:aire_parcelles,filter:sess.aire});

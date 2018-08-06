@@ -195,3 +195,44 @@ function fitToextent(valeur) {
     });
 
 }
+
+/**
+ * Fonction qui crée une couche sur la carte en fonction du type et de la valeur
+ * @param {Objec{type,valeur}} element contient le type et le nom de la couche
+ 
+ * utilise les fonctions:
+ * createLayerRow,
+ * SucessMessage,
+ * fitToextent,
+ * clickSidebar
+ */
+function layerAdder(element){
+    try{
+        map.addLayer(new ol.layer.VectorTile({
+            opacity: 0.8,
+            source: sourceL,
+            name:element.valeur, // nom dela couche
+            style :(feature=>{
+                if(feature.get(element.type) === element.valeur){
+                    return styles.red;
+                }else{
+                    return new ol.style.Style({});
+                }
+            }),
+        }));
+        createLayerRow(element);
+        successMessage( "ajout termnié avec succès","ajout de la couche "+element.valeur);
+        fitToextent(element.valeur);
+        if(clicked == 0){
+            clickSidebar();
+            clicked = 1;
+        }
+      }catch(e){
+        swal({
+            title:"ERREUR lors du chargement de la couche : "+element.valeur+" "+e,
+            text:"Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
+            type:"warning",
+            showConfirmButton:true,
+        });
+      }     
+}
