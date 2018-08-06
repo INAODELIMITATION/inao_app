@@ -35,7 +35,7 @@ $(document).ready(function () {
                        if(layer instanceof ol.layer.VectorTile){
                         console.log(layer.get('name'));
                             if(layer == layerMVT){
-                                map.removeLayer(layerMVT);
+                                map.removeLayer(layerMVT); //suppression de la couche 
                                 console.log("retiré");
                                 map.updateSize();
                             }
