@@ -75,8 +75,9 @@ module.exports={
             var params = {
               type : "denomination",
               valeur:req.params.denom,
-             
+              id:aire_parcelles[0].id_denom       
             };
+           
             sess.aire.push(params);
             return res.status(200).send({denomination:aire_parcelles,filter:sess.aire});
             
@@ -112,6 +113,21 @@ module.exports={
            
         })
         .catch(error => res.status(400).send(error));
+    },
+
+    findDenoId(denomination){
+        return Aire_P
+        .findAll({
+            where:{
+                denomination:denomination
+            },
+            limit:1,
+        }).then(id_denom =>{
+            if(!id_denom){
+                return null;
+            }
+            return id_denom;
+        });
     },
 
 
