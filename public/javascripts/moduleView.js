@@ -20,7 +20,7 @@ function createLayerRow(data) {
         ' <a href="#" class="btn btn-xs btn-primary">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow();">' +
+        ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\''+String(data.valeur)+'\')">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         '  </a>' +
         '</div>' +
@@ -29,7 +29,7 @@ function createLayerRow(data) {
 }
 /**
  * Fonction qui supprime une couche
- * @param {Object} element contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
+ * @param {String} element contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
  */
 function deleteLayerRow(leid) {
     alert(leid);
