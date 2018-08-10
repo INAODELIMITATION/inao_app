@@ -63,11 +63,9 @@ function initialisation() {
  * @param {Array} val tableau de couches en session
  */
 function initSession(val) {
-
     for (var i = 0; i < val.length; i++) {
         layerAdder(val[i]);
     }
-    
     fitToextent(val[val.length-1].valeur);
 }
 
