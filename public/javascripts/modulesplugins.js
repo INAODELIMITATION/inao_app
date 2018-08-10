@@ -149,6 +149,7 @@ var map = new ol.Map({
  * Déclaration de la couche principale LayerMvt. ol.layer.VectorTile
  */
 var layerMVT = new ol.layer.VectorTile({
+    name:"principale",
     style: InitStyle,
     opacity: 0.8,
     source: sourceL,
@@ -235,4 +236,16 @@ function layerAdder(element){
             showConfirmButton:true,
         });
       }     
+}
+
+function removeLayer(nom){
+    map.getLayers().forEach(layer => {
+        if(layer instanceof ol.layer.VectorTile){
+            if (layer.get('name') != undefined && layer.get('name') === nom) {
+                map.removeLayer(layer);
+                map.updateSize();
+            }        
+        }  
+    });
+    successMessage( "Couche retiré avec succès","Suppression de la couche "+nom);
 }

@@ -30,19 +30,8 @@ $(document).ready(function () {
                 success: function (data) {
                     var data1 = data.filter;
                     layerAdder(data1[ data1.length -1]);
-
-                   map.getLayers().forEach(layer => {
-                       if(layer instanceof ol.layer.VectorTile){
-                        console.log(layer.get('name'));
-                            if(layer == layerMVT){
-                                map.removeLayer(layerMVT); //suppression de la couche 
-                                console.log("retiré");
-                                map.updateSize();
-                            }
-                           
-                       }  
-                   });
-
+                    removeLayer("principale");
+                   
                 }
             });
 

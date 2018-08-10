@@ -10,7 +10,7 @@
 function createLayerRow(data) {
     //console.log(data);
     //var lid = (String(data.valeur).replace(/\s/g, '')).replace(/'/g, '');
-    var lid = "c"+data.id;
+    let lid = "c"+data.id;
     $("#couches").append(
        
         '<li class="success-element" id="'+lid+'">' +
@@ -23,7 +23,7 @@ function createLayerRow(data) {
         ' <a href="#" class="btn btn-xs btn-primary">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\''+data.id+'\')">' +
+        ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\''+data.id+'\',\''+data.valeur+'\')">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         '  </a>' +
         '</div>' +
@@ -34,9 +34,9 @@ function createLayerRow(data) {
  * Fonction qui supprime une couche
  * @param {String} element contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
  */
-function deleteLayerRow(leid) {
-    alert("c"+leid);
-    $("#c"+leid).remove();
+function deleteLayerRow(id,valeur) {
+    removeLayer(valeur);
+    $("#c"+id).remove();
     
 }
 
