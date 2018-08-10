@@ -5,10 +5,10 @@
  * Javascript
  */
 
- 
- /**
-  * fonction qui retire les doublons dans un tableau d'objet
-  */
+
+/**
+ * fonction qui retire les doublons dans un tableau d'objet
+ */
 function removeDuplicates(arr, key) {
     if (!(arr instanceof Array) || key && typeof key !== 'string') {
         return false;
@@ -30,7 +30,7 @@ function removeDuplicates(arr, key) {
  * charge les couches en session
  */
 function LoadSessionLayers() {
- 
+
     $.ajax({
         url: "/session/aireCharge",
         type: 'GET',
@@ -39,14 +39,14 @@ function LoadSessionLayers() {
             var sess = session.filter;
             if (sess.length > 0) {
                 var filtered = removeDuplicates(sess, 'valeur');
-               
+
                 return filtered;
-            } else { sess =[]; return sess; }
+            } else { sess = []; return sess; }
 
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-        }    
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+        }
     });
 }
 
@@ -149,7 +149,7 @@ var map = new ol.Map({
  * Déclaration de la couche principale LayerMvt. ol.layer.VectorTile
  */
 var layerMVT = new ol.layer.VectorTile({
-    name:"principale",
+    name: "principale",
     style: InitStyle,
     opacity: 0.8,
     source: sourceL,
@@ -207,45 +207,50 @@ function fitToextent(valeur) {
  * fitToextent,
  * clickSidebar
  */
-function layerAdder(element){
-    try{
+function layerAdder(element) {
+    try {
         map.addLayer(new ol.layer.VectorTile({
             opacity: 0.8,
             source: sourceL,
-            name:element.valeur, // nom dela couche
-            style :(feature=>{
-                if(feature.get(element.type) === element.valeur){
+            name: element.valeur, // nom dela couche
+            style: (feature => {
+                if (feature.get(element.type) === element.valeur) {
                     return styles.red;
-                }else{
+                } else {
                     return new ol.style.Style({});
                 }
             }),
         }));
         createLayerRow(element);
-        successMessage( "ajout termnié avec succès","ajout de la couche "+element.valeur);
+        successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
         fitToextent(element.valeur);
-        if(clicked == 0){
+        if (clicked == 0) {
             clickSidebar();
             clicked = 1;
         }
-      }catch(e){
+    } catch (e) {
         swal({
-            title:"ERREUR lors du chargement de la couche : "+element.valeur+" "+e,
-            text:"Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
-            type:"warning",
-            showConfirmButton:true,
+            title: "ERREUR lors du chargement de la couche : " + element.valeur + " " + e,
+            text: "Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
+            type: "warning",
+            showConfirmButton: true,
         });
-      }     
+    }
 }
 
-function removeLayer(nom){
+/**
+ * Supprime une couche chargée
+ * @param {String} nom Nom de la couche
+ */
+function removeLayer(nom) {
     map.getLayers().forEach(layer => {
-        if(layer instanceof ol.layer.VectorTile){
+        if (layer instanceof ol.layer.VectorTile) {
             if (layer.get('name') != undefined && layer.get('name') === nom) {
                 map.removeLayer(layer);
                 map.updateSize();
-            }        
-        }  
+            }
+        }
     });
-    successMessage( "Couche retiré avec succès","Suppression de la couche "+nom);
+    successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
+    /*il manque la suppression en session*/
 }
