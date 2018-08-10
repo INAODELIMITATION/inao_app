@@ -58,32 +58,14 @@ function initialisation() {
 
 }
 
+/**
+ * charge les couches en session
+ * @param {Array} val tableau de couches en session
+ */
 function initSession(val) {
-    var valeurExtent = [];
+
     for (var i = 0; i < val.length; i++) {
-       let iterator = i;
-        try {
-            map.addLayer(new ol.layer.VectorTile({
-                opacity: 0.8,
-                source: sourceL,
-                style: (feature => {
-                    if (feature.get(val[iterator].type) === val[iterator].valeur) {
-                        return styles.red;
-                    } else {
-                        return new ol.style.Style({});
-                    }
-                }),
-            }));
-            successMessage("ajout termnié avec succès", "ajout de la couche " + val[i].valeur);
-            valeurExtent.push(val[i].valeur);
-        } catch (e) {
-            swal({
-                title: "ERREUR lors du chargement de la couche : " + val[i].valeur + " " + e,
-                text: "Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
-                type: "warning",
-                showConfirmButton: true,
-            });
-        }
+        layerAdder(val[i]);
     }
     
     fitToextent(val[val.length-1].valeur);
