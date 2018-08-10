@@ -198,6 +198,16 @@ function fitToextent(valeur) {
 }
 
 /**
+ * vérifie si on a cliqué ou pas sur la barre de menu
+ * @param {number} checker 
+ */
+function sidebarClicked(checker){
+    if (checker == 0) {
+        clickSidebar();
+        checker = 1;
+    }
+}
+/**
  * Fonction qui crée une couche sur la carte en fonction du type et de la valeur
  * @param {Objec{type,valeur}} element contient le type et le nom de la couche
  
@@ -224,10 +234,7 @@ function layerAdder(element) {
         createLayerRow(element);
         successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
         fitToextent(element.valeur);
-        if (clicked == 0) {
-            clickSidebar();
-            clicked = 1;
-        }
+        sidebarClicked(clicked);
     } catch (e) {
         swal({
             title: "ERREUR lors du chargement de la couche : " + element.valeur + " " + e,
