@@ -69,7 +69,9 @@ function initSession(val) {
     fitToextent(val[val.length-1].valeur);
 }
 
-
+/**
+ * en cas d'echec de chargement 
+ */
 function fail() {
     swal({
         title: "ERREUR!",
@@ -78,6 +80,7 @@ function fail() {
         showConfirmButton: false,
     });
 }
+
 Gp.Services.getConfig({
     apiKey: "1g3c8evz5w5tcus9a7oawl77",
     onSuccess: initialisation,

@@ -8,12 +8,8 @@
  * @param {Object} data contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
  */
 function createLayerRow(data) {
-    //console.log(data);
-    //var lid = (String(data.valeur).replace(/\s/g, '')).replace(/'/g, '');
-    let lid = "c" + data.id;
     $("#couches").append(
-
-        '<li class="success-element" id="' + lid + '">' +
+        '<li class="success-element" id="c' + data.id + '">' +
         ' <strong>Type :</strong> ' + data.type + '<br>' +
         '<strong>Nom de la couche:</strong> ' + data.valeur +
         '<div class="agile-detail">' +
@@ -30,6 +26,7 @@ function createLayerRow(data) {
         ' </li>'
     );
 }
+
 /**
  * supprime une couche ajouté
  * @param {number} id 
