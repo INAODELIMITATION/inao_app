@@ -219,6 +219,22 @@ module.exports={
             sess.aire = [];
           }
         return res.status(200).send({filter:sess.aire});
+    },
+    delLayerSess(req,res){
+        console.log("DEBUT FONCTION SUPPRESSION COUCHE "+req.params.id);
+        sess = req.session;
+        if (typeof(sess.aire)!=='undefined'){
+            try{
+                let removed = sess.aire.filter(el=> el.id !== req.params.id);
+           console.log(removed);
+           sess.aire = removed;
+           return res.status(200).send("sucesss");
+            }catch(error){
+                res.status(400).send(error);
+            }
+           
+          }
+        
     }
 
 

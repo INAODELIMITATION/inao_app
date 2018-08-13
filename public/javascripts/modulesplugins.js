@@ -17,25 +17,39 @@ function removeDuplicates(arr, key) {
         return arr.filter((obj, index, arr) => {
             return arr.map(mapObj => mapObj[key]).indexOf(obj[key]) === index;
         });
-    } 
+    }
 }
 
 /**
  * charge les couches en session
+ * @param {Array} val tableau de couches en session
  */
-function LoadSessionLayers() {
+function loadLayersess(val) {
+    for (var i = 0; i < val.length; i++) {
+        layerAdder(val[i]);
+    }
+    fitToextent(val[val.length - 1].valeur);
+}
 
+/**
+ * Charge la carte de base et affiche les couches en session si il y en a 
+ */
+function LoadLayers() {
     $.ajax({
-        url: "/session/aireCharge",
+        url: "/session/couches/NULL",
         type: 'GET',
         dataType: "json",
         success: function (session) {
             var sess = session.filter;
             if (sess.length > 0) {
                 var filtered = removeDuplicates(sess, 'valeur');
+                loadLayersess(filtered);
 
-                return filtered;
-            } else { sess = []; return sess; }
+            } else {
+                map.addLayer(layerMVT); //ajout de la couche à la carte
+
+                successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
+            }
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -195,7 +209,7 @@ function fitToextent(valeur) {
  * vérifie si on a cliqué ou pas sur la barre de menu
  * @param {number} checker 
  */
-function sidebarClicked(checker){
+function sidebarClicked(checker) {
     if (checker == 0) {
         clickSidebar();
         checker = 1;
@@ -239,16 +253,31 @@ function layerAdder(element) {
     }
 }
 
+function deleteSessLayer(id) {
+    $.ajax({
+        type: 'delete',
+        url: "/session/couches/" +id,
+       
+        success: function (data) {
+            console.log("supprimé avec succès"+data);
+
+        }
+    });
+}
+
+
+
 /**
  * Supprime une couche chargée
  * @param {String} nom Nom de la couche
  */
-function removeLayer(nom) {
+function removeLayer(nom,id) {
     map.getLayers().forEach(layer => {
         if (layer instanceof ol.layer.VectorTile) {
             if (layer.get('name') != undefined && layer.get('name') === nom) {
                 map.removeLayer(layer);
                 map.updateSize();
+                deleteSessLayer(id);
             }
         }
     });

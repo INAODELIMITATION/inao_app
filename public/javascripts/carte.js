@@ -34,40 +34,10 @@ function initialisation() {
     }));
     crinaoHover(map);
     map.addLayer(coucheIGN);
-    $.ajax({
-        url: "/session/aireCharge",
-        type: 'GET',
-        dataType: "json",
-        success: function (session) {
-            var sess = session.filter;
-            if (sess.length > 0) {
-                var filtered = removeDuplicates(sess, 'valeur');
-                initSession(filtered);
-
-            } else {
-                map.addLayer(layerMVT); //ajout de la couche à la carte
-
-                successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
-            }
-
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("Status: " + textStatus); alert("Error: " + errorThrown);
-        }
-    });
-
+    LoadLayers();
 }
 
-/**
- * charge les couches en session
- * @param {Array} val tableau de couches en session
- */
-function initSession(val) {
-    for (var i = 0; i < val.length; i++) {
-        layerAdder(val[i]);
-    }
-    fitToextent(val[val.length-1].valeur);
-}
+
 
 /**
  * en cas d'echec de chargement 

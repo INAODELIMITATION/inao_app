@@ -33,10 +33,8 @@ function createLayerRow(data) {
  * @param {String} valeur 
  */
 function deleteLayerRow(id, valeur) {
-    removeLayer(valeur);
+    removeLayer(valeur,id);
     $("#c" + id).remove();
-
-
 }
 
 function clickSidebar() {
