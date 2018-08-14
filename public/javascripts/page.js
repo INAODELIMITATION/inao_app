@@ -3,6 +3,8 @@
 var clicked = 0;
 
 $(document).ready(function () {
+   
+   
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,
@@ -21,7 +23,7 @@ $(document).ready(function () {
                 }
             });
         },
-        
+
         updater: function (item) {
             $.ajax({
                 url: "/api/denomination/" + item,
@@ -29,9 +31,9 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (data) {
                     var data1 = data.filter;
-                    layerAdder(data1[ data1.length -1]);
+                    layerAdder(data1[data1.length - 1]);
                     removeLayer("principale");
-                   
+
                 }
             });
 

@@ -13,10 +13,10 @@ function createLayerRow(data) {
         ' <strong>Type :</strong> ' + data.type + '<br>' +
         '<strong>Nom de la couche:</strong> ' + data.valeur +
         '<div class="agile-detail">' +
-        ' <a href="#" class=" btn btn-xs btn-white">' +
+        ' <a  href="#" class=" btn btn-xs btn-white">' +
         ' <i class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" class="btn btn-xs btn-primary">' +
+        ' <a href="#" id="cp4" class="btn btn-xs btn-primary">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
         ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\',\'' + data.valeur + '\')">' +
@@ -25,6 +25,7 @@ function createLayerRow(data) {
         '</div>' +
         ' </li>'
     );
+    $('#cp4').colorpicker().on('changeColor', function(e) { $('body')[0].style.backgroundColor = e.color.toString( 'rgba'); });
 }
 
 /**
