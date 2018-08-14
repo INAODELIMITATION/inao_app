@@ -222,6 +222,11 @@ module.exports = {
         }
         return res.status(200).send({ filter: sess.aire });
     },
+    /**
+     * delete a layer in session
+     * @param {*} req 
+     * @param {*} res 
+     */
     delLayerSess(req, res) {
         console.log("DEBUT FONCTION SUPPRESSION COUCHE " + req.params.id);
         sess = req.session;
@@ -233,9 +238,7 @@ module.exports = {
             } catch (error) {
                 res.status(400).send(error);
             }
-
         }
-
     }
 
 

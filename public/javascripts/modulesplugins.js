@@ -30,33 +30,44 @@ function loadLayersess(val) {
     }
     fitToextent(val[val.length - 1].valeur);
 }
-
 /**
- * Charge la carte de base et affiche les couches en session si il y en a 
+ * Fonction qui charge la session
+ * @param {*} handleData 
  */
-function LoadLayers() {
+function fetchSess(handleData){
     $.ajax({
-        url: "/session/couches/NULL",
-        type: 'GET',
-        dataType: "json",
-        success: function (session) {
-            var sess = session.filter;
-            if (sess.length > 0) {
-                var filtered = removeDuplicates(sess, 'valeur');
-                loadLayersess(filtered);
-
-            } else {
-                map.addLayer(layerMVT); //ajout de la couche à la carte
-
-                successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
-            }
-
+        url:"/session/couches/NULL",
+        type:'GET',
+        dataType:"json",
+        success:data=>{
+            handleData(data);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("Status: " + textStatus); alert("Error: " + errorThrown);
         }
     });
 }
+/**
+ * Charge la carte de base et affiche les couches en session si il y en a 
+ */
+function LoadLayers() { 
+    fetchSess(data=>{
+        let sess = data.filter;
+        if (sess.length > 0) {
+            let filtered = removeDuplicates(sess, 'valeur');
+            loadLayersess(filtered);
+    
+        } else {
+            map.addLayer(layerMVT); //ajout de la couche à la carte
+    
+            successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
+        }
+    
+    });
+}
+
+
+
 
 /**
  * Fonction qui affiche un message une fois que la carte a chargé pour la premiere fois.
@@ -256,12 +267,7 @@ function layerAdder(element) {
 function deleteSessLayer(id) {
     $.ajax({
         type: 'delete',
-        url: "/session/couches/" +id,
-       
-        success: function (data) {
-            console.log("supprimé avec succès"+data);
-
-        }
+        url: "/session/couches/" +id,  
     });
 }
 
@@ -276,11 +282,17 @@ function removeLayer(nom,id) {
         if (layer instanceof ol.layer.VectorTile) {
             if (layer.get('name') != undefined && layer.get('name') === nom) {
                 map.removeLayer(layer);
-                map.updateSize();
                 deleteSessLayer(id);
+                fetchSess(dat=>{
+                    let data = dat.filter;
+                    if(data.length >0){
+                        fitToextent(data[data.length - 1].valeur); //zoom sur le dernier élément du tableau
+                    }
+                 
+                });
+                map.updateSize();
             }
         }
     });
-    successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
-    /*il manque la suppression en session*/
+    successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);   
 }

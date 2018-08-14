@@ -35,6 +35,7 @@ function createLayerRow(data) {
 function deleteLayerRow(id, valeur) {
     removeLayer(valeur,id);
     $("#c" + id).remove();
+   
 }
 
 function clickSidebar() {
