@@ -66,11 +66,8 @@ function list() {
             tabcouches = JSON.parse(tabcouches);
             tabid = makeID(tabcouches);
             console.log(tabid);
-            layerss = Layertable(tabid);
-            console.log(layerss);
-            let couchessss = [];
-            Layertable(layerss); // reprendre ici
-           // tableofLayers(layers);
+            /*layers = Layertable(tabid);
+            tableofLayers(layers);*/
         }
     }).disableSelection();
 }
@@ -83,28 +80,25 @@ function makeID(tableauID){
     return tab;
 }
 
-function findCouche(id,callback){
+function findCouche(id){
     fetchSess(session=>{
         let data = session.filter;
         if(data.length>1){
             data.forEach(couche=>{
                 if(couche.id == id){
-                     callback(couche); 
+                    return couche; 
                 }
             });
         }
     });
 }
 
-function Layertable(tab,callback2){
+function Layertable(tab){
     let layers = [];
     tab.forEach(element => {
-       // layers.push(findCouche(element));
-        findCouche(element, couche=>{
-            layers.push(couche);
-        });
+        layers.push(findCouche(element));
     });
-   callback2(layers);
+    return layers;
 }
 
 function tableofLayers(layers){
