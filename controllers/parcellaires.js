@@ -11,7 +11,21 @@ var env = process.env.NODE_ENV || 'development';
 var config = require(__dirname + '/../config/config.json')[env];
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var sess;
-
+/**
+ * Fonction qui initialise l'objet de la couche chargé en session
+ * @param {String} type 
+ * @param {String} valeur 
+ * @param {Number} id_denom 
+ */
+function setParams(type,valeur,id_denom){
+    var tab = {
+        type:type,
+        valeur:valeur,
+        id:id_denom
+    };
+    console.log("ici");
+    return tab;
+}
 module.exports = {
 
     /**
@@ -45,7 +59,6 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
 
-
     /**
      * recupérer la liste des appellation de dénomination donnée
      * @param {*} req requete de l'utilisateur
@@ -70,13 +83,9 @@ module.exports = {
                 if (typeof (sess.aire) == 'undefined') {
                     sess.aire = [];
                 }
-                var params = {
-                    type: "denomination",
-                    valeur: req.params.denom,
-                    id: aire_parcelles[0].id_denom
-                };
-                sess.aire.push(params);
+                sess.aire.push(setParams("denomination",req.params.denom,aire_parcelles[0].id));
                 return res.status(200).send({ denomination: aire_parcelles, filter: sess.aire });
+
             })
             .catch(error => res.status(400).send(error));
     },
