@@ -16,7 +16,7 @@ function createLayerRow(data) {
         ' <a  href="#" class=" btn btn-xs btn-white">' +
         ' <i class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" id="cp4" class="btn btn-xs btn-primary">' +
+        ' <a href="#" id="cp'+data.id+'" class="btn btn-xs btn-primary">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
         ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\',\'' + data.valeur + '\')">' +
@@ -25,7 +25,10 @@ function createLayerRow(data) {
         '</div>' +
         ' </li>'
     );
-    $('#cp4').colorpicker().on('changeColor', function(e) { $('body')[0].style.backgroundColor = e.color.toString( 'rgba'); });
+    $('#cp'+data.id+'').colorpicker().on('changeColor', function(e) { 
+        /*$('body')[0].style.backgroundColor = e.color.toString( 'rgba'); */
+        ChangeLayerColor(data.type,data.valeur,e.color.toString('hex'),e.color.toString('rgba'));
+    });
 }
 
 /**

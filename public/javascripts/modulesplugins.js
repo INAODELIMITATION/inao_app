@@ -271,28 +271,66 @@ function deleteSessLayer(id) {
     });
 }
 
-
+/**
+ * Retourne la couche vectorielle en fonction de son nom
+ * @param {String} name 
+ */
+function getVectorLayer(name){
+    let couche;
+    map.getLayers().forEach(layer=>{
+        if(layer instanceof ol.layer.VectorTile){
+            if(layer.get('name') !=undefined && layer.get('name') === name){
+                couche= layer;
+            }
+        }
+    });
+    return couche;
+}
 
 /**
  * Supprime une couche chargée
  * @param {String} nom Nom de la couche
  */
 function removeLayer(nom,id) {
-    map.getLayers().forEach(layer => {
-        if (layer instanceof ol.layer.VectorTile) {
-            if (layer.get('name') != undefined && layer.get('name') === nom) {
-                map.removeLayer(layer);
-                deleteSessLayer(id);
-                fetchSess(dat=>{
-                    let data = dat.filter;
-                    if(data.length >0){
-                        fitToextent(data[data.length - 1].valeur); //zoom sur le dernier élément du tableau
-                    }
-                 
-                });
-                map.updateSize();
-            }
+    layer = getVectorLayer(nom);
+    if(layer != undefined){
+        try{
+            map.removeLayer(layer);
+            deleteSessLayer(id);
+            fetchSess(dat=>{
+                let data = dat.filter;
+                if(data.length >0){
+                    fitToextent(data[data.length - 1].valeur); //zoom sur le dernier élément du tableau
+                }
+             
+            });
+            map.updateSize();
+            successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
+        }catch(e){
+            alert("error "+e);
         }
-    });
-    successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);   
+    }
+   
+}
+
+
+/**
+ * Change la couche d'une couche
+ * @param {String} layerName 
+ * @param {String} couleur 
+ * @param {String} code 
+ */
+function ChangeLayerColor(type,layerName,couleur,code){
+    let layer = getVectorLayer(layerName);
+    if(layer != undefined){
+        let style = styleColor(couleur,code);
+        layer.setStyle((feature => {
+            if (feature.get(type) === layerName) {
+                return style;
+            } else {
+                return new ol.style.Style({});
+            }
+        }));
+        map.updateSize();
+    }
 }
