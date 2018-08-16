@@ -52,7 +52,6 @@ module.exports = {
      * @param {*} res reponse renvoyé
      */
     retrieveBydenomination(req, res) {
-        console.log("debut requete retrieveByDenomination sur " + req.params.denom);
         return Aire_P
             .findAll({
                 raw: true,
@@ -67,7 +66,6 @@ module.exports = {
                         message: 'denomination pas trouvé',
                     });
                 }
-                console.log("success");
                 sess = req.session;
                 if (typeof (sess.aire) == 'undefined') {
                     sess.aire = [];
@@ -77,10 +75,8 @@ module.exports = {
                     valeur: req.params.denom,
                     id: aire_parcelles[0].id_denom
                 };
-
                 sess.aire.push(params);
                 return res.status(200).send({ denomination: aire_parcelles, filter: sess.aire });
-
             })
             .catch(error => res.status(400).send(error));
     },
