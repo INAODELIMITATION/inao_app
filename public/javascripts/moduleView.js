@@ -26,7 +26,6 @@ function createLayerRow(data) {
         ' </li>'
     );
     $('#cp'+data.id+'').colorpicker().on('changeColor', function(e) { 
-        /*$('body')[0].style.backgroundColor = e.color.toString( 'rgba'); */
         ChangeLayerColor(data.type,data.valeur,e.color.toString('hex'),e.color.toString('rgba'));
     });
 }
