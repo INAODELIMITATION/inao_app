@@ -8,7 +8,7 @@
  * @param {Object} data contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
  */
 function createLayerRow(data) {
-    $("#couches").append(
+    $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
         ' <strong>Type :</strong> ' + data.type + '<br>' +
         '<strong>Nom de la couche:</strong> ' + data.valeur +
@@ -62,6 +62,65 @@ function list() {
         update: function (event, ui) {
             var couches = $("#couches").sortable("toArray");
             $('.output').html("couches: " + window.JSON.stringify(couches));
+            var tabcouches = window.JSON.stringify(couches);
+            tabcouches = JSON.parse(tabcouches);
+            tabid = makeID(tabcouches);
+            console.log(tabid);
+            layerss = Layertable(tabid);
+            console.log(layerss);
+            let couchessss = [];
+            Layertable(layerss); // reprendre ici
+           // tableofLayers(layers);
         }
     }).disableSelection();
 }
+
+function makeID(tableauID){
+    let tab = [];
+    tableauID.forEach(element => {
+        tab.push(parseInt(element.substr(1)));
+    });
+    return tab;
+}
+
+function findCouche(id,callback){
+    fetchSess(session=>{
+        let data = session.filter;
+        if(data.length>1){
+            data.forEach(couche=>{
+                if(couche.id == id){
+                     callback(couche); 
+                }
+            });
+        }
+    });
+}
+
+function Layertable(tab,callback2){
+    let layers = [];
+    tab.forEach(element => {
+       // layers.push(findCouche(element));
+        findCouche(element, couche=>{
+            layers.push(couche);
+        });
+    });
+   callback2(layers);
+}
+
+function tableofLayers(layers){
+    let ta = [];
+   map.getLayers().forEach(layer=>{
+        layers.forEach(element=>{
+            if(layer.get("name") == element.valeur){
+                map.removeLayer(layer);
+                ta.push(layer);
+            }
+        });
+       
+   });
+   ta = ta.reverse();
+  ta.forEach(couche=>{
+      map.addLayer(couche);
+  });
+}
+
