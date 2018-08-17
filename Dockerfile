@@ -6,17 +6,17 @@ RUN npm install pm2 -g
 
 RUN mkdir -p /home/Inao_app
 
-#RUN mkdir -p /home/Inao_app/config
+RUN mkdir -p /home/Inao_app/config
 
 
 #app directory
 WORKDIR /home/Inao_app
 
-#COPY package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
-#COPY . /home/Inao_app
+COPY . /home/Inao_app
 
 VOLUME /home/Inao_app
 

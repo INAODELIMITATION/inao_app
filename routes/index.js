@@ -6,13 +6,13 @@ const parcellaireController = require('../controllers').parcellaires;
 /* GET home page. */
 router.get('/', function (req, res, next) {
   sess = req.session;
+  console.log("ici");
   if (typeof (sess.aire) == 'undefined') {
     sess.aire = [];
   }
-  res.locals.aire = sess.aire;
+  //res.locals.aire = sess.aire;
   res.render('index', { title: 'SeekInao', layerSess: sess.aire });
-
-  next();
+  //next();
 });
 
 /*
@@ -26,14 +26,13 @@ router.route('/api/denomination/:denom)
 router.route('/api/denomination/:denom')
   .get(parcellaireController.retrieveBydenomination);
 
-//router.get('/api/denomination/:denom', parcellaireController.retrieveBydenomination);
 router.route('/search')
   .post(parcellaireController.findDeno);
 
-//router.post('/search',parcellaireController.findDeno);
+
 router.post('/search/appel', parcellaireController.findAppel);
 router.get('/extendTest/:denom', parcellaireController.getExtend);
-/*router.get('/session/aireCharge', parcellaireController.getSess);*/
+
 router.route('/session/couches/:id')
   .get(parcellaireController.getSess)
   .delete(parcellaireController.delLayerSess);
