@@ -1,6 +1,6 @@
 FROM node:8
 
-RUN MKDIR /home/Inao_app
+
 
 RUN npm install -g nodemon
 #app directory
