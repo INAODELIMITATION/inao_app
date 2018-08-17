@@ -67,7 +67,7 @@ function list() {
             tabid = makeID(tabcouches);
             console.log(tabid);
             /*layers = Layertable(tabid);
-            tableofLayers(layers);*/
+            tableofLayers(layers);G*/
         }
     }).disableSelection();
 }

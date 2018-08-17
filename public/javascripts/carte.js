@@ -22,7 +22,7 @@ function initialisation() {
     var coucheIGN = new ol.layer.Tile({ //setup coucheIGN
         source: new ol.source.GeoportalWMTS({
             projection: "IGNF:RGF93G",
-            layer: "CADASTRALPARCELS.PARCELS",
+            layer: "CADASTRALPARCELS.PARCELS.L93",
             style: "normal"
         }),
         opacity: 0.8
@@ -52,7 +52,8 @@ function fail() {
 }
 
 Gp.Services.getConfig({
-    apiKey: "1g3c8evz5w5tcus9a7oawl77",
+   // apiKey: "1g3c8evz5w5tcus9a7oawl77",
+    apiKey:"67wjh2d43oo2ibtn0dqsjel0",
     onSuccess: initialisation,
     onFailure: fail,
 });
