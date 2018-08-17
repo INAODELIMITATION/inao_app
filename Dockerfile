@@ -12,7 +12,7 @@ RUN mkdir -p /home/Inao_app
 #app directory
 WORKDIR /home/Inao_app
 
-COPY package*.json ./
+#COPY package*.json ./
 
 RUN npm install
 
