@@ -24,12 +24,12 @@ function crinaoHover(map) {
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93",0.5);
-    setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93",0.8);
+    //setIgnLayer("CADASTRALPARCELS.PARCELS.L93",0.5);
+    setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93",0.5);
     map.setView(new ol.View({ 
         projection: "EPSG:2154",
         center: [489353.59, 6587552.20], //coord en 2154
-        zoom: 2.5
+        zoom: zoom
     }));
     crinaoHover(map);
    
@@ -51,7 +51,7 @@ function fail() {
 }
 
 Gp.Services.getConfig({
-   apiKey: keyServer,
+    apiKey: keyServer,
     onSuccess: initialisation,
     onFailure: fail,
 });

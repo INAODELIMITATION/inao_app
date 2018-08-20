@@ -7,7 +7,6 @@
 /**
  * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
  */
-
 var extent = [-378305.8099675195, 6008151.219241469, 1320649.5712336518, 7235612.7247730335];
 //var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
 var projection = new ol.proj.Projection({
@@ -16,7 +15,7 @@ var projection = new ol.proj.Projection({
     units: 'm',
     axisOrientation: 'neu'
 }); // definition du EPSG 2154
-
+var zoom = 2.5;
 ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
 var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
 proj2154.setExtent(extent);
@@ -41,7 +40,7 @@ var sourceL = new ol.source.VectorTile({
 
     }),
     //url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
-    url: 'http://www.sig-inao.fr:8080/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+   url: 'http://www.geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
     crossOrigin: 'anonymous',
 });
 
@@ -80,7 +79,8 @@ function checkformat(name) {
  */
 function setIgnLayer(name,opacity) {
     format = checkformat(name);
-    map.addLayer(new ol.layer.GeoportalWMTS({
+    map.addLayer(
+        new ol.layer.GeoportalWMTS({
         //name: name,
         /*source: new ol.source.GeoportalWMTS({
             projection: "IGNF:RGF93G",
@@ -95,8 +95,10 @@ function setIgnLayer(name,opacity) {
             style: "normal"
         }),*/
         layer : name,
+      // format:"image/png",
         opacity: opacity
-    }));
+    })
+);
 }
 
 
@@ -154,7 +156,7 @@ function LoadLayers() {
 
         } else {
             map.addLayer(layerMVT); //ajout de la couche à la carte
-
+            map.getView().setZoom(zoom);
             successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
         }
 
@@ -193,7 +195,7 @@ function styleColor(couleur, code) {
     return [new ol.style.Style({
         stroke: new ol.style.Stroke({
             color: couleur,
-            width: 2
+            width: 1
         }),
         fill: new ol.style.Fill({
             color: code
@@ -204,7 +206,7 @@ function styleColor(couleur, code) {
 // différentes couleur dans un objet 
 var styles = {
     yellow: styleColor('yellow', 'rgba(255,255,0,0.4)'),
-    red: styleColor('red', 'rgba(255,0,0,0.4)'),
+    red: styleColor('red', 'rgba(255,0,0,0.2)'),
     green: styleColor('green', 'rgba(0,128,0,0.4)'),
     blue: styleColor('blue', 'rgba(0,0,255,0.4)'),
     aqua: styleColor('aqua', 'rgba(0,255,255,0.4)'),
@@ -340,12 +342,16 @@ function removeLayer(nom, id) {
             deleteSessLayer(id);
             fetchSess(dat=>{
                 let data = dat.filter;
+              
                 if(data.length >0){
                     fitToextent(data[data.length - 1].valeur); //zoom sur le dernier élément du tableau
+                }else{
+                    
+                    LoadLayers();
+                   
                 }
              
             });
-            //LoadLayers();
             map.updateSize();
             successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
 

@@ -16,7 +16,7 @@ function createLayerRow(data) {
         ' <a  href="#" class=" btn btn-xs btn-white">' +
         ' <i class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" id="cp'+data.id+'" class="btn btn-xs btn-primary">' +
+        ' <a href="#" id="cp'+data.id+'" class="painter btn btn-xs btn-danger">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
         ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\',\'' + data.valeur + '\')">' +
@@ -27,6 +27,7 @@ function createLayerRow(data) {
     );
     $('#cp'+data.id+'').colorpicker().on('changeColor', function(e) { 
         ChangeLayerColor(data.type,data.valeur,e.color.toString('hex'),e.color.toString('rgba'));
+        $('#cp'+data.id).css({'background-color': e.color.toString('hex')});
     });
 }
 
@@ -60,18 +61,19 @@ function list() {
     $("#couches").sortable({
         connectWith: ".connectList",
         update: function (event, ui) {
-            var couches = $("#couches").sortable("toArray");
+            let couches = $("#couches").sortable("toArray");
             $('.output').html("couches: " + window.JSON.stringify(couches));
             var tabcouches = window.JSON.stringify(couches);
             tabcouches = JSON.parse(tabcouches);
+            console.log(tabcouches);
             tabid = makeID(tabcouches);
             console.log(tabid);
-            console.log('tabid '+findCouche(tabid[0],couche=>{
-                    console.log(couche);
-            }
-        ));
-            /*layers = Layertable(tabid);
-            tableofLayers(layers);G*/
+            
+            let couchesSession = fetchSess(dat=>{
+                console.log(dat.filter);
+                return dat.filter;
+            });
+            console.log(couchesSession);
         }
     }).disableSelection();
 }
@@ -81,47 +83,9 @@ function makeID(tableauID){
     tableauID.forEach(element => {
         tab.push(parseInt(element.substr(1)));
     });
-    return tab;
+    return tab //le dernier est le premier a apparaitre
 }
 
-function findCouche(id,callback){
-    fetchSess(session=>{
-        let data = session.filter;
-        if(data.length>1){
-            console.log('data.length '+data.length);
-            console.log(data);
-            data.forEach(couche=>{
-                console.log(typeof parseInt(couche.id)+' '+id);
-                if(parseInt(couche.id) == id){
-                   callback(couche);
-                }
-            });
-        }
-    });
+function findPostion(tabid,sess){
+   
 }
-
-function Layertable(tab){
-    let layers = [];
-    tab.forEach(element => {
-        layers.push(findCouche(element));
-    });
-    return layers;
-}
-
-function tableofLayers(layers){
-    let ta = [];
-   map.getLayers().forEach(layer=>{
-        layers.forEach(element=>{
-            if(layer.get("name") == element.valeur){
-                map.removeLayer(layer);
-                ta.push(layer);
-            }
-        });
-       
-   });
-   ta = ta.reverse();
-  ta.forEach(couche=>{
-      map.addLayer(couche);
-  });
-}
-
