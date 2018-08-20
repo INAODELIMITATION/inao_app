@@ -4,6 +4,99 @@
  * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
  * Javascript
  */
+/**
+ * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
+ */
+
+var extent = [-378305.8099675195, 6008151.219241469, 1320649.5712336518, 7235612.7247730335];
+//var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
+var projection = new ol.proj.Projection({
+    code: 'EPSG:2154',
+    extent: extent,
+    units: 'm',
+    axisOrientation: 'neu'
+}); // definition du EPSG 2154
+
+ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
+var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
+proj2154.setExtent(extent);
+var projectionExtent = proj2154.getExtent(); //recupération de l'étendu de la projection 
+var variable = 21;
+var resolutions = new Array(variable);
+var matrixIds = new Array(variable);
+var maxResolution = ol.extent.getWidth(projectionExtent) / 256; //recupérationd des résolutions
+for (var i = 0; i < variable; ++i) {
+    matrixIds[i] = 'EPSG:2154:' + i;
+    resolutions[i] = (maxResolution) / Math.pow(2, i);
+    //alert(resolutions[i]);
+}
+//setup source couche qui va etre utilisé pour toute les aire parcellaires
+var sourceL = new ol.source.VectorTile({
+    tilePixelRatio: 1,
+    format: new ol.format.MVT(),
+    tileGrid: ol.tilegrid.createXYZ({
+        extent: extent,
+        resolutions: resolutions,
+        origin: ol.extent.getTopLeft(projectionExtent),
+
+    }),
+    //url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+    url: 'http://www.sig-inao.fr:8080/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+    crossOrigin: 'anonymous',
+});
+
+/**
+ * Déclaration de la carte ici, ol::Map
+ */
+var map = new ol.Map({
+    target: 'map',
+    renderer: 'canvas' //canvas,WebGL,DOM
+});
+/**
+ * Déclaration de la couche principale LayerMvt. ol.layer.VectorTile
+ */
+var layerMVT = new ol.layer.VectorTile({
+    name: "principale",
+    style: InitStyle,
+    opacity: 0.8,
+    source: sourceL,
+});
+
+/**
+ * En fonction du format, initialise la carte IGN
+ * @param {String} name 
+ */
+function checkformat(name) {
+    if (name == "CADASTRALPARCELS.PARCELS.L93") {
+        return "image/png";
+    } else {
+        return "image/jpeg";
+    }
+}
+
+/**
+ * Fonction qui initialise une couche de l'IGN
+ * @param {String} name 
+ */
+function setIgnLayer(name) {
+    format = checkformat(name);
+    map.addLayer(new ol.layer.Tile({
+        name: name,
+        source: new ol.source.GeoportalWMTS({
+            projection: "IGNF:RGF93G",
+            layer: name,
+            format: format,
+            /*tileGrid: new ol.tilegrid.WMTS({
+                extent: extent,
+                resolutions: resolutions,
+                origin: ol.extent.getTopLeft(projectionExtent),
+            }),*/
+            style: "normal"
+        }),
+        opacity: 0.8
+    }));
+}
+
 
 
 /**
@@ -34,12 +127,12 @@ function loadLayersess(val) {
  * Fonction qui charge la session
  * @param {*} handleData 
  */
-function fetchSess(handleData){
+function fetchSess(handleData) {
     $.ajax({
-        url:"/session/couches/NULL",
-        type:'GET',
-        dataType:"json",
-        success:data=>{
+        url: "/session/couches/NULL",
+        type: 'GET',
+        dataType: "json",
+        success: data => {
             handleData(data);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -50,19 +143,19 @@ function fetchSess(handleData){
 /**
  * Charge la carte de base et affiche les couches en session si il y en a 
  */
-function LoadLayers() { 
-    fetchSess(data=>{
+function LoadLayers() {
+    fetchSess(data => {
         let sess = data.filter;
         if (sess.length > 0) {
             let filtered = removeDuplicates(sess, 'valeur');
             loadLayersess(filtered);
-    
+
         } else {
             map.addLayer(layerMVT); //ajout de la couche à la carte
-    
+
             successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
         }
-    
+
     });
 }
 
@@ -87,32 +180,7 @@ function successMessage(libelle, valeur) {
     }, 1300);
 }
 
-/**
- * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
- */
 
-var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
-var projection = new ol.proj.Projection({
-    code: 'EPSG:2154',
-    extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
-    units: 'm',
-    axisOrientation: 'neu'
-}); // definition du EPSG 2154
-
-ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
-var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
-proj2154.setExtent(extent);
-var projectionExtent = proj2154.getExtent(); //recupération de l'étendu de la projection 
-var variable = 21;
-var resolutions = new Array(variable);
-var matrixIds = new Array(variable);
-var maxResolution = ol.extent.getWidth(projectionExtent) / 256; //recupérationd des résolutions
-for (var i = 0; i < variable; ++i) {
-    matrixIds[i] = 'EPSG:2154:' + i;
-    resolutions[i] = (maxResolution) / Math.pow(2, i);
-    //alert(resolutions[i]);
-
-}
 
 /**
  * fonction permettant de créer un style
@@ -143,37 +211,7 @@ var styles = {
     olive: styleColor('olive', 'rgba(128,128,0,0.4)')
 };
 
-//setup source couche qui va etre utilisé pour toute les aire parcellaires
-var sourceL = new ol.source.VectorTile({
-    tilePixelRatio: 1,
-    format: new ol.format.MVT(),
-    tileGrid: ol.tilegrid.createXYZ({
-        extent: [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772],
-        resolutions: resolutions,
-        origin: ol.extent.getTopLeft(projectionExtent),
 
-    }),
-    // url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
-    url: 'http://www.sig-inao.fr:8080/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
-    crossOrigin: 'anonymous',
-});
-
-/**
- * Déclaration de la carte ici, ol::Map
- */
-var map = new ol.Map({
-    target: 'map',
-    renderer: 'canvas' //canvas,WebGL,DOM
-});
-/**
- * Déclaration de la couche principale LayerMvt. ol.layer.VectorTile
- */
-var layerMVT = new ol.layer.VectorTile({
-    name: "principale",
-    style: InitStyle,
-    opacity: 0.8,
-    source: sourceL,
-});
 
 
 /**
@@ -268,7 +306,7 @@ function layerAdder(element) {
 function deleteSessLayer(id) {
     $.ajax({
         type: 'delete',
-        url: "/session/couches/" +id,  
+        url: "/session/couches/" + id,
     });
 }
 
@@ -276,12 +314,12 @@ function deleteSessLayer(id) {
  * Retourne la couche vectorielle en fonction de son nom
  * @param {String} name 
  */
-function getVectorLayer(name){
+function getVectorLayer(name) {
     let couche;
-    map.getLayers().forEach(layer=>{
-        if(layer instanceof ol.layer.VectorTile){
-            if(layer.get('name') !=undefined && layer.get('name') === name){
-                couche= layer;
+    map.getLayers().forEach(layer => {
+        if (layer instanceof ol.layer.VectorTile) {
+            if (layer.get('name') != undefined && layer.get('name') === name) {
+                couche = layer;
             }
         }
     });
@@ -292,10 +330,10 @@ function getVectorLayer(name){
  * Supprime une couche chargée
  * @param {String} nom Nom de la couche
  */
-function removeLayer(nom,id) {
+function removeLayer(nom, id) {
     layer = getVectorLayer(nom);
-    if(layer != undefined){
-        try{
+    if (layer != undefined) {
+        try {
             map.removeLayer(layer);
             deleteSessLayer(id);
             fetchSess(dat=>{
@@ -305,13 +343,15 @@ function removeLayer(nom,id) {
                 }
              
             });
+            //LoadLayers();
             map.updateSize();
             successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
-        }catch(e){
-            alert("error "+e);
+
+        } catch (e) {
+            alert("error " + e);
         }
     }
-   
+
 }
 
 
@@ -321,10 +361,10 @@ function removeLayer(nom,id) {
  * @param {String} couleur 
  * @param {String} code 
  */
-function ChangeLayerColor(type,layerName,couleur,code){
+function ChangeLayerColor(type, layerName, couleur, code) {
     let layer = getVectorLayer(layerName);
-    if(layer != undefined){
-        let style = styleColor(couleur,code);
+    if (layer != undefined) {
+        let style = styleColor(couleur, code);
         layer.setStyle((feature => {
             if (feature.get(type) === layerName) {
                 return style;
