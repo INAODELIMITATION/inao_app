@@ -51,7 +51,7 @@ function fail() {
 }
 
 Gp.Services.getConfig({
-   apiKey: keycadastre,
+   apiKey: keyServer,
     onSuccess: initialisation,
     onFailure: fail,
 });
