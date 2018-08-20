@@ -19,6 +19,9 @@ function createLayerRow(data) {
         ' <a href="#" id="cp'+data.id+'" class="painter btn btn-xs btn-danger">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="fitToextent(\'' + data.valeur + '\')">' +
+        ' <i class="fa fa-1x fa-map-marker"></i>' +
+        ' </a>' +
         ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\',\'' + data.valeur + '\')">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         '  </a>' +
@@ -46,6 +49,9 @@ function clickSidebar() {
     $('#sidebarmenu').click();
 
 }
+
+
+
 /**
  * Quand les couches sont déja chargées en session fonction qui va parcourir le tableau à la réactualisation de la page
  * @param {Array} data 
