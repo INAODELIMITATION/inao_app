@@ -209,7 +209,9 @@ module.exports = {
                         message: 'Not found'
                     });
                 }
+                console.log(extend);
                 return res.status(200).send(extend);
+               
             })
             .catch(error => res.status(400).send(error));
     },

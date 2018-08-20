@@ -69,10 +69,14 @@ function list() {
             tabid = makeID(tabcouches);
             console.log(tabid);
             
-            let couchesSession = fetchSess(dat=>{
-                findPostion(tabid,dat.filter);
+           fetchSess(dat=>{
+                let t =findPostion(tabid,dat.filter);
+                console.log(t);
+                positionLayers(t);
+                let filter = dat.filter;
+                //fitToextent(filter[filter.length - 1].valeur);
             });
-            console.log(couchesSession);
+           
         }
     }).disableSelection();
 }
@@ -82,7 +86,7 @@ function makeID(tableauID){
     tableauID.forEach(element => {
         tab.push(parseInt(element.substr(1)));
     });
-    return tab //le dernier est le premier a apparaitre
+    return tab ;
 }
 
 function findPostion(tabid,sess){
@@ -90,11 +94,22 @@ function findPostion(tabid,sess){
   sess.forEach(lay=>{
     for(let k=0; k<tabid.length; k++){
         if(tabid[k] == parseInt(lay.id)){
-             tab.push({
+            tableauuuu.push({
                 "nom":lay.valeur,
                 "position":k
             });
         }
     }
   });
+  return tableauuuu;
 }
+function positionLayers(ta){
+   
+    ta = ta.reverse();
+    for(let k =0; k<ta.length; k++){
+       let cou = getVectorLayer(ta[k].nom);
+       cou.setZIndex(ta[k].position);
+       map.updateSize();
+    }
+}
+
