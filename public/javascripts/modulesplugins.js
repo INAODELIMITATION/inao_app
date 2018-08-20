@@ -78,10 +78,10 @@ function checkformat(name) {
  * Fonction qui initialise une couche de l'IGN
  * @param {String} name 
  */
-function setIgnLayer(name) {
+function setIgnLayer(name,opacity) {
     format = checkformat(name);
     map.addLayer(new ol.layer.GeoportalWMTS({
-        name: name,
+        //name: name,
         /*source: new ol.source.GeoportalWMTS({
             projection: "IGNF:RGF93G",
             layer: name,
@@ -95,7 +95,7 @@ function setIgnLayer(name) {
             style: "normal"
         }),*/
         layer : name,
-        opacity: 0.8
+        opacity: opacity
     }));
 }
 
