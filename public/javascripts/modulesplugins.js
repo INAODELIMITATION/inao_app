@@ -67,7 +67,7 @@ var layerMVT = new ol.layer.VectorTile({
  * @param {String} name 
  */
 function checkformat(name) {
-    if (name == "CADASTRALPARCELS.PARCELS.L93") {
+    if (name === "CADASTRALPARCELS.PARCELS.L93") {
         return "image/png";
     } else {
         return "image/jpeg";
@@ -80,19 +80,21 @@ function checkformat(name) {
  */
 function setIgnLayer(name) {
     format = checkformat(name);
-    map.addLayer(new ol.layer.Tile({
+    map.addLayer(new ol.layer.GeoportalWMTS({
         name: name,
-        source: new ol.source.GeoportalWMTS({
+        /*source: new ol.source.GeoportalWMTS({
             projection: "IGNF:RGF93G",
             layer: name,
-            format: format,
-            /*tileGrid: new ol.tilegrid.WMTS({
+            format: "image/jpeg",
+            matrixSet: 'LAMB93',
+            tileGrid: new ol.tilegrid.WMTS({
                 extent: extent,
                 resolutions: resolutions,
                 origin: ol.extent.getTopLeft(projectionExtent),
-            }),*/
+            }),
             style: "normal"
-        }),
+        }),*/
+        layer : name,
         opacity: 0.8
     }));
 }
