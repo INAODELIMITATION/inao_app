@@ -1,5 +1,6 @@
 var keylocal ="1g3c8evz5w5tcus9a7oawl77"; //local
 var keyServer ="67wjh2d43oo2ibtn0dqsjel0"; //server
+var keycadastre ="aontlb42mham5v1jtqyo8ncg";
 
 
 /**
@@ -48,7 +49,7 @@ function fail() {
 }
 
 Gp.Services.getConfig({
-   apiKey: keyServer,
+   apiKey: keycadastre,
     onSuccess: initialisation,
     onFailure: fail,
 });
