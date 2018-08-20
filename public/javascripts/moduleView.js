@@ -70,8 +70,7 @@ function list() {
             console.log(tabid);
             
             let couchesSession = fetchSess(dat=>{
-                console.log(dat.filter);
-                return dat.filter;
+                findPostion(tabid,dat.filter);
             });
             console.log(couchesSession);
         }
@@ -87,5 +86,15 @@ function makeID(tableauID){
 }
 
 function findPostion(tabid,sess){
-   
+    let tableauuuu = [];
+  sess.forEach(lay=>{
+    for(let k=0; k<tabid.length; k++){
+        if(tabid[k] == parseInt(lay.id)){
+             tab.push({
+                "nom":lay.valeur,
+                "position":k
+            });
+        }
+    }
+  });
 }
