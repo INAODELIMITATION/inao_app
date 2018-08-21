@@ -198,7 +198,7 @@ module.exports = {
      */
     getExtend(req, res) {
         return sequelize
-            .query("SELECT ST_XMIN(ST_EXTENT(aire_p.geom)), ST_YMIN(ST_EXTENT(aire_p.geom)), ST_XMAX(ST_EXTENT(aire_p.geom)), ST_YMAX(ST_EXTENT(aire_p.geom)) from  test.aire_p where denomination = $denom;",
+            .query("SELECT ST_XMIN(ST_EXTENT(aire_parcellaire.geom)), ST_YMIN(ST_EXTENT(aire_parcellaire.geom)), ST_XMAX(ST_EXTENT(aire_parcellaire.geom)), ST_YMAX(ST_EXTENT(aire_parcellaire.geom)) from  metier_inao.aire_parcellaire where denomination = $denom;",
                 {
                     bind: { denom: req.params.denom },
                     type: Sequelize.QueryTypes.SELECT
@@ -209,7 +209,6 @@ module.exports = {
                         message: 'Not found'
                     });
                 }
-                console.log(extend);
                 return res.status(200).send(extend);
                
             })
