@@ -13,8 +13,8 @@ function createLayerRow(data) {
         ' <strong>Type :</strong> ' + data.type + '<br>' +
         '<strong>Nom de la couche:</strong> ' + data.valeur +
         '<div class="agile-detail">' +
-        ' <a  href="#" class=" btn btn-xs btn-white">' +
-        ' <i class="fa fa-1x fa-eye"></i>' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'' + data.valeur + '\')">' +
+        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye-slash"></i>' +
         ' </a>' +
         ' <a href="#" id="cp'+data.id+'" class="painter btn btn-xs btn-danger">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
@@ -28,6 +28,7 @@ function createLayerRow(data) {
         '</div>' +
         ' </li>'
     );
+  
     $('#cp'+data.id+'').colorpicker().on('changeColor', function(e) { 
         ChangeLayerColor(data.type,data.valeur,e.color.toString('hex'),e.color.toString('rgba'));
         $('#cp'+data.id).css({'background-color': e.color.toString('hex')});
@@ -50,7 +51,17 @@ function clickSidebar() {
 
 }
 
-
+function switchLayerVisibility(id,valeur){
+    let vectLayer = getVectorLayer(valeur);
+    if(vectLayer.getVisible() == true){
+        vectLayer.setVisible(false);
+        $("#fa"+id).removeClass('fa-eye-slash').addClass('fa-eye');
+        
+    }else{
+        vectLayer.setVisible(true);
+        $("#fa"+id).removeClass('fa-eye').addClass('fa-eye-slash');
+    }
+}
 
 /**
  * Quand les couches sont déja chargées en session fonction qui va parcourir le tableau à la réactualisation de la page
@@ -119,3 +130,23 @@ function positionLayers(ta){
     }
 }
 
+function scrollNo(){
+    var scrollPosition = [
+        self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+        self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
+      ];
+      var html = jQuery('html'); // it would make more sense to apply this to body, but IE7 won't have that
+      html.data('scroll-position', scrollPosition);
+      html.data('previous-overflow', html.css('overflow'));
+      html.css('overflow', 'hidden');
+      window.scrollTo(scrollPosition[0], scrollPosition[1]);
+      
+}
+
+function scrollYes(){
+    // un-lock scroll position
+var html = jQuery('html');
+var scrollPosition = html.data('scroll-position');
+html.css('overflow', html.data('previous-overflow'));
+window.scrollTo(scrollPosition[0], scrollPosition[1])
+}

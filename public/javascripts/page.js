@@ -4,7 +4,7 @@ var clicked = 0;
 
 $(document).ready(function () {
    
-   
+    
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,

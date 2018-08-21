@@ -35,6 +35,7 @@ function initialisation() {
    
     //setIgnLayer("CADASTRALPARCELS.PARCELS");
     LoadLayers();
+    map.getView().fit(extent, map.getSize());
 }
 
 
