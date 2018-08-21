@@ -177,7 +177,7 @@ function successMessage(libelle, valeur) {
             closeButton: true,
             progressBar: true,
             showMethod: 'slideDown',
-            timeOut: 8000
+            timeOut: 3000
         };
         toastr.success(libelle, valeur);
 

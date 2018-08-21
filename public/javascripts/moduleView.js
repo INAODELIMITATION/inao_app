@@ -13,25 +13,25 @@ function createLayerRow(data) {
         ' <strong>Type :</strong> ' + data.type + '<br>' +
         '<strong>Nom de la couche:</strong> ' + data.valeur +
         '<div class="agile-detail">' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'' + data.valeur + '\')">' +
-        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye-slash"></i>' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\')">' +
+        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" id="cp'+data.id+'" class="painter btn btn-xs btn-danger">' +
+        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-danger">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="fitToextent(\'' + data.valeur + '\')">' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
         ' <i class="fa fa-1x fa-map-marker"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\',\'' + data.valeur + '\')">' +
+        ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         '  </a>' +
         '</div>' +
         ' </li>'
     );
-  
-    $('#cp'+data.id+'').colorpicker().on('changeColor', function(e) { 
-        ChangeLayerColor(data.type,data.valeur,e.color.toString('hex'),e.color.toString('rgba'));
-        $('#cp'+data.id).css({'background-color': e.color.toString('hex')});
+
+    $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
+        ChangeLayerColor(data.type, data.valeur, e.color.toString('hex'), e.color.toString('rgba'));
+        $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
     });
 }
 
@@ -40,27 +40,61 @@ function createLayerRow(data) {
  * @param {number} id 
  * @param {String} valeur 
  */
-function deleteLayerRow(id, valeur) {
-    removeLayer(valeur,id);
-    $("#c" + id).remove();
-   
+function deleteLayerRow(id) {
+    fetchSess(data => {
+        let sess = data.filter;
+        sess.forEach(element => {
+            if (element.id == id) {
+                removeLayer(element.valeur, element.id);
+                $("#c" + id).remove();
+            }
+        });
+    });
+
 }
+
+/**
+ * Zoom sur l'emprise de la couche
+ * @param {number} id 
+ */
+function extentCouche(id){
+    fetchSess(data => {
+        let sess = data.filter;
+        sess.forEach(element => {
+            if (element.id == id) {
+                fitToextent(element.valeur)
+            }
+        });
+    });
+}
+
 
 function clickSidebar() {
     $('#sidebarmenu').click();
 
 }
 
-function switchLayerVisibility(id,valeur){
-    let vectLayer = getVectorLayer(valeur);
-    if(vectLayer.getVisible() == true){
-        vectLayer.setVisible(false);
-        $("#fa"+id).removeClass('fa-eye-slash').addClass('fa-eye');
-        
-    }else{
-        vectLayer.setVisible(true);
-        $("#fa"+id).removeClass('fa-eye').addClass('fa-eye-slash');
-    }
+/**
+ * Change la visibilité d'une couche
+ * @param {number} id 
+ */
+function switchLayerVisibility(id) {
+    fetchSess(data => {
+        let sess = data.filter;
+        sess.forEach(element => {
+            if (element.id == id) {
+                let vectLayer = getVectorLayer(element.valeur);
+                if (vectLayer.getVisible() == true) {
+                    vectLayer.setVisible(false);
+                    $("#fa" + id).removeClass('fa-eye').addClass('fa-eye-slash');
+
+                } else {
+                    vectLayer.setVisible(true);
+                    $("#fa" + id).removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            }
+        });
+    });
 }
 
 /**
@@ -79,26 +113,22 @@ function list() {
         connectWith: ".connectList",
         update: function (event, ui) {
             let couches = $("#couches").sortable("toArray");
-            $('.output').html("couches: " + window.JSON.stringify(couches));
-            var tabcouches = window.JSON.stringify(couches);
-            tabcouches = JSON.parse(tabcouches);
-            console.log(tabcouches);
-            tabid = makeID(tabcouches);
-            console.log(tabid);
-            
-           fetchSess(dat=>{
-                let t =findPostion(tabid,dat.filter);
-                console.log(t);
+            tabid = makeID(couches);
+            fetchSess(dat => {
+                let t = findPostion(tabid, dat.filter);
                 positionLayers(t);
                 let filter = dat.filter;
                 //fitToextent(filter[filter.length - 1].valeur);
             });
-           
+
         }
     }).disableSelection();
 }
 
-function makeID(tableauID){
+
+
+
+function makeID(tableauID) {
     let tab = [];
     tableauID.forEach(element => {
         tab.push(parseInt(element.substr(1)));
@@ -106,27 +136,24 @@ function makeID(tableauID){
     return tab.reverse(); //renverse l'ordre le premier devient le dernier 
 }
 
-function findPostion(tabid,sess){
+function findPostion(tabid, sess) {
     let tableauuuu = [];
-  sess.forEach(lay=>{
-    for(let k=0; k<tabid.length; k++){
-        if(tabid[k] == parseInt(lay.id)){
-            tableauuuu.push({
-                "nom":lay.valeur,
-                "position":k
-            });
+    sess.forEach(lay => {
+        for (let k = 0; k < tabid.length; k++) {
+            if (tabid[k] == parseInt(lay.id)) {
+                tableauuuu.push({
+                    "nom": lay.valeur,
+                    "position": k
+                });
+            }
         }
-    }
-  });
-  return tableauuuu;
+    });
+    return tableauuuu;
 }
-function positionLayers(ta){
-   
-    ta = ta;
-    for(let k =0; k<ta.length; k++){
-       let cou = getVectorLayer(ta[k].nom);
-       cou.setZIndex(ta[k].position);
-       console.log(ta[k].nom+" est à la position "+ta[k].position);
-       map.updateSize();
+function positionLayers(ta) {
+    for (let k = 0; k < ta.length; k++) {
+        let cou = getVectorLayer(ta[k].nom);
+        cou.setZIndex(ta[k].position);
+        map.updateSize();
     }
 }
