@@ -21,7 +21,7 @@ function setParams(type,valeur,id_denom){
     var tab = {
         type:type,
         valeur:valeur,
-        id:id_denom
+        id:id_denom,
     };
     console.log("ici");
     return tab;
@@ -229,16 +229,34 @@ module.exports = {
         return res.status(200).send({ filter: sess.aire });
     },
     /**
+     * cette fonction ne fonctionne pas encore
+     * @param {*} req 
+     * @param {*} res 
+     */
+    changeSess(req,res){
+        sess = req.session;
+        corps = JSON.parse(req.body.session)
+        console.log(typeof req.body.session);
+        console.log(typeof corps)
+        console.log(corps);
+        if (typeof (sess.aire) == 'undefined') {
+            sess.aire = [];
+        }
+        sess.aire = corps;
+        return res.status(200).send({ filter: sess.aire });
+    },
+
+    /**
      * delete a layer in session
      * @param {*} req 
      * @param {*} res 
      */
     delLayerSess(req, res) {
-        console.log("DEBUT FONCTION SUPPRESSION COUCHE " + req.params.id);
+        console.log("DEBUT FONCTION SUPPRESSION COUCHE " + req.params.data);
         sess = req.session;
         if (typeof (sess.aire) !== 'undefined') {
             try {
-                let removed = sess.aire.filter(el => el.id != req.params.id);
+                let removed = sess.aire.filter(el => el.id != req.params.data);
                 sess.aire = removed;
                 return res.status(200).send("sucesss");
             } catch (error) {

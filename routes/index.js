@@ -33,7 +33,8 @@ router.route('/search')
 router.post('/search/appel', parcellaireController.findAppel);
 router.get('/extendTest/:denom', parcellaireController.getExtend);
 
-router.route('/session/couches/:id')
+router.route('/session/couches/:data')
   .get(parcellaireController.getSess)
-  .delete(parcellaireController.delLayerSess);
+  .delete(parcellaireController.delLayerSess)
+  .post(parcellaireController.changeSess);
 module.exports = router;

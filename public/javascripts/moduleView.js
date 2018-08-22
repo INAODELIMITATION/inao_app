@@ -28,7 +28,7 @@ function createLayerRow(data) {
         '</div>' +
         ' </li>'
     );
-
+    $('body').css('overflow','hidden'); //solution temporaire
     $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
         ChangeLayerColor(data.type, data.valeur, e.color.toString('hex'), e.color.toString('rgba'));
         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
@@ -117,8 +117,17 @@ function list() {
             fetchSess(dat => {
                 let t = findPostion(tabid, dat.filter);
                 positionLayers(t);
+                //debut partie session
                 let filter = dat.filter;
-                //fitToextent(filter[filter.length - 1].valeur);
+                let tab = new Array(filter.length);
+                filter.forEach(element=>{
+                    for(let k=0;k<t.length;k++){
+                        if(element.id == t[k].id){
+                            tab[t[k].position] = element;
+                        }
+                    }
+                });
+                //updateSess(tab); TRAVAILLER A CE NIVEAU POUR LA BD
             });
 
         }
@@ -143,7 +152,8 @@ function findPostion(tabid, sess) {
             if (tabid[k] == parseInt(lay.id)) {
                 tableauuuu.push({
                     "nom": lay.valeur,
-                    "position": k
+                    "position": k,
+                    "id":lay.id
                 });
             }
         }
