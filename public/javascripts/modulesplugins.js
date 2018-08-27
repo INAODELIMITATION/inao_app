@@ -8,8 +8,8 @@
  * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
  */
 
-//var extent = [-378305.8099675195, 6008151.219241469, 1320649.5712336518, 7235612.7247730335];
-var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
+var extent = [-378305.8099675195, 6008151.219241469, 1320649.5712336518, 7235612.7247730335];
+//var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
 var projection = new ol.proj.Projection({
     code: 'EPSG:2154',
     extent: extent,
@@ -40,8 +40,8 @@ var sourceL = new ol.source.VectorTile({
         origin: ol.extent.getTopLeft(projectionExtent),
 
     }),
-   url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
-   // url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+   //url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+    url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
     crossOrigin: 'anonymous',
 });
 var view = new ol.View({ 
