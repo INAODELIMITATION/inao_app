@@ -37,6 +37,9 @@ router.get('/extendTest/:denom', parcellaireController.getExtend);
 router.route('/aire_geo/:denomination')
   .get(aire_geoController.retrieveByDenom);
 
+  router.route('/aire_geo/getExtend/:denom')
+  .get(aire_geoController.getExtend);
+
 
 router.route('/session/couches/:data')
   .get(parcellaireController.getSess)
