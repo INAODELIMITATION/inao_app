@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Aire_geos', {
+    return queryInterface.createTable('aire_geo', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -27,19 +27,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       geom: {
-        type: Sequelize.GEOMETRY
+        type: Sequelize.GEOMETRY('MULTIPOLYGON',2154)
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+      
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Aire_geos');
+    return queryInterface.dropTable('aire_geo');
   }
 };

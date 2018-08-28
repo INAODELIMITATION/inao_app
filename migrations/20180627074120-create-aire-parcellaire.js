@@ -45,6 +45,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Aire_Parcellaire');
+    return queryInterface.dropTable('aire_parcellaire');
   }
 };

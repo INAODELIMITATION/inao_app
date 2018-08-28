@@ -17,11 +17,11 @@ var sess;
  * @param {String} valeur 
  * @param {Number} id_denom 
  */
-function setParams(type,valeur,id_denom){
+function setParams(type, valeur, id_denom) {
     var tab = {
-        type:type,
-        valeur:valeur,
-        id:id_denom,
+        type: type,
+        valeur: valeur,
+        id: id_denom,
     };
     console.log("ici");
     return tab;
@@ -83,7 +83,7 @@ module.exports = {
                 if (typeof (sess.aire) == 'undefined') {
                     sess.aire = [];
                 }
-                sess.aire.push(setParams("denomination",req.params.denom,aire_parcelles[0].id));
+                sess.aire.push(setParams("denomination", req.params.denom, aire_parcelles[0].id));
                 return res.status(200).send({ denomination: aire_parcelles, filter: sess.aire });
 
             })
@@ -210,7 +210,7 @@ module.exports = {
                     });
                 }
                 return res.status(200).send(extend);
-               
+
             })
             .catch(error => res.status(400).send(error));
     },
@@ -233,7 +233,7 @@ module.exports = {
      * @param {*} req 
      * @param {*} res 
      */
-    changeSess(req,res){
+    changeSess(req, res) {
         sess = req.session;
         corps = JSON.parse(req.body.session)
         console.log(typeof req.body.session);

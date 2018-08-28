@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var sess;
-const parcellaireController = require('../controllers').parcellaires;
+const parcellaireController = require('../controllers').parcellaires; //controleur des aire_parcellaires
+const aire_geoController    = require('../controllers').aire_geos; // controleur des aires géographiques
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -33,8 +34,14 @@ router.route('/search')
 router.post('/search/appel', parcellaireController.findAppel);
 router.get('/extendTest/:denom', parcellaireController.getExtend);
 
+router.route('/aire_geo/:denomination')
+  .get(aire_geoController.retrieveByDenom);
+
+
 router.route('/session/couches/:data')
   .get(parcellaireController.getSess)
   .delete(parcellaireController.delLayerSess)
   .post(parcellaireController.changeSess);
+
+
 module.exports = router;
