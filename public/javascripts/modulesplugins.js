@@ -352,18 +352,7 @@ function layerAdder(element) {
                 }
             }),
         }));
-        makeAireGeo(element.valeur,aire=>{
-            if(typeof aire !=='undefined' && aire.length >0){
-                makeLayerByExtend(aire);
-                createRow(element,"aireGeo");
-              }else{
-                createRow(element,"pasAireGeo");
-              }
-        });
-       
-        successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
-        fitToextent(element.valeur);
-        sidebarClicked(clicked);
+        loadLayerEvents(element);
     } catch (e) {
         swal({
             title: "ERREUR lors du chargement de la couche : " + element.valeur + " " + e,
@@ -373,6 +362,21 @@ function layerAdder(element) {
         });
     }
 }
+function loadLayerEvents(element){
+    makeAireGeo(element.valeur,aire=>{
+        if(typeof aire !=='undefined' && aire.length >0){
+            makeLayerByExtend(aire);
+            createRow(element,"aireGeo");
+          }else{
+            createRow(element,"pasAireGeo");
+          }
+    });
+   
+    successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
+    fitToextent(element.valeur);
+    sidebarClicked(clicked);
+}
+
 
 function deleteSessLayer(id) {
     $.ajax({
