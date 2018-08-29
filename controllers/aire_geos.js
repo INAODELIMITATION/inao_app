@@ -53,7 +53,8 @@ module.exports = {
      */
     getExtend(req, res) {
         return sequelize
-            .query("SELECT ST_XMIN(ST_EXTENT(aire_geo.geom)), ST_YMIN(ST_EXTENT(aire_geo.geom)), ST_XMAX(ST_EXTENT(aire_geo.geom)), ST_YMAX(ST_EXTENT(aire_geo.geom)) from  metier_inao.aire_geo where denomination = $denom;",
+            // .query("SELECT ST_XMIN(ST_EXTENT(aire_geo.geom)), ST_YMIN(ST_EXTENT(aire_geo.geom)), ST_XMAX(ST_EXTENT(aire_geo.geom)), ST_YMAX(ST_EXTENT(aire_geo.geom)) from  metier_inao.aire_geo where denomination = $denom;",
+            .query("SELECT  ST_AsGeoJSON(aire_geo.geom) as geom from  metier_inao.aire_geo where denomination = $denom;",
                 {
                     bind: { denom: req.params.denom },
                     type: Sequelize.QueryTypes.SELECT

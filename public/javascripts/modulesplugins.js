@@ -322,6 +322,7 @@ function layerAdder(element) {
                 }
             }),
         }));
+        makeAireGeo(element.valeur);
         createLayerRow(element);
         successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
         fitToextent(element.valeur);
@@ -411,4 +412,42 @@ function ChangeLayerColor(type, layerName, couleur, code) {
         }));
         map.updateSize();
     }
+}
+
+function makeAireGeo(denomination){
+    $.ajax({
+        url: "/aire_geo/getExtend/" + denomination,
+        type: 'GET',
+        dataType: "json",
+        success: extend=>{
+           // console.log(extend[0].geom);
+            makeLayerByExtend(extend);
+        }
+    });
+}
+
+function makeLayerByExtend(extend){
+    try{
+        // map.addLayer(new ol.layer.Vector({
+        //     projection:"EPSG:2154",
+        //     source: new ol.source.Vector({
+        //         projection:"EPSG:2154",
+        //         features: [new ol.Feature({
+        //             geometry: new ol.geom.Polygon.fromExtent([extend[0].st_xmin, extend[0].st_ymin, extend[0].st_xmax, extend[0].st_ymax])
+        //         })]
+        //     }),
+        //     style: styles.yellow
+        // }));
+        map.addLayer(new ol.layer.Vector({
+            projection:"EPSG:2154",
+            source: new ol.source.Vector({
+                projection:"EPSG:2154",
+                features: (new ol.format.GeoJSON()).readFeatures(extend[0].geom)
+            }),
+            style: styles.yellow
+        }));
+    }catch(e){
+        console.log("erreur " +e);
+    }
+    
 }
