@@ -7,33 +7,63 @@
 /**Fonction qui crée une div en fonction de la couche qui est chargée
  * @param {Object} data contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
  */
-function createLayerRow(data) {
+
+function createGeoRow(data,situation){
+    if(situation == "aireGeo"){
+        let a = 
+        '<span><strong>Aire géographique:</strong>'+
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\')">' +
+                 ' <i id="fageo' + data.id + '" class="fa fa-1x fa-eye"></i>' +
+            ' </a>' +
+            ' <a href="#" id="cpgeo' + data.id + '" class="painter btn btn-xs btn-warning">' +
+                ' <i class="fa fa-1x fa-paint-brush"></i>' +
+            ' </a>' +
+            ' <a href="#"  class=" btn btn-xs btn-info" onclick="extentCouche(\'' + data.id + '\')">' +
+                ' <i class="fa fa-1x fa-info-circle"></i>' +
+            ' </a>' +
+            '</span><br><br>'
+    ;
+    return a;
+    }
+    else{return '';}
+}
+
+function createAppelRow(data){
+    let message =  ' <strong>Type :</strong> ' + data.type + '<br>' +
+    '<strong>Nom de la couche:</strong> ' + data.valeur +
+   '<div class="agile-detail">' +
+       ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\')">' +
+            ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
+       ' </a>' +
+       ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-danger">' +
+           ' <i class="fa fa-1x fa-paint-brush"></i>' +
+       ' </a>' +
+       ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
+           ' <i class="fa fa-1x fa-map-marker"></i>' +
+       ' </a>' +
+       ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
+            ' <i class="fa fa-1x fa-trash"></i>' +
+        ' </a>' +
+   '</div>' ;
+  
+   return message;
+}
+
+function createRow(data,situation) {
     $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
-        ' <strong>Type :</strong> ' + data.type + '<br>' +
-        '<strong>Nom de la couche:</strong> ' + data.valeur +
-        '<div class="agile-detail">' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\')">' +
-        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
-        ' </a>' +
-        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-danger">' +
-        ' <i class="fa fa-1x fa-paint-brush"></i>' +
-        ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
-        ' <i class="fa fa-1x fa-map-marker"></i>' +
-        ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
-        ' <i class="fa fa-1x fa-trash"></i>' +
-        '  </a>' +
-        '</div>' +
+            createGeoRow(data,situation)+
+             createAppelRow(data)+   
+                
         ' </li>'
     );
     $('body').css('overflow','hidden'); //solution temporaire
     $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
-        ChangeLayerColor(data.type, data.valeur, e.color.toString('hex'), e.color.toString('rgba'));
+        ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
     });
 }
+
 
 /**
  * supprime une couche ajouté

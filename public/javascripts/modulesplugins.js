@@ -235,13 +235,43 @@ function styleColor(couleur, code) {
 // différentes couleur dans un objet 
 var styles = {
     yellow: styleColor('yellow', 'rgba(255,255,0,0.4)'),
-    red: styleColor('red', 'rgba(255,0,0,0.2)'),
+    red: styleColor('red', 'rgba(255,0,0,0.8)'),
     green: styleColor('green', 'rgba(0,128,0,0.4)'),
     blue: styleColor('blue', 'rgba(0,0,255,0.4)'),
     aqua: styleColor('aqua', 'rgba(0,255,255,0.4)'),
     fuchsia: styleColor('fuchsia', 'rgba(255,0,255,0.4)'),
     navy: styleColor('navy', 'rgba(0,0,128,0.4)'),
-    olive: styleColor('olive', 'rgba(128,128,0,0.4)')
+    olive: styleColor('olive', 'rgba(128,128,0,0.4)'),
+};
+
+/**
+ * Création de style sans remplissage
+ * @param {String} couleur 
+ */
+function styleColorStroke(couleur) { 
+    return [new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: couleur,
+            width: 2
+        }),
+       
+    })];
+}
+var stylesStroke = {
+    yellow: styleColorStroke('yellow'),
+    red: styleColorStroke('red')
+};
+
+function styleColorFill(code){
+    return [new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: code
+        })
+    })];
+}
+var stylesFill = {
+    yellow : styleColorFill('rgba(255,255,0,0.4)'),
+    red: styleColorFill('rgba(255,0,0,0.8)'),
 };
 
 
@@ -322,8 +352,15 @@ function layerAdder(element) {
                 }
             }),
         }));
-        makeAireGeo(element.valeur);
-        createLayerRow(element);
+        makeAireGeo(element.valeur,aire=>{
+            if(typeof aire !=='undefined' && aire.length >0){
+                makeLayerByExtend(aire);
+                createRow(element,"aireGeo");
+              }else{
+                createRow(element,"pasAireGeo");
+              }
+        });
+       
         successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
         fitToextent(element.valeur);
         sidebarClicked(clicked);
@@ -399,10 +436,10 @@ function removeLayer(nom, id) {
  * @param {String} couleur 
  * @param {String} code 
  */
-function ChangeLayerColor(type, layerName, couleur, code) {
+function ChangeLayerColor(type, layerName, code) {
     let layer = getVectorLayer(layerName);
     if (layer != undefined) {
-        let style = styleColor(couleur, code);
+        let style = styleColorFill(code);
         layer.setStyle((feature => {
             if (feature.get(type) === layerName) {
                 return style;
@@ -414,37 +451,35 @@ function ChangeLayerColor(type, layerName, couleur, code) {
     }
 }
 
-function makeAireGeo(denomination){
+function makeAireGeo(denomination,callback){
     $.ajax({
-        url: "/aire_geo/getExtend/" + denomination,
+        url: "/aire_geo/" + denomination,
         type: 'GET',
         dataType: "json",
         success: extend=>{
-           // console.log(extend[0].geom);
+           
+           
+          /*if(typeof extend !=='undefined' && extend.length >0){
             makeLayerByExtend(extend);
+          }else{
+              console.log("cry");
+          }*/
+          callback(extend);
+           
         }
     });
 }
 
-function makeLayerByExtend(extend){
+function makeLayerByExtend(extend,denom){
     try{
-        // map.addLayer(new ol.layer.Vector({
-        //     projection:"EPSG:2154",
-        //     source: new ol.source.Vector({
-        //         projection:"EPSG:2154",
-        //         features: [new ol.Feature({
-        //             geometry: new ol.geom.Polygon.fromExtent([extend[0].st_xmin, extend[0].st_ymin, extend[0].st_xmax, extend[0].st_ymax])
-        //         })]
-        //     }),
-        //     style: styles.yellow
-        // }));
         map.addLayer(new ol.layer.Vector({
             projection:"EPSG:2154",
+            name:"geo"+denom,
             source: new ol.source.Vector({
                 projection:"EPSG:2154",
                 features: (new ol.format.GeoJSON()).readFeatures(extend[0].geom)
             }),
-            style: styles.yellow
+            style: stylesStroke.yellow
         }));
     }catch(e){
         console.log("erreur " +e);

@@ -51,7 +51,7 @@ module.exports = {
      * @param {*} req 
      * @param {*} res 
      */
-    getExtend(req, res) {
+    getAire(req, res) {
         return sequelize
             // .query("SELECT ST_XMIN(ST_EXTENT(aire_geo.geom)), ST_YMIN(ST_EXTENT(aire_geo.geom)), ST_XMAX(ST_EXTENT(aire_geo.geom)), ST_YMAX(ST_EXTENT(aire_geo.geom)) from  metier_inao.aire_geo where denomination = $denom;",
             .query("SELECT  ST_AsGeoJSON(aire_geo.geom) as geom from  metier_inao.aire_geo where denomination = $denom;",
@@ -64,8 +64,10 @@ module.exports = {
                     return res.status(404).send({
                         message: 'Not found'
                     });
-                }
-                return res.status(200).send(extend);
+                }else{
+                  
+                    return res.status(200).send(extend);}
+                
 
             })
             .catch(error => res.status(400).send(error));

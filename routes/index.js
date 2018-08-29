@@ -34,11 +34,11 @@ router.route('/search')
 router.post('/search/appel', parcellaireController.findAppel);
 router.get('/extendTest/:denom', parcellaireController.getExtend);
 
-router.route('/aire_geo/:denomination')
+router.route('/aire_geo/getInfo/:denomination')
   .get(aire_geoController.retrieveByDenom);
 
-  router.route('/aire_geo/getExtend/:denom')
-  .get(aire_geoController.getExtend);
+  router.route('/aire_geo/:denom')
+  .get(aire_geoController.getAire);
 
 
 router.route('/session/couches/:data')

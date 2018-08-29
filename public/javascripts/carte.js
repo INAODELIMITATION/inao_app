@@ -27,7 +27,7 @@ function initialisation() {
   setIgnLayer("CADASTRALPARCELS.PARCELS",0.5);
    //setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93",0.5);
   
-    crinaoHover(map);
+    //crinaoHover(map);
    
     //setIgnLayer("CADASTRALPARCELS.PARCELS");
     LoadLayers();
