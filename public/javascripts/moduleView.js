@@ -18,7 +18,7 @@ function createGeoRow(data,situation){
             ' <a href="#" id="cpgeo' + data.id + '" class="painter btn btn-xs btn-warning">' +
                 ' <i class="fa fa-1x fa-paint-brush"></i>' +
             ' </a>' +
-            ' <a href="#"  class=" btn btn-xs btn-info" onclick="extentCouche(\'' + data.id + '\')">' +
+            ' <a href="#" type="button" class=" btn btn-xs btn-info" data-toggle="modal" data-target="#myModal6" >' +
                 ' <i class="fa fa-1x fa-info-circle"></i>' +
             ' </a>' +
             '</span><br><br>'
@@ -57,6 +57,10 @@ function createRow(data,situation) {
                 
         ' </li>'
     );
+    fetchAireGeo(data.valeur,aire_geo=>{
+        $('body').append(modalInfo(aire_geo));
+    });
+   
     $('body').css('overflow','hidden'); //solution temporaire
     $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
         ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
@@ -64,7 +68,7 @@ function createRow(data,situation) {
     });
     if(situation =="aireGeo"){
         let name = "geo"+data.valeur;
-       
+      
         $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
             changeAireColor(name, e.color.toString('hex'));
             $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
@@ -205,8 +209,33 @@ function positionLayers(ta) {
 }
 
 /**
- * Fonction qui au clique affiche un modal contenant les infos sur l'aire géographique
+ * Fonction qui au clique affiche un modal contenant les infos sur l'aire
  */
-function modalInfo(){
+function modalInfo(aire_geo){
+    console.log(aire_geo.aire_geo);
+var modal= 
+'<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">'+
+'<div class="modal-dialog modal-sm">'+
+   ' <div class="modal-content">'+
+       ' <div class="modal-header">'+
+            '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
+            '<h4 class="modal-title">Aire Géographique</h4>'+
+       ' </div>'+
+        '<div class="modal-body">'+
+            '<ul>'+
+                '<li><strong>Nom: '+aire_geo.aire_geo.denomination+' </strong></li>'+
+                '<li><a href="'+aire_geo.aire_geo.url_fiche+'">Lien fiche <</a> </span></li>'+
+                '<li><strong>cahier des charges: '+aire_geo.aire_geo.url_cdc+' </strong></li>'+
+            '</ul>'+
+        '</div>'+
+        '<div class="modal-footer">'+
+            
+            '<button type="button" class="btn btn-primary">Fermer</button>'+
+        '</div>'+
+   ' </div>'+
+'</div>'+
+'</div>';
+
+    return modal;                
 
 }

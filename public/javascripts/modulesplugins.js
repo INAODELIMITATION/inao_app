@@ -402,12 +402,18 @@ function getLayer(name) {
 }
 
 /**
- * Supprime une couche chargée
+ * Supprime une couche chargée ainsi que l'aire geo associé
  * @param {String} nom Nom de la couche
  */
 function removeLayer(nom, id) {
-    layer = getLayer(nom);
+    let layer = getLayer(nom);
     if (layer != undefined) {
+        if(layer instanceof ol.layer.VectorTile){
+            let aire_geo = getLayer("geo"+nom);
+            if(aire_geo !=undefined){
+                map.removeLayer(aire_geo);
+            }
+        }
         try {
             map.removeLayer(layer);
             deleteSessLayer(id);
@@ -476,9 +482,20 @@ function makeAireGeo(denomination,callback){
         url: "/aire_geo/" + denomination,
         type: 'GET',
         dataType: "json",
-        success: extend=>{
-          callback(extend);
+        success: coord=>{
+          callback(coord);
            
+        }
+    });
+}
+
+function fetchAireGeo(denomination,callback){
+    $.ajax({
+        url:"/aire_geo/getInfo/"+denomination,
+        type:'GET',
+        dataType:"json",
+        success: aire_geo=>{
+            callback(aire_geo);
         }
     });
 }
