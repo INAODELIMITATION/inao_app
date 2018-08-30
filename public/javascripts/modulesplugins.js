@@ -365,7 +365,7 @@ function layerAdder(element) {
 function loadLayerEvents(element){
     makeAireGeo(element.valeur,aire=>{
         if(typeof aire !=='undefined' && aire.length >0){
-            makeLayerByExtend(aire);
+            makeLayerByCoord(aire,element.valeur);
             createRow(element,"aireGeo");
           }else{
             createRow(element,"pasAireGeo");
@@ -389,14 +389,14 @@ function deleteSessLayer(id) {
  * Retourne la couche vectorielle en fonction de son nom
  * @param {String} name 
  */
-function getVectorLayer(name) {
+function getLayer(name) {
     let couche;
     map.getLayers().forEach(layer => {
-        if (layer instanceof ol.layer.VectorTile) {
-            if (layer.get('name') != undefined && layer.get('name') === name) {
+        
+            if (layer.get('name') != undefined && layer.get('name') == name) {
                 couche = layer;
             }
-        }
+        
     });
     return couche;
 }
@@ -406,7 +406,7 @@ function getVectorLayer(name) {
  * @param {String} nom Nom de la couche
  */
 function removeLayer(nom, id) {
-    layer = getVectorLayer(nom);
+    layer = getLayer(nom);
     if (layer != undefined) {
         try {
             map.removeLayer(layer);
@@ -441,7 +441,7 @@ function removeLayer(nom, id) {
  * @param {String} code 
  */
 function ChangeLayerColor(type, layerName, code) {
-    let layer = getVectorLayer(layerName);
+    let layer = getLayer(layerName);
     if (layer != undefined) {
         let style = styleColorFill(code);
         layer.setStyle((feature => {
@@ -455,33 +455,43 @@ function ChangeLayerColor(type, layerName, code) {
     }
 }
 
+function changeAireColor(layerName,code){
+    
+    let layer = getLayer(layerName);
+  
+    if(layer !=undefined){
+        
+        let style = styleColorStroke(code);
+        layer.setStyle((feature=>{
+            return style;
+        }));
+        map.updateSize();
+    }else{
+
+    }
+}
+
 function makeAireGeo(denomination,callback){
     $.ajax({
         url: "/aire_geo/" + denomination,
         type: 'GET',
         dataType: "json",
         success: extend=>{
-           
-           
-          /*if(typeof extend !=='undefined' && extend.length >0){
-            makeLayerByExtend(extend);
-          }else{
-              console.log("cry");
-          }*/
           callback(extend);
            
         }
     });
 }
 
-function makeLayerByExtend(extend,denom){
+function makeLayerByCoord(coord,denom){
+    let name = String("geo"+denom); 
     try{
         map.addLayer(new ol.layer.Vector({
             projection:"EPSG:2154",
-            name:"geo"+denom,
+            name:name,
             source: new ol.source.Vector({
                 projection:"EPSG:2154",
-                features: (new ol.format.GeoJSON()).readFeatures(extend[0].geom)
+                features: (new ol.format.GeoJSON()).readFeatures(coord[0].geom)
             }),
             style: stylesStroke.yellow
         }));

@@ -25,7 +25,7 @@ function createGeoRow(data,situation){
     ;
     return a;
     }
-    else{return '';}
+    else{return '<span><strong>Aire géographique: </strong><span class="badge badge-danger"> Inexistante</span><br><br>';}
 }
 
 function createAppelRow(data){
@@ -62,6 +62,14 @@ function createRow(data,situation) {
         ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
     });
+    if(situation =="aireGeo"){
+        let name = "geo"+data.valeur;
+       
+        $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
+            changeAireColor(name, e.color.toString('hex'));
+            $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
+        });
+    }
 }
 
 
@@ -113,7 +121,7 @@ function switchLayerVisibility(id) {
         let sess = data.filter;
         sess.forEach(element => {
             if (element.id == id) {
-                let vectLayer = getVectorLayer(element.valeur);
+                let vectLayer = getLayer(element.valeur);
                 if (vectLayer.getVisible() == true) {
                     vectLayer.setVisible(false);
                     $("#fa" + id).removeClass('fa-eye').addClass('fa-eye-slash');
@@ -127,13 +135,7 @@ function switchLayerVisibility(id) {
     });
 }
 
-/**
- * Quand les couches sont déja chargées en session fonction qui va parcourir le tableau à la réactualisation de la page
- * @param {Array} data 
- */
-function parcoursTabCouche(data) {
 
-}
 
 /**
  * Fonction qui permet de déclarer la liste des couches et les rendres triable (modification ordre)
@@ -192,7 +194,7 @@ function findPostion(tabid, sess) {
 }
 function positionLayers(ta) {
     for (let k = 0; k < ta.length; k++) {
-        let cou = getVectorLayer(ta[k].nom);
+        let cou = getLayer(ta[k].nom);
         cou.setZIndex(ta[k].position);
         map.updateSize();
     }
