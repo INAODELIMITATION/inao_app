@@ -12,7 +12,7 @@ function createGeoRow(data,situation){
     if(situation == "aireGeo"){
         let a = 
         '<span><strong>Aire géographique:</strong>'+
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\')">' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fageo\',\'geo\')">' +
                  ' <i id="fageo' + data.id + '" class="fa fa-1x fa-eye"></i>' +
             ' </a>' +
             ' <a href="#" id="cpgeo' + data.id + '" class="painter btn btn-xs btn-warning">' +
@@ -32,7 +32,7 @@ function createAppelRow(data){
     let message =  ' <strong>Type :</strong> ' + data.type + '<br>' +
     '<strong>Nom de la couche:</strong> ' + data.valeur +
    '<div class="agile-detail">' +
-       ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\')">' +
+       ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
             ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
        ' </a>' +
        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-danger">' +
@@ -116,19 +116,23 @@ function clickSidebar() {
  * Change la visibilité d'une couche
  * @param {number} id 
  */
-function switchLayerVisibility(id) {
+function switchLayerVisibility(id,fa,precede) {
+   
+   
     fetchSess(data => {
         let sess = data.filter;
         sess.forEach(element => {
             if (element.id == id) {
-                let vectLayer = getLayer(element.valeur);
+                let name =precede+''+element.valeur;
+              
+                let vectLayer = getLayer(name);
                 if (vectLayer.getVisible() == true) {
                     vectLayer.setVisible(false);
-                    $("#fa" + id).removeClass('fa-eye').addClass('fa-eye-slash');
+                    $("#"+fa+''+ id).removeClass('fa-eye').addClass('fa-eye-slash');
 
                 } else {
                     vectLayer.setVisible(true);
-                    $("#fa" + id).removeClass('fa-eye-slash').addClass('fa-eye');
+                    $("#"+fa+'' + id).removeClass('fa-eye-slash').addClass('fa-eye');
                 }
             }
         });
