@@ -203,3 +203,10 @@ function positionLayers(ta) {
         map.updateSize();
     }
 }
+
+/**
+ * Fonction qui au clique affiche un modal contenant les infos sur l'aire géographique
+ */
+function modalInfo(){
+
+}
