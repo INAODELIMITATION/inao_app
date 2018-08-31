@@ -223,9 +223,9 @@ var modal=
        ' </div>'+
         '<div class="modal-body">'+
             '<ul>'+
-                '<li><strong>Nom: '+aire_geo.aire_geo.denomination+' </strong></li>'+
-                '<li><a href="'+aire_geo.aire_geo.url_fiche+'">Lien fiche <</a> </span></li>'+
-                '<li><strong>cahier des charges: '+aire_geo.aire_geo.url_cdc+' </strong></li>'+
+                '<li><strong>Nom: </strong> '+aire_geo.aire_geo.denomination+' </li>'+
+                '<li><a href="'+aire_geo.aire_geo.url_fiche+'" target="_blank">fiche <i class="fa fa-1x fa-link"></i></a> </li>'+
+                '<li><a href="'+aire_geo.aire_geo.url_cdc+'" target="_blank"> cahier des charges<i class="fa fa-1x fa-link"></i></a></li>'+
             '</ul>'+
         '</div>'+
         '<div class="modal-footer">'+
