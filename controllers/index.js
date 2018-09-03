@@ -4,6 +4,6 @@ const parcelles     = require('./parcelles');
 module.exports = {
     parcellaires,
     aire_geos,
-    parcelle,
+    parcelles,
     
 }
