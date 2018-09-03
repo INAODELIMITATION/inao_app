@@ -12,6 +12,36 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 var sess;
 
 module.exports = {
+    getAll(req,res){
+        return Parcelle
+        .findOne({ attributes: { exclude: ['geom'] } })
+        .then(parcelles =>res.status(200).send(parcelles))
+        .catch(error => res.status(400).send(error));
+    },
+
+   findCommunes(req,res){
+    console.log("debut méthode findCommunes");
+    return Parcelle
+    .findAll({
+        raw:true,
+        where: {
+            commune: { [Op.iLike]: '%' + req.params.commune + '%' }
+        },
+        limit: 30,
+        attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('commune')), 'commune']],
+    })
+    .then(parcelles => {
+        if (!parcelles) {
+            return res.status(404).send({
+                message: 'parcelles pas trouvé',
+            });
+        }
+        console.log("success");
+        return res.status(200).send(JSON.stringify(parcelles));
+
+    })
+    .catch(error => res.status(400).send(error));
+   }
 
 };
 

@@ -3,7 +3,7 @@ var router = express.Router();
 var sess;
 const parcellaireController = require('../controllers').parcellaires; //controleur des aire_parcellaires
 const aire_geoController    = require('../controllers').aire_geos; // controleur des aires géographiques  
-const parcellesController   = requiere('../controllers').parcelles; // controleur des parcelles
+const parcellesController   = require('../controllers').parcelles; // controleur des parcelles
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -47,5 +47,7 @@ router.route('/session/couches/:data')
   .delete(parcellaireController.delLayerSess)
   .post(parcellaireController.changeSess);
 
+  router.route('/parcelle/:commune')
+    .get(parcellesController.findCommunes);
 
 module.exports = router;
