@@ -37,7 +37,7 @@ function initialisation() {
 
 
 /**
- * en cas d'echec de chargement 
+ * en cas d'echec du chargement 
  */
 function fail() {
     swal({
