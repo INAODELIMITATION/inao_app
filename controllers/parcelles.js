@@ -11,8 +11,8 @@ var config = require(__dirname + '/../config/config.json')[env];
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var sess;
 
-function changeUndefined(variable){
-    if(!variable){
+function changeUndefined(variable) {
+    if (!variable) {
         variable = '';
     }
     return variable;
@@ -83,16 +83,13 @@ module.exports = {
                 where: {
                     [Op.and]: [
                         {
-                            insee:  req.body.insee ,
+                            insee: req.body.insee,
                             section: { [Op.iLike]: '%' + changeUndefined(req.body.section) + '%' }
                         },
-                        sequelize.where(
-                            sequelize.cast(sequelize.col('parcelle.numpar'), 'varchar'),
-                            { [Op.iLike]: '%' +changeUndefined(req.body.numpar) + '%' }
-                        ),
+                        sequelize.where(sequelize.cast(sequelize.col('parcelle.numpar'), 'varchar'),
+                            { [Op.iLike]: '%' + changeUndefined(req.body.numpar) + '%' }),
                     ],
                 },
-                limit: 10,
                 attributes: { exclude: ['geom'] },
             })
             .then(parcelles => {
