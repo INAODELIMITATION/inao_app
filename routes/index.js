@@ -50,4 +50,6 @@ router.route('/session/couches/:data')
   router.route('/parcelle/:commune')
     .get(parcellesController.findCommunes);
 
+router.route('/parcelles')
+  .post(parcellesController.fetchParcelles);
 module.exports = router;
