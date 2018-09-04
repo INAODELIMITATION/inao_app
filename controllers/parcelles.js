@@ -77,9 +77,6 @@ module.exports = {
      * @param {*} res 
      */
     fetchParcelles(req, res) {
-        console.log('debut méthode fetch parcelle');
-       let section = changeUndefined(req.body.section);
-       let numpar = changeUndefined(req.body.numpar);
         return Parcelle
             .findAll({
                 raw: true,
@@ -87,11 +84,11 @@ module.exports = {
                     [Op.and]: [
                         {
                             insee:  req.body.insee ,
-                            section: { [Op.iLike]: '%' +section + '%' }
+                            section: { [Op.iLike]: '%' + changeUndefined(req.body.section) + '%' }
                         },
                         sequelize.where(
                             sequelize.cast(sequelize.col('parcelle.numpar'), 'varchar'),
-                            { [Op.iLike]: '%' +numpar + '%' }
+                            { [Op.iLike]: '%' +changeUndefined(req.body.numpar) + '%' }
                         ),
                     ],
                 },
