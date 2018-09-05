@@ -34,7 +34,7 @@ module.exports = {
                     commune: { [Op.iLike]: '%' + req.params.commune + '%' }
                 },
                 limit: 10,
-                attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('commune')), 'commune']],
+                attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('commune')), 'commune'],'insee'],
             })
             .then(communes => {
                 if (!communes) {

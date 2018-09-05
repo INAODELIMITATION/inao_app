@@ -24,12 +24,12 @@ function crinaoHover(map) {
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-  setIgnLayer("CADASTRALPARCELS.PARCELS",0.5);
+  //setIgnLayer("CADASTRALPARCELS.PARCELS",0.5);
   //setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93",0.5);
   
     //crinaoHover(map);
    
-    //setIgnLayer("CADASTRALPARCELS.PARCELS");
+    setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
     LoadLayers();
     map.getView().fit(extent, map.getSize());
    
@@ -49,7 +49,7 @@ function fail() {
 }
 
 Gp.Services.getConfig({
-    apiKey: keylocal,
+    apiKey: keyServer,
     onSuccess: initialisation,
     onFailure: fail,
 });
