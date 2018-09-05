@@ -11,6 +11,7 @@ function crinaoHover(map) {
     var info = document.createElement('div');
     var overlay = new ol.Overlay({ element: info });
     map.addOverlay(overlay);
+    
     map.on('pointermove', (e) => {
         var crin = map.forEachFeatureAtPixel(e.pixel, function (feature) {
             return feature.get('crinao');
@@ -24,16 +25,20 @@ function crinaoHover(map) {
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    // setIgnLayer("CADASTRALPARCELS.PARCELS");
-    // setIgnLayer("ADMINEXPRESS_COG_CARTO_2017");
+    setIgnLayer("CADASTRALPARCELS.PARCELS");
+    setIgnLayer("ADMINEXPRESS_COG_CARTO_2017");
 
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
+    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
     //crinaoHover(map);
    
   
     LoadLayers();
     map.getView().fit(extent, map.getSize());
-   
+    // var popup = new ol.Overlay({
+    //     element: document.getElementById('popup')
+    //   });
+    //   map.addOverlay(popup);
+    //   popup.setPosition( [690294.769471, 6206792.476654]);
 }
 
 
@@ -50,7 +55,7 @@ function fail() {
 }
 
 Gp.Services.getConfig({
-    apiKey: keyServer,
+    apiKey: keylocal,
     onSuccess: initialisation,
     onFailure: fail,
 });

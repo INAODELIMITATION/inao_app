@@ -8601,7 +8601,9 @@ body.md-skin {
     .menu-desktop{
         display: none !important;
     }
-    
+    #popup {
+        display: none;
+      }
     
 }
 .logoInao{
@@ -8651,7 +8653,14 @@ body.md-skin {
         display: none!important;
         
     }
-   
+    #popup {
+        position: absolute;
+        margin-top: 0%;
+        top: .5em;
+        left: .0em;
+        z-index: 9999999;
+        display: block; 
+      }
 
 }
 .carte{

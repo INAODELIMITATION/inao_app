@@ -3,8 +3,8 @@
 var clicked = 0;
 
 $(document).ready(function () {
-   
-    
+
+
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,
@@ -40,7 +40,29 @@ $(document).ready(function () {
         }
 
     });
-});
 
+    
+    var dragPan;
+    map.getInteractions().forEach(function(interaction) {
+      if (interaction instanceof ol.interaction.DragPan) {
+        dragPan = interaction;
+      }
+    }, this);
+    $("#popup").appendTo(
+        $('.ol-overlaycontainer')
+    );
+    $("#popup").on('mouseover', function () {
+       
+        if (dragPan) {
+          map.removeInteraction(dragPan);
+        }
+      
+    });
+
+    // Re-enable dragging when user's cursor leaves the element
+    $("#popup").on('mouseout', function () {
+        map.addInteraction(dragPan);
+    });
+});
 
 

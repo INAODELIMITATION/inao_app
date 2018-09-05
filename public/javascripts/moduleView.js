@@ -213,7 +213,7 @@ function positionLayers(ta) {
  */
 function modalInfo(aire_geo){
    
-var modal= 
+let modal= 
 '<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">'+
 '<div class="modal-dialog modal-sm">'+
    ' <div class="modal-content">'+
@@ -238,4 +238,29 @@ var modal=
 
     return modal;                
 
+}
+
+
+/**Pour la recherche avancée */
+function ParcelleForm(){
+    const parcelle = 
+    '<form name="parcelleForm" id="parcelle" >'+
+        '<div class="form-group">'+
+            '<label class="col-lg-2 control-label">Commune:</label>'+
+            '<div class="col-lg-10">'+
+                '<input class="form-control" placeholder="commune" type="text">'+
+            '</div>'+
+        '</div>'+
+    '</form>';
+
+    return parcelle;
+}
+
+function formLoader(type){
+    $("#researcher").empty();
+    $("#researcher").append(ParcelleForm());
+    if(type == "parcelleForm"){
+      
+    }
+   
 }

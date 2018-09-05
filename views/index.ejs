@@ -2,16 +2,49 @@
 
 <% include partials/head %>
 
-<div  class="container-fluid carte"><!--wrapper wrapper-content-->
-    <div  id="map" class="row">
+    <div class="container-fluid carte">
+        <!--wrapper wrapper-content-->
+        <div id="map" class="row" style="z-index: -1;">
+
+
+        </div>
+
+
 
     </div>
- 
+    <% include partials/foot %>
 
-      
-</div>
-<% include partials/foot %>
+        <script>
 
-<script>
- 
-</script>
+        </script>
+
+        <div class="col-sm-3" id="popup">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Autre recherche</h5>
+                    <div class="ibox-tools">
+                        <a class="close-link">
+                            <i class="fa fa-times "></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="advancedSearch">
+                        <div class="form-group">
+                            <label class="col-sm-2">
+                                <i class="fa fa-search fa-2x"></i>
+                            </label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="searchChooser">
+
+                                    <option value="communeForm">commune</option>
+                                    <option value="parcelleForm">parcelle</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
