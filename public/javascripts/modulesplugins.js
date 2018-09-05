@@ -75,10 +75,11 @@ var layerMVT = new ol.layer.VectorTile({
  * @param {String} name 
  */
 function checkformat(name) {
-    if (name === "CADASTRALPARCELS.PARCELS.L93") {
-        return "image/png";
-    } else {
-        return "image/jpeg";
+    switch(name){
+        case "CADASTRALPARCELS.PARCELS.L93": {return "image/png"; break;}
+        case "CADASTRALPARCELS.PARCELS": {return "image/png"; break;}
+        case "ADMINEXPRESS_COG_CARTO_2017": {return "image/png"; break;}
+        default: {return "image/jpeg"; break;}
     }
 }
 
@@ -86,32 +87,15 @@ function checkformat(name) {
  * Fonction qui initialise une couche de l'IGN
  * @param {String} name 
  */
-function setIgnLayer(name,opacity) {
+function setIgnLayer(name) {
     format = checkformat(name);
     map.addLayer(
-    //     new ol.layer.GeoportalWMTS({
-    //     //name: name,
-    //     source: new ol.source.GeoportalWMTS({
-    //         projection: "IGNF:RGF93G",
-    //         layer: name,
-    //         format: "image/jpeg",
-    //         matrixSet: 'LAMB93',
-    //         tileGrid: new ol.tilegrid.WMTS({
-    //             extent: extent,
-    //             resolutions: resolutions,
-    //             origin: ol.extent.getTopLeft(projectionExtent),
-    //         }),
-    //         style: "normal"
-    //     }),
-    //     layer : name,
-    //   // format:"image/png",
-    //     opacity: opacity
-    // })
    new ol.layer.Tile({
+       name:name,
         source : new ol.source.GeoportalWMTS({
             layer : name,
             olParams : {
-                format : "image/png"
+                format : format
             }
         })
     })
