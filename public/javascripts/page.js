@@ -5,11 +5,6 @@ var clicked = 0;
 
 $(document).ready(function () {
    
-    // $('body').show();
-    // $('.spiner-example').hide();
-// Wait for window load
-
-
 
     list();
     $('#search,#searchM').typeahead({
@@ -38,7 +33,7 @@ $(document).ready(function () {
                 success: function (data) {
                     var data1 = data.filter;
                     layerAdder(data1[data1.length - 1]);
-                    removeLayer("principale");
+                   
 
                 }
             });

@@ -61,16 +61,6 @@ var map = new ol.Map({
 
 
 /**
- * Déclaration de la couche principale LayerMvt. ol.layer.VectorTile
- */
-var layerMVT = new ol.layer.VectorTile({
-    name: "principale",
-    style: InitStyle,
-    opacity: 0.8,
-    source: sourceL,
-});
-
-/**
  * En fonction du format, initialise la carte IGN
  * @param {String} name 
  */
@@ -178,7 +168,7 @@ function LoadLayers() {
             loadLayersess(filtered);
 
         } else {
-            map.addLayer(layerMVT); //ajout de la couche à la carte
+            //map.addLayer(layerMVT); //ajout de la couche à la carte
             map.getView().setZoom(zoom);
             successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
         }
@@ -208,89 +198,8 @@ function successMessage(libelle, valeur) {
 
 
 
-/**
- * fonction permettant de créer un style
- * @param {string} couleur la couleur des traits
- * @param {string} code le code en rgba du remplissage 
- */
-function styleColor(couleur, code) {
-    return [new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: couleur,
-            width: 1
-        }),
-        fill: new ol.style.Fill({
-            color: code
-        })
-    })];
-}
-
-// différentes couleur dans un objet 
-var styles = {
-    yellow: styleColor('yellow', 'rgba(255,255,0,0.4)'),
-    red: styleColor('red', 'rgba(255,0,0,0.8)'),
-    green: styleColor('green', 'rgba(0,128,0,0.4)'),
-    blue: styleColor('blue', 'rgba(0,0,255,0.4)'),
-    aqua: styleColor('aqua', 'rgba(0,255,255,0.4)'),
-    fuchsia: styleColor('fuchsia', 'rgba(255,0,255,0.4)'),
-    navy: styleColor('navy', 'rgba(0,0,128,0.4)'),
-    olive: styleColor('olive', 'rgba(128,128,0,0.4)'),
-};
-
-/**
- * Création de style sans remplissage
- * @param {String} couleur 
- */
-function styleColorStroke(couleur) { 
-    return [new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: couleur,
-            width: 2
-        }),
-       
-    })];
-}
-var stylesStroke = {
-    yellow: styleColorStroke('yellow'),
-    red: styleColorStroke('red')
-};
-
-function styleColorFill(code){
-    return [new ol.style.Style({
-        fill: new ol.style.Fill({
-            color: code
-        })
-    })];
-}
-var stylesFill = {
-    yellow : styleColorFill('rgba(255,255,0,0.4)'),
-    red: styleColorFill('rgba(255,0,0,0.8)'),
-};
 
 
-
-
-/**
- *  Fonction initialisant les styles de la carte, qui charge également le tableau de feature
- * @param {ol.Feature} feature 
- * @param {ol.resolution} resolution 
- */
-function InitStyle(feature, resolution) {
-    /**
-     * Affectation des styles en fonction de la valeur du feature crinao (attribut)
-     */
-    switch (feature.get("crinao")) {
-        case "Provence Corse": { return styles.yellow; break; }
-        case "Bourgogne, Beaujolais, Savoie, Jura": { return styles.red; break; }
-        case "Val de Loire": { return styles.green; break; }
-        case "Sud-Ouest": { return styles.bluebreak; }
-        case "Languedoc-Roussillon": { return styles.aqua; break; }
-        case "Alsace et Est": { return styles.fuchsia; break; }
-        case "Vallée du Rhône": { return styles.navy; break; }
-        case "Aquitaine": { return styles.olive; break }
-        default: { return 'polygon'; break; }
-    }
-}
 /**
  * 
  * @param {string} valeur ce qui est recherché, dénomination ou appellation 
@@ -339,7 +248,7 @@ function layerAdder(element) {
             name: element.valeur, // nom dela couche
             style: (feature => {
                 if (feature.get(element.type) === element.valeur) {
-                    return styles.red;
+                    return stylesFill['red'];
                 } else {
                     return new ol.style.Style({});
                 }
