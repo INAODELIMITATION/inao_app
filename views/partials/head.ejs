@@ -24,7 +24,7 @@ View conception and test
 
     <title>
         <%= title %>
-      
+
     </title>
     <!-- appel bibliothèque de style-->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
@@ -37,11 +37,11 @@ View conception and test
 
     <link href="/stylesheets/animate.css" rel="stylesheet">
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.min.css">
-   
-    
-     
+
+
+
     <!--Fin appel bibliothèque de style-->
 
     <!--OpenLayers version 4.6.5 CSS-->
@@ -53,7 +53,10 @@ View conception and test
 </head>
 
 <body style="margin: 0 !important; height: 100%!important;" class="top-navigation">
+
       
+ 
+
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
             <div class="row border-bottom white-bg">
@@ -68,7 +71,7 @@ View conception and test
                         </button>
 
                         <!-- logo de l'inao-->
-                        <a href="/"  class="navbar-brand">
+                        <a href="/" class="navbar-brand">
                             <img src="/images/Configuration_inao_logo.png" class="logoInao">
                         </a>
 
@@ -96,17 +99,19 @@ View conception and test
                         <!-- recherche sur ecran de dimension supérieure à 768px-->
                         <li class="recherche ">
                             <div class=" searchGroup1">
-                                <form  onsubmit="return false;">
-                                    <div class="input-group inputSearch1" id="multiple-datasets" >
-                                        <input type="text" id="search" placeholder="chercher une Appelation, une commune, une parcelle... " class="input form-control typeahead " autocomplete="off"><!--form-control -->
-                                       
-                                     <span class="input-group-btn">
+                                <form onsubmit="return false;">
+                                    <div class="input-group inputSearch1" id="multiple-datasets">
+                                        <input type="text" id="search" placeholder="chercher une Appelation, une commune, une parcelle... " class="input form-control typeahead "
+                                            autocomplete="off">
+                                        <!--form-control -->
+
+                                        <span class="input-group-btn">
                                             <button type="button" class="btn btn btn-primary">
                                                 <i class="fa fa-plus fa-1x"></i>
                                             </button>
                                         </span>
                                     </div>
-                                   
+
                                 </form>
                             </div>
                         </li>
@@ -124,4 +129,3 @@ View conception and test
 
                 </nav>
             </div>
- 

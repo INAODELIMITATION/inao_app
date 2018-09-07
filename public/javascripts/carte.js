@@ -55,7 +55,10 @@ function fail() {
 }
 
 Gp.Services.getConfig({
-    apiKey: keylocal,
+    serverUrl : "/javascripts/autoconf/local.json", //local
+    //serverUrl: "/GPautoconf/autoconf.json", //server
+    callbackSuffix : "",
+    //apiKey: keylocal,
     onSuccess: initialisation,
     onFailure: fail,
 });

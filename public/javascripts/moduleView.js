@@ -8,67 +8,76 @@
  * @param {Object} data contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
  */
 
-function createGeoRow(data,situation){
-    if(situation == "aireGeo"){
-        let a = 
-        '<span><strong>Aire géographique:</strong>'+
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fageo\',\'geo\')">' +
-                 ' <i id="fageo' + data.id + '" class="fa fa-1x fa-eye"></i>' +
+function createGeoRow(data, situation) {
+    if (situation == "aireGeo") {
+        let a =
+            '<span><strong>Aire géographique:&nbsp;</strong>' +
+            ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fageo\',\'geo\')">' +
+            ' <i id="fageo' + data.id + '" class="fa fa-1x fa-eye"></i>' +
             ' </a>' +
             ' <a href="#" id="cpgeo' + data.id + '" class="painter btn btn-xs btn-warning">' +
-                ' <i class="fa fa-1x fa-paint-brush"></i>' +
+            ' <i class="fa fa-1x fa-paint-brush"></i>' +
             ' </a>' +
-            ' <a href="#" type="button" class=" btn btn-xs btn-info" data-toggle="modal" data-target="#myModal6" >' +
-                ' <i class="fa fa-1x fa-info-circle"></i>' +
-            ' </a>' +
+
             '</span><br><br>'
-    ;
-    return a;
+            ;
+        return a;
     }
-    else{return '<span><strong>Aire géographique: </strong><span class="badge badge-danger"> Inexistante</span><br><br>';}
+    else { return '<span><strong>Aire géographique:&nbsp; </strong><span class="badge badge-danger"> Inexistante</span><br><br>'; }
 }
 
-function createAppelRow(data){
-    let message =  ' <strong>Type :</strong> ' + data.type + '<br>' +
-    '<strong>Nom de la couche:</strong> ' + data.valeur +
-   '<div class="agile-detail">' +
-       ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
-            ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
-       ' </a>' +
-       ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-danger">' +
-           ' <i class="fa fa-1x fa-paint-brush"></i>' +
-       ' </a>' +
-       ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
-           ' <i class="fa fa-1x fa-map-marker"></i>' +
-       ' </a>' +
-       ' <a href="#" class="pull-right btn btn-xs btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
-            ' <i class="fa fa-1x fa-trash"></i>' +
+function createAppelRow(data) {
+    let message =
+
+        '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
+        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-   '</div>' ;
-  
-   return message;
+        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-danger">' +
+        ' <i class="fa fa-1x fa-paint-brush"></i>' +
+        ' </a>' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
+        ' <i class="fa fa-1x fa-map-marker"></i>' +
+        ' </a>' +
+        '</span>' +
+
+        '<div class="agile-detail">' +
+        ' <a href="#" type="button" class=" btn btn-xs  btn-rounded btn-info" style="visibility: hidden;" >' +
+        ' <i class="fa fa-1x fa-info-circle"></i>' +
+        ' </a>' +
+        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
+        ' <i class="fa fa-1x fa-trash"></i>' +
+        ' </a>' +
+        '</div>';
+
+    return message;
 }
 
-function createRow(data,situation) {
+function createRow(data, situation) {
     $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
-            createGeoRow(data,situation)+
-             createAppelRow(data)+   
-                
+        '<h3 class="text-center">'+  data.valeur +
+        ' <a href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info" data-toggle="modal" data-target="#myModal6" >' +
+        ' <i class="fa fa-1x fa-info"> </i>' +
+        ' </a>' +
+        '</h3>' +
+        createGeoRow(data, situation) +
+        createAppelRow(data) +
+
         ' </li>'
     );
-    fetchAireGeo(data.valeur,aire_geo=>{
+    fetchAireGeo(data.valeur, aire_geo => {
         $('body').append(modalInfo(aire_geo));
     });
-   
-    $('body').css('overflow','hidden'); //solution temporaire
+
+    $('body').css('overflow', 'hidden'); //solution temporaire
     $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
         ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
     });
-    if(situation =="aireGeo"){
-        let name = "geo"+data.valeur;
-      
+    if (situation == "aireGeo") {
+        let name = "geo" + data.valeur;
+
         $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
             changeAireColor(name, e.color.toString('hex'));
             $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
@@ -99,7 +108,7 @@ function deleteLayerRow(id) {
  * Zoom sur l'emprise de la couche
  * @param {number} id 
  */
-function extentCouche(id){
+function extentCouche(id) {
     fetchSess(data => {
         let sess = data.filter;
         sess.forEach(element => {
@@ -120,23 +129,23 @@ function clickSidebar() {
  * Change la visibilité d'une couche
  * @param {number} id 
  */
-function switchLayerVisibility(id,fa,precede) {
-   
-   
+function switchLayerVisibility(id, fa, precede) {
+
+
     fetchSess(data => {
         let sess = data.filter;
         sess.forEach(element => {
             if (element.id == id) {
-                let name =precede+''+element.valeur;
-              
+                let name = precede + '' + element.valeur;
+
                 let vectLayer = getLayer(name);
                 if (vectLayer.getVisible() == true) {
                     vectLayer.setVisible(false);
-                    $("#"+fa+''+ id).removeClass('fa-eye').addClass('fa-eye-slash');
+                    $("#" + fa + '' + id).removeClass('fa-eye').addClass('fa-eye-slash');
 
                 } else {
                     vectLayer.setVisible(true);
-                    $("#"+fa+'' + id).removeClass('fa-eye-slash').addClass('fa-eye');
+                    $("#" + fa + '' + id).removeClass('fa-eye-slash').addClass('fa-eye');
                 }
             }
         });
@@ -160,9 +169,9 @@ function list() {
                 //debut partie session
                 let filter = dat.filter;
                 let tab = new Array(filter.length);
-                filter.forEach(element=>{
-                    for(let k=0;k<t.length;k++){
-                        if(element.id == t[k].id){
+                filter.forEach(element => {
+                    for (let k = 0; k < t.length; k++) {
+                        if (element.id == t[k].id) {
                             tab[t[k].position] = element;
                         }
                     }
@@ -193,7 +202,7 @@ function findPostion(tabid, sess) {
                 tableauuuu.push({
                     "nom": lay.valeur,
                     "position": k,
-                    "id":lay.id
+                    "id": lay.id
                 });
             }
         }
@@ -211,56 +220,56 @@ function positionLayers(ta) {
 /**
  * Fonction qui au clique affiche un modal contenant les infos sur l'aire
  */
-function modalInfo(aire_geo){
-   
-let modal= 
-'<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">'+
-'<div class="modal-dialog modal-sm">'+
-   ' <div class="modal-content">'+
-       ' <div class="modal-header">'+
-            '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'+
-            '<h4 class="modal-title">Aire Géographique</h4>'+
-       ' </div>'+
-        '<div class="modal-body">'+
-            '<ul>'+
-                '<li><strong>Nom: </strong> '+aire_geo.aire_geo.denomination+' </li>'+
-                '<li><a href="'+aire_geo.aire_geo.url_fiche+'" target="_blank">fiche <i class="fa fa-1x fa-link"></i></a> </li>'+
-                '<li><a href="'+aire_geo.aire_geo.url_cdc+'" target="_blank"> cahier des charges<i class="fa fa-1x fa-link"></i></a></li>'+
-            '</ul>'+
-        '</div>'+
-        '<div class="modal-footer">'+
-            
-            '<button type="button" class="btn btn-primary">Fermer</button>'+
-        '</div>'+
-   ' </div>'+
-'</div>'+
-'</div>';
+function modalInfo(aire_geo) {
 
-    return modal;                
+    let modal =
+        '<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog"  aria-hidden="true">' +
+        '<div class="modal-dialog modal-sm">' +
+        ' <div class="modal-content">' +
+        ' <div class="modal-header">' +
+        '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+        '<h4 class="modal-title">Aire Géographique</h4>' +
+        ' </div>' +
+        '<div class="modal-body">' +
+        '<ul>' +
+        '<li><strong>Nom: </strong> ' + aire_geo.aire_geo.denomination + ' </li>' +
+        '<li><a href="' + aire_geo.aire_geo.url_fiche + '" target="_blank">fiche <i class="fa fa-1x fa-link"></i></a> </li>' +
+        '<li><a href="' + aire_geo.aire_geo.url_cdc + '" target="_blank"> cahier des charges<i class="fa fa-1x fa-link"></i></a></li>' +
+        '</ul>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+
+        '<button type="button" class="btn btn-primary">Fermer</button>' +
+        '</div>' +
+        ' </div>' +
+        '</div>' +
+        '</div>';
+
+    return modal;
 
 }
 
 
 /**Pour la recherche avancée */
-function ParcelleForm(){
-    const parcelle = 
-    '<form name="parcelleForm" id="parcelle" >'+
-        '<div class="form-group">'+
-            '<label class="col-lg-2 control-label">Commune:</label>'+
-            '<div class="col-lg-10">'+
-                '<input class="form-control" placeholder="commune" type="text">'+
-            '</div>'+
-        '</div>'+
-    '</form>';
+function ParcelleForm() {
+    const parcelle =
+        '<form name="parcelleForm" id="parcelle" >' +
+        '<div class="form-group">' +
+        '<label class="col-lg-2 control-label">Commune:</label>' +
+        '<div class="col-lg-10">' +
+        '<input class="form-control" placeholder="commune" type="text">' +
+        '</div>' +
+        '</div>' +
+        '</form>';
 
     return parcelle;
 }
 
-function formLoader(type){
+function formLoader(type) {
     $("#researcher").empty();
     $("#researcher").append(ParcelleForm());
-    if(type == "parcelleForm"){
-      
+    if (type == "parcelleForm") {
+
     }
-   
+
 }

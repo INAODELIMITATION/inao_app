@@ -2,7 +2,13 @@
 //WinMove();
 var clicked = 0;
 
+
 $(document).ready(function () {
+   
+    // $('body').show();
+    // $('.spiner-example').hide();
+// Wait for window load
+
 
 
     list();
@@ -41,22 +47,22 @@ $(document).ready(function () {
 
     });
 
-    
+
     var dragPan;
-    map.getInteractions().forEach(function(interaction) {
-      if (interaction instanceof ol.interaction.DragPan) {
-        dragPan = interaction;
-      }
+    map.getInteractions().forEach(function (interaction) {
+        if (interaction instanceof ol.interaction.DragPan) {
+            dragPan = interaction;
+        }
     }, this);
     $("#popup").appendTo(
         $('.ol-overlaycontainer')
     );
     $("#popup").on('mouseover', function () {
-       
+
         if (dragPan) {
-          map.removeInteraction(dragPan);
+            map.removeInteraction(dragPan);
         }
-      
+
     });
 
     // Re-enable dragging when user's cursor leaves the element
@@ -64,5 +70,4 @@ $(document).ready(function () {
         map.addInteraction(dragPan);
     });
 });
-
 
