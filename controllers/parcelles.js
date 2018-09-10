@@ -25,51 +25,6 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
 
-    findCommunes(req, res) {
-        console.log("debut méthode findCommunes");
-        return Parcelle
-            .findAll({
-                raw: true,
-                where: {
-                    commune: { [Op.iLike]: '%' + req.params.commune + '%' }
-                },
-                limit: 10,
-                attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('commune')), 'commune'],'insee'],
-            })
-            .then(communes => {
-                if (!communes) {
-                    return res.status(404).send({
-                        message: 'communes pas trouvé',
-                    });
-                }
-                console.log("success");
-                return res.status(200).send(JSON.stringify(communes));
-
-            })
-            .catch(error => res.status(400).send(error));
-    },
-
-    fetchCommune(req, res) {
-        console.log("debut méthode fetch commune");
-        return Parcelle
-            .findAll({
-                raw: true,
-                where: {
-                    commune: req.params.commune,
-                },
-                attributes: ['commune', 'insee'],
-            })
-            .then(commune => {
-                if (!commune) {
-                    return res.status(404).send({
-                        message: 'pas trouvé',
-                    });
-                }
-                return res.status(200).send({ commune: commune });
-            })
-            .catch(error => res.status(400).send(error));
-    },
-
     /**
      * Fonction qui recupère une liste de parcelle, connaissant déja l'INSEE et en fonction 
      * de la section et du numéro de parcelle, vide ou rempli 

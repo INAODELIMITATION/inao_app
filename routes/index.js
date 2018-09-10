@@ -4,6 +4,7 @@ var sess;
 const parcellaireController = require('../controllers').parcellaires; //controleur des aire_parcellaires
 const aire_geoController    = require('../controllers').aire_geos; // controleur des aires géographiques  
 const parcellesController   = require('../controllers').parcelles; // controleur des parcelles
+const communesController    = require('../controllers').communes; //controleur des communes
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -47,8 +48,8 @@ router.route('/session/couches/:data')
   .delete(parcellaireController.delLayerSess)
   .post(parcellaireController.changeSess);
 
-  router.route('/parcelle/:commune')
-    .get(parcellesController.findCommunes);
+  router.route('/commune')
+    .post(communesController.findCommunes);
 
 router.route('/parcelles')
   .post(parcellesController.fetchParcelles);

@@ -56,9 +56,9 @@ function createAppelRow(data) {
  * @param {*} data 
  * @param {*} color 
  */
-function makeGeoRow(data,color){
+function makeGeoRow(data, color) {
     let name = "geo" + data.valeur;
-    $('#cpgeo' + data.id).css({ 'background-color':color});
+    $('#cpgeo' + data.id).css({ 'background-color': color });
     $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
         changeAireColor(name, e.color.toString('hex'));
         $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
@@ -71,19 +71,19 @@ function makeGeoRow(data,color){
  * @param {*} situation 
  * @param {*} color 
  */
-function createRow(data, situation,color) {
+function createRow(data, situation, color) {
     $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
-        '<h3 class="text-center">'+  data.valeur +
+        '<h3 class="text-center">' + data.valeur +
         ' <a href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info" data-toggle="modal" data-target="#myModal6" >' +
         ' <i class="fa fa-1x fa-info"> </i>' +
         ' </a>' +
         '</h3>' +
-        createGeoRow(data, situation,color) +createAppelRow(data,color) +
+        createGeoRow(data, situation, color) + createAppelRow(data, color) +
         ' </li>'
     );
     $('#cp' + data.id).css({ 'background-color': color });
-   
+
     fetchAireGeo(data.valeur, aire_geo => {
         $('body').append(modalInfo(aire_geo));
     });
@@ -93,7 +93,9 @@ function createRow(data, situation,color) {
         ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
     });
-    if (situation == "aireGeo") {makeGeoRow(data,color);}
+    if (situation == "aireGeo") {
+        makeGeoRow(data, color);
+    }
 }
 
 
@@ -133,6 +135,7 @@ function extentCouche(id) {
 
 function clickSidebar() {
     $('#sidebarmenu').click();
+
 
 }
 
@@ -264,23 +267,24 @@ function modalInfo(aire_geo) {
 /**Pour la recherche avancée */
 function ParcelleForm() {
     const parcelle =
-        '<form name="parcelleForm" id="parcelle" >' +
+        '<form onsubmit="return false;" class="form-horizontal" name="parcelleForm" id="parcelle" >' +
         '<div class="form-group">' +
-        '<label class="col-lg-2 control-label">Commune:</label>' +
-        '<div class="col-lg-10">' +
-        '<input class="form-control" placeholder="commune" type="text">' +
+        ' <label class="col-sm-2">Commune:</label>' +
+        '<div class="col-sm-9">' +
+        '<input class="form-control typeahead" placeholder="commune" type="text" id="communeS" autocomplete="off">' +
         '</div>' +
         '</div>' +
+
+
         '</form>';
 
     return parcelle;
 }
 
-function formLoader(type) {
-    $("#researcher").empty();
-    $("#researcher").append(ParcelleForm());
-    if (type == "parcelleForm") {
-
+function formLoader(option) {
+    if (option == "parcelleForm") {
+        $("#formloader").empty();
+        $("#formloader").append(ParcelleForm() + '');
     }
 
 }

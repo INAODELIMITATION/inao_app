@@ -196,12 +196,17 @@ function fitToextent(valeur) {
  * vérifie si on a cliqué ou pas sur la barre de menu
  * @param {number} checker 
  */
-function sidebarClicked(checker) {
-    if (checker == 0) {
+function sidebarClicked() {
+    if (this.clicked == 0) {
         clickSidebar();
-        checker = 1;
+        this.clicked = 1;
+    }
+    if(this.clicked == 1){
+        clickSidebar();
+        clickSidebar();
     }
 }
+
 /**
  * Fonction qui crée une couche sur la carte en fonction du type et de la valeur
  * @param {Objec{type,valeur}} element contient le type et le nom de la couche
@@ -245,7 +250,7 @@ function loadLayerEvents(element, hex) {
 
     successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
     fitToextent(element.valeur);
-    sidebarClicked(clicked);
+    sidebarClicked();
 }
 
 
