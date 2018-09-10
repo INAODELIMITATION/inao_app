@@ -51,6 +51,26 @@ function createAppelRow(data) {
     return message;
 }
 
+/**
+ * If situation , create airegeo
+ * @param {*} data 
+ * @param {*} color 
+ */
+function makeGeoRow(data,color){
+    let name = "geo" + data.valeur;
+    $('#cpgeo' + data.id).css({ 'background-color':color});
+    $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
+        changeAireColor(name, e.color.toString('hex'));
+        $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
+    });
+}
+
+/**
+ * Crée une ligne avec les parametres aire geo et aire parcellaire
+ * @param {*} data 
+ * @param {*} situation 
+ * @param {*} color 
+ */
 function createRow(data, situation,color) {
     $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
@@ -73,14 +93,7 @@ function createRow(data, situation,color) {
         ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
     });
-    if (situation == "aireGeo") {
-        let name = "geo" + data.valeur;
-        $('#cpgeo' + data.id).css({ 'background-color':color});
-        $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
-            changeAireColor(name, e.color.toString('hex'));
-            $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
-        });
-    }
+    if (situation == "aireGeo") {makeGeoRow(data,color);}
 }
 
 

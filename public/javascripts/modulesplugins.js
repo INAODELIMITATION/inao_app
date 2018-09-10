@@ -13,11 +13,11 @@
  * @param {String} name 
  */
 function checkformat(name) {
-    switch(name){
-        case "CADASTRALPARCELS.PARCELS.L93": {return "image/png"; break;}
-        case "CADASTRALPARCELS.PARCELS": {return "image/png"; break;}
-        case "ADMINEXPRESS_COG_CARTO_2017": {return "image/png"; break;}
-        default: {return "image/jpeg"; break;}
+    switch (name) {
+        case "CADASTRALPARCELS.PARCELS.L93": { return "image/png"; break; }
+        case "CADASTRALPARCELS.PARCELS": { return "image/png"; break; }
+        case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png"; break; }
+        default: { return "image/jpeg"; break; }
     }
 }
 
@@ -28,17 +28,17 @@ function checkformat(name) {
 function setIgnLayer(name) {
     format = checkformat(name);
     map.addLayer(
-   new ol.layer.Tile({
-       name:name,
-        source : new ol.source.GeoportalWMTS({
-            layer : name,
-            olParams : {
-                format : format
-            }
+        new ol.layer.Tile({
+            name: name,
+            source: new ol.source.GeoportalWMTS({
+                layer: name,
+                olParams: {
+                    format: format
+                }
+            })
         })
-    })
-    
-);
+
+    );
 }
 
 
@@ -90,17 +90,17 @@ function fetchSess(handleData) {
  * NE FONCTIONNE PAS ENCORE
  * @param {*} data 
  */
-function updateSess(data){
+function updateSess(data) {
     $.ajax({
-        url:"/session/couches/NULL",
-        type:'POST',
-        data:'session=' + data,
-       // dataType:"json",
-        success:filter=>{
+        url: "/session/couches/NULL",
+        type: 'POST',
+        data: 'session=' + data,
+        // dataType:"json",
+        success: filter => {
             alert("changement");
             console.log(filter);
         }
-        
+
     });
 }
 
@@ -203,7 +203,7 @@ function layerAdder(element) {
                 }
             }),
         }));
-        loadLayerEvents(element,colors.hex1);
+        loadLayerEvents(element, colors.hex1);
     } catch (e) {
         swal({
             title: "ERREUR lors du chargement de la couche : " + element.valeur + " " + e,
@@ -213,16 +213,16 @@ function layerAdder(element) {
         });
     }
 }
-function loadLayerEvents(element,hex){
-    makeAireGeo(element.valeur,aire=>{
-        if(typeof aire !=='undefined' && aire.length >0){
-            makeLayerByCoord(aire,element.valeur,hex);
-            createRow(element,"aireGeo",hex);
-          }else{
-            createRow(element,"pasAireGeo");
-          }
+function loadLayerEvents(element, hex) {
+    makeAireGeo(element.valeur, aire => {
+        if (typeof aire !== 'undefined' && aire.length > 0) {
+            makeLayerByCoord(aire, element.valeur, hex);
+            createRow(element, "aireGeo", hex);
+        } else {
+            createRow(element, "pasAireGeo", hex);
+        }
     });
-   
+
     successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
     fitToextent(element.valeur);
     sidebarClicked(clicked);
@@ -243,13 +243,21 @@ function deleteSessLayer(id) {
 function getLayer(name) {
     let couche;
     map.getLayers().forEach(layer => {
-        
-            if (layer.get('name') != undefined && layer.get('name') == name) {
-                couche = layer;
-            }
-        
+
+        if (layer.get('name') != undefined && layer.get('name') == name) {
+            couche = layer;
+        }
+
     });
     return couche;
+}
+
+
+function rmAiregeo(nom) {
+    let aire_geo = getLayer("geo" + nom);
+    if (aire_geo != undefined) {
+        map.removeLayer(aire_geo);
+    }
 }
 
 /**
@@ -259,26 +267,21 @@ function getLayer(name) {
 function removeLayer(nom, id) {
     let layer = getLayer(nom);
     if (layer != undefined) {
-        if(layer instanceof ol.layer.VectorTile){
-            let aire_geo = getLayer("geo"+nom);
-            if(aire_geo !=undefined){
-                map.removeLayer(aire_geo);
-            }
+        if (layer instanceof ol.layer.VectorTile) {
+            rmAiregeo(nom);
         }
         try {
             map.removeLayer(layer);
             deleteSessLayer(id);
-            fetchSess(dat=>{
+            fetchSess(dat => {
                 let data = dat.filter;
-              
-                if(data.length >0){
+                if (data.length > 0) {
                     fitToextent(data[data.length - 1].valeur); //zoom sur le dernier élément du tableau
-                }else{
-                    
+                } else {
+
                     LoadLayers();
-                   
                 }
-             
+
             });
             map.updateSize();
             successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
@@ -312,59 +315,59 @@ function ChangeLayerColor(type, layerName, code) {
     }
 }
 
-function changeAireColor(layerName,code){
-    
+function changeAireColor(layerName, code) {
+
     let layer = getLayer(layerName);
-  
-    if(layer !=undefined){
-        
+
+    if (layer != undefined) {
+
         let style = styleColorStroke(code);
-        layer.setStyle((feature=>{
+        layer.setStyle((feature => {
             return style;
         }));
         map.updateSize();
-    }else{
+    } else {
 
     }
 }
 
-function makeAireGeo(denomination,callback){
+function makeAireGeo(denomination, callback) {
     $.ajax({
         url: "/aire_geo/" + denomination,
         type: 'GET',
         dataType: "json",
-        success: coord=>{
-          callback(coord);
-           
+        success: coord => {
+            callback(coord);
+
         }
     });
 }
 
-function fetchAireGeo(denomination,callback){
+function fetchAireGeo(denomination, callback) {
     $.ajax({
-        url:"/aire_geo/getInfo/"+denomination,
-        type:'GET',
-        dataType:"json",
-        success: aire_geo=>{
+        url: "/aire_geo/getInfo/" + denomination,
+        type: 'GET',
+        dataType: "json",
+        success: aire_geo => {
             callback(aire_geo);
         }
     });
 }
 
-function makeLayerByCoord(coord,denom,hex){
-    let name = String("geo"+denom); 
-    try{
+function makeLayerByCoord(coord, denom, hex) {
+    let name = String("geo" + denom);
+    try {
         map.addLayer(new ol.layer.Vector({
-            projection:"EPSG:2154",
-            name:name,
+            projection: "EPSG:2154",
+            name: name,
             source: new ol.source.Vector({
-                projection:"EPSG:2154",
+                projection: "EPSG:2154",
                 features: (new ol.format.GeoJSON()).readFeatures(coord[0].geom)
             }),
             style: styleColorStroke(hex),
         }));
-    }catch(e){
-        console.log("erreur " +e);
+    } catch (e) {
+        console.log("erreur " + e);
     }
-    
+
 }
