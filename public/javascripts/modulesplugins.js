@@ -1,8 +1,6 @@
 /**
  *@author Guiala Jean Roger
  *@module Plugin toutes les fonctions d'interaction et de création de vue
- * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
- * Javascript
  */
 
 
@@ -14,10 +12,10 @@ function initialisation() {
     setIgnLayer("ADMINEXPRESS_COG_CARTO_2017");
 
     // setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
-   
+
     LoadLayers();
     map.getView().fit(extent, map.getSize());
-    
+
 }
 
 
@@ -207,13 +205,7 @@ function sidebarClicked(checker) {
 /**
  * Fonction qui crée une couche sur la carte en fonction du type et de la valeur
  * @param {Objec{type,valeur}} element contient le type et le nom de la couche
- 
- * utilise les fonctions:
- * createLayerRow,
- * SucessMessage,
- * fitToextent,
- * clickSidebar
- */
+*/
 function layerAdder(element) {
     var colors = RandomcolorHexRgba();
     try {
@@ -239,6 +231,8 @@ function layerAdder(element) {
         });
     }
 }
+
+
 function loadLayerEvents(element, hex) {
     makeAireGeo(element.valeur, aire => {
         if (typeof aire !== 'undefined' && aire.length > 0) {
@@ -344,6 +338,11 @@ function ChangeLayerColor(type, layerName, code) {
     }
 }
 
+/**
+ * Change la couleur de l'aire géographique
+ * @param {*} layerName 
+ * @param {*} code 
+ */
 function changeAireColor(layerName, code) {
 
     let layer = getLayer(layerName);
@@ -360,6 +359,11 @@ function changeAireColor(layerName, code) {
     }
 }
 
+/**
+ * 
+ * @param {*} denomination 
+ * @param {*} callback 
+ */
 function makeAireGeo(denomination, callback) {
     $.ajax({
         url: "/aire_geo/" + denomination,
@@ -372,6 +376,11 @@ function makeAireGeo(denomination, callback) {
     });
 }
 
+/**
+ * 
+ * @param {*} denomination 
+ * @param {*} callback 
+ */
 function fetchAireGeo(denomination, callback) {
     $.ajax({
         url: "/aire_geo/getInfo/" + denomination,
@@ -383,6 +392,12 @@ function fetchAireGeo(denomination, callback) {
     });
 }
 
+/**
+ * 
+ * @param {*} coord 
+ * @param {*} denom 
+ * @param {*} hex 
+ */
 function makeLayerByCoord(coord, denom, hex) {
     let name = String("geo" + denom);
     try {

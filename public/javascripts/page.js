@@ -2,12 +2,8 @@
 //WinMove();
 var clicked = 0;
 
-
-
-
 $(document).ready(function () {
    
-
     Gp.Services.getConfig({
         serverUrl : "/javascripts/autoconf/local.json", //local
         //serverUrl: "/GPautoconf/autoconf.json", //server
