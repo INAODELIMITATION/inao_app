@@ -31,7 +31,10 @@ function styleColorStroke(couleur) {
     })];
 }
 
-
+/**
+ * création style avec couleur remplissage sans bordure
+ * @param {*} code 
+ */
 function styleColorFill(code) {
     return [new ol.style.Style({
         fill: new ol.style.Fill({
@@ -45,7 +48,7 @@ function styleColorFill(code) {
 
 
 function componentToHex(c) {
-    var hex = c.toString(16);
+    let hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
 

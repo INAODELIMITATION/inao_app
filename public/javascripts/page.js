@@ -3,9 +3,19 @@
 var clicked = 0;
 
 
+
+
 $(document).ready(function () {
    
 
+    Gp.Services.getConfig({
+        serverUrl : "/javascripts/autoconf/local.json", //local
+        //serverUrl: "/GPautoconf/autoconf.json", //server
+        callbackSuffix : "",
+        onSuccess: initialisation,
+        onFailure: fail,
+    });
+    
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,
