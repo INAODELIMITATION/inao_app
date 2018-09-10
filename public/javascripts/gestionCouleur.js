@@ -31,15 +31,6 @@ function styleColorStroke(couleur) {
     })];
 }
 
-const stylesStroke = {
-    red: styleColorStroke('red'),
-    green: styleColorStroke('green'),
-    blue: styleColorStroke('blue'),
-    yellow: styleColorStroke('yellow'),
-    fuchsia: styleColorStroke('fuchsia'),
-    orange: styleColorStroke('orange'),
-    kelly: styleColorStroke('#4CBB17'),
-};
 
 function styleColorFill(code) {
     return [new ol.style.Style({
@@ -48,17 +39,8 @@ function styleColorFill(code) {
         })
     })];
 }
-const stylesFill = {
-    red: styleColorFill('rgba(255,0,0,0.4)'),
-    green: styleColorFill('rgba(0,128,0,0.4)'),
-    blue: styleColorFill('rgba(0,0,255,0.4)'),
-    yellow: styleColorFill('rgba(255,255,0,0.4)'),
-    fuchsia: styleColorFill('rgba(255,0,255,0.4)'),
-    orange: styleColorFill('rgba(255,165,0,0.4)'),
-    kelly: styleColorFill('rgb(76,187,23,0.4)'),
-};
 
-const colortab = ['red', 'green', 'blue', 'yellow', 'fuchsia', 'orange'];
+
 
 function random_color(format) {
     var rint = Math.floor(0x100000000 * Math.random());
@@ -76,14 +58,6 @@ function random_color(format) {
     }
 }
 
-function RandomcolorHexRgba(){
-    let rint = Math.floor(0x100000000 * Math.random());
-    return {
-        rgba:'rgba(' + (rint & 255) + ',' + (rint >> 8 & 255) + ',' + (rint >> 16 & 255) + ',' + 0.6+ ')',
-        hex: '#' + ('00000' + rint.toString(16)).slice(-6).toUpperCase(),
-        hex1: rgbToHex((rint & 255),(rint >> 8 & 255),(rint >> 16 & 255)).toUpperCase(),
-    };
-}
 
 function componentToHex(c) {
     var hex = c.toString(16);
@@ -94,3 +68,13 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
+
+
+function RandomcolorHexRgba(){
+    let rint = Math.floor(0x100000000 * Math.random());
+    return {
+        rgba:'rgba(' + (rint & 255) + ',' + (rint >> 8 & 255) + ',' + (rint >> 16 & 255) + ',' + 0.6+ ')',
+        hex: '#' + ('00000' + rint.toString(16)).slice(-6).toUpperCase(),
+        hex1: rgbToHex((rint & 255),(rint >> 8 & 255),(rint >> 16 & 255)).toUpperCase(),
+    };
+}
