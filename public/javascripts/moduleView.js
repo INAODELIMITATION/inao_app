@@ -61,9 +61,7 @@ function createRow(data, situation) {
         ' <i class="fa fa-1x fa-info"> </i>' +
         ' </a>' +
         '</h3>' +
-        createGeoRow(data, situation) +
-        createAppelRow(data) +
-
+        createGeoRow(data, situation) +createAppelRow(data) +
         ' </li>'
     );
     fetchAireGeo(data.valeur, aire_geo => {
@@ -77,7 +75,6 @@ function createRow(data, situation) {
     });
     if (situation == "aireGeo") {
         let name = "geo" + data.valeur;
-
         $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
             changeAireColor(name, e.color.toString('hex'));
             $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
