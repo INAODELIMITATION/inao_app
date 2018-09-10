@@ -15,12 +15,11 @@ function createGeoRow(data, situation) {
             ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fageo\',\'geo\')">' +
             ' <i id="fageo' + data.id + '" class="fa fa-1x fa-eye"></i>' +
             ' </a>' +
-            ' <a href="#" id="cpgeo' + data.id + '" class="painter btn btn-xs btn-warning">' +
+            ' <a href="#" id="cpgeo' + data.id + '" class="painter btn btn-xs btn-success" >' +
             ' <i class="fa fa-1x fa-paint-brush"></i>' +
             ' </a>' +
 
-            '</span><br><br>'
-            ;
+            '</span><br><br>';
         return a;
     }
     else { return '<span><strong>Aire géographique:&nbsp; </strong><span class="badge badge-danger"> Inexistante</span><br><br>'; }
@@ -28,12 +27,11 @@ function createGeoRow(data, situation) {
 
 function createAppelRow(data) {
     let message =
-
         '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
         ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
         ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-danger">' +
+        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-success ">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
         ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
@@ -53,7 +51,7 @@ function createAppelRow(data) {
     return message;
 }
 
-function createRow(data, situation) {
+function createRow(data, situation,color) {
     $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
         '<h3 class="text-center">'+  data.valeur +
@@ -61,9 +59,11 @@ function createRow(data, situation) {
         ' <i class="fa fa-1x fa-info"> </i>' +
         ' </a>' +
         '</h3>' +
-        createGeoRow(data, situation) +createAppelRow(data) +
+        createGeoRow(data, situation,color) +createAppelRow(data,color) +
         ' </li>'
     );
+    $('#cp' + data.id).css({ 'background-color': color });
+   
     fetchAireGeo(data.valeur, aire_geo => {
         $('body').append(modalInfo(aire_geo));
     });
@@ -75,6 +75,7 @@ function createRow(data, situation) {
     });
     if (situation == "aireGeo") {
         let name = "geo" + data.valeur;
+        $('#cpgeo' + data.id).css({ 'background-color':color});
         $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
             changeAireColor(name, e.color.toString('hex'));
             $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });

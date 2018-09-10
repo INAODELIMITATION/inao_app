@@ -4,9 +4,7 @@
  * Fichier contenant les fonctions et les variables de base relatif à la carte, ces fonctions sont appellées et utilisées par d'autres fichier 
  * Javascript
  */
-/**
- * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
- */
+
 
 
 
@@ -191,6 +189,7 @@ function sidebarClicked(checker) {
  * clickSidebar
  */
 function layerAdder(element) {
+    var colors = RandomcolorHexRgba();
     try {
         map.addLayer(new ol.layer.VectorTile({
             opacity: 0.8,
@@ -198,13 +197,13 @@ function layerAdder(element) {
             name: element.valeur, // nom dela couche
             style: (feature => {
                 if (feature.get(element.type) === element.valeur) {
-                    return stylesFill['red'];
+                    return styleColorFill(colors.rgba);
                 } else {
                     return new ol.style.Style({});
                 }
             }),
         }));
-        loadLayerEvents(element);
+        loadLayerEvents(element,colors.hex1);
     } catch (e) {
         swal({
             title: "ERREUR lors du chargement de la couche : " + element.valeur + " " + e,
@@ -214,11 +213,11 @@ function layerAdder(element) {
         });
     }
 }
-function loadLayerEvents(element){
+function loadLayerEvents(element,hex){
     makeAireGeo(element.valeur,aire=>{
         if(typeof aire !=='undefined' && aire.length >0){
-            makeLayerByCoord(aire,element.valeur);
-            createRow(element,"aireGeo");
+            makeLayerByCoord(aire,element.valeur,hex);
+            createRow(element,"aireGeo",hex);
           }else{
             createRow(element,"pasAireGeo");
           }
@@ -352,7 +351,7 @@ function fetchAireGeo(denomination,callback){
     });
 }
 
-function makeLayerByCoord(coord,denom){
+function makeLayerByCoord(coord,denom,hex){
     let name = String("geo"+denom); 
     try{
         map.addLayer(new ol.layer.Vector({
@@ -362,7 +361,7 @@ function makeLayerByCoord(coord,denom){
                 projection:"EPSG:2154",
                 features: (new ol.format.GeoJSON()).readFeatures(coord[0].geom)
             }),
-            style: stylesStroke.yellow
+            style: styleColorStroke(hex),
         }));
     }catch(e){
         console.log("erreur " +e);

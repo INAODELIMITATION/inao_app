@@ -1,3 +1,11 @@
+/**
+ * @author GUIALA JEAN ROGER
+ * @module Initializer
+ */
+
+/**
+ * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
+ */
 
 var extent = [-378305.8099675195, 6008151.219241469, 1320649.5712336518, 7235612.7247730335];
 //var extent = [-357823.2365, 6037008.6939, 1313632.3628, 7230727.3772];
@@ -26,7 +34,7 @@ var sourceL = new ol.source.VectorTile({
     tilePixelRatio: 1,
     format: new ol.format.MVT(),
     tileGrid: ol.tilegrid.createXYZ({
-        extent: extent,
+        extent: extent, 
         resolutions: resolutions,
         origin: ol.extent.getTopLeft(projectionExtent),
 
