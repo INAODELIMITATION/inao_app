@@ -252,7 +252,10 @@ function getLayer(name) {
     return couche;
 }
 
-
+/**
+ * Si la couche existe,il la supprime
+ * @param {*} nom 
+ */
 function rmAiregeo(nom) {
     let aire_geo = getLayer("geo" + nom);
     if (aire_geo != undefined) {
