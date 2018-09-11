@@ -274,6 +274,22 @@ function ParcelleForm() {
         '<input class="form-control typeahead" placeholder="commune" type="text" id="communeS" autocomplete="off">' +
         '</div>' +
         '</div>' +
+        '<div class="form-group" id="paramParcelle" style="display:none">' +
+        '<div class="col-sm-3">' +
+        '<input class="form-control rondeur" id="codInsee" placeholder="INSEE" type="text">' +
+        '</div>' +
+        '<div class="col-sm-3">' +
+        '<input class="form-control rondeur " placeholder="Section" type="text" >' +
+        '</div>' +
+        '<div class="col-sm-3">' +
+        '<input class="form-control rondeur " placeholder="numParcelle" type="text" >' +
+        '</div>' +
+        '<div class="col-sm-3">' +
+        '<a href="" class="btn-primary btn btn-sm btn-rounded " placeholder="commune" type="text" >OK' +
+        
+        '</a>'+
+        '</div>' +
+        '</div>' +
 
 
         '</form>';
@@ -282,9 +298,23 @@ function ParcelleForm() {
 }
 
 function formLoader(option) {
-    if (option == "parcelleForm") {
-        $("#formloader").empty();
-        $("#formloader").append(ParcelleForm() + '');
+   
+    switch (option) {
+        case "parcelleForm": {
+            $("#formloader").empty();
+            $("#formloader").append(ParcelleForm() + '');
+            break;
+        }
+        case "communeForm":{
+            $("#formloader").empty();
+
+            break;
+        }
+        case "empty":{
+            $("#formloader").empty();
+
+            break;
+        }
     }
 
 }

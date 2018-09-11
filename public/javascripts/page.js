@@ -97,27 +97,33 @@ $(document).ready(function () {
                     type: "POST",
                     success: function (data) {
                         result($.map(data, function (item) {
-                            return '<pre>[' + item.code_insee + ']' + ' ' + item.commune + '</pre>';
+                          
+                            return '[' + item.code_insee + ']' + ' ' + (item.commune).trim();
                         }));
                     }
                 });
             },
 
-            updater: function (item) {
-                $.ajax({
-                    url: "/api/denomination/" + item,
-                    type: 'GET',
-                    dataType: "json",
-                    success: function (data) {
-                        var data1 = data.filter;
-                        layerAdder(data1[data1.length - 1]);
+            // updater: function (item) {
+            //     $( "#paramParcelle" ).show();
+            //     var numbers = item.match(/\d+/g).map(Number);
+            //     $("#codInsee").val(numbers);
+            //    /* $.ajax({
+            //         url: "/api/denomination/" + item,
+            //         type: 'GET',
+            //         dataType: "json",
+            //         success: function (data) {
+            //             var data1 = data.filter;
+            //             layerAdder(data1[data1.length - 1]);
 
 
-                    }
-                });
+            //         }
+            //     });*/
 
-            }
+            // }
 
+        }).on('typeahead:click',(event,selection)=>{
+           alert(selection);
         });
     });
 });
