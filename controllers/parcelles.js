@@ -46,6 +46,7 @@ module.exports = {
                     ],
                 },
                 attributes: { exclude: ['geom'] },
+                limit: 50,
             })
             .then(parcelles => {
                 if (!parcelles) {
@@ -53,7 +54,7 @@ module.exports = {
                         message: 'pas trouvé',
                     });
                 }
-                return res.status(200).send({ parcelles: parcelles });
+                return res.status(200).send((JSON.stringify(parcelles)));
             })
             .catch(error => res.status(400).send(error));
     }

@@ -8667,8 +8667,6 @@ body.md-skin {
     margin: 0 !important;
     padding: 0!important;
     border: 0 !important;
-    
-   
 }
 
 
@@ -8680,4 +8678,8 @@ body.md-skin {
 
 .rondeur{
   border-radius:10px;
+}
+
+.tailleur{
+    height: 40vh !important;
 }

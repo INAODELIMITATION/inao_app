@@ -23,7 +23,7 @@ $(document).ready(function () {
                 dataType: "json",
                 type: "POST",
                 success: function (data) {
-                   
+
                     result($.map(data, function (item) {
                         return item.denomination;
                     }));
@@ -97,33 +97,64 @@ $(document).ready(function () {
                     type: "POST",
                     success: function (data) {
                         result($.map(data, function (item) {
-                          
+
                             return '[' + item.code_insee + ']' + ' ' + (item.commune).trim();
                         }));
                     }
                 });
             },
 
-            // updater: function (item) {
-            //     $( "#paramParcelle" ).show();
-            //     var numbers = item.match(/\d+/g).map(Number);
-            //     $("#codInsee").val(numbers);
-            //    /* $.ajax({
-            //         url: "/api/denomination/" + item,
-            //         type: 'GET',
-            //         dataType: "json",
-            //         success: function (data) {
-            //             var data1 = data.filter;
-            //             layerAdder(data1[data1.length - 1]);
+            updater: function (item) {
+                $("#paramParcelle").show();
+                $("#communecherche").empty();
+                $("#resultatable").empty();
+                $("#resultatable").hide();
+                $("#Parsection").val('');
+                $("#numpar").val('');
+                $("#resultat").hide();
+                var numbers = item.match(/\d+/g).map(Number);
+                $("#communecherche").append(item);
+                $("#sectionID").val(numbers);
+                $("#parcelleSearcher").on('click', () => {
+                    if(!$("#Parsection").val() && !$("#numpar").val()){
+                        $("#paramParcelle").addClass('has-error');
+                        $("#erreurParcelle").show();
+                    }
+                    else{
+                        $("#erreurParcelle").hide();
+                        $("#paramParcelle").removeClass('has-error');
+                        $.ajax({
+                            url: "/parcelles",
+                            data: {
+                                'insee':  $("#sectionID").val(),
+                                'section': $("#Parsection").val(),
+                                'numpar': $("#numpar").val()
+                            },
+                            dataType: "json",
+                            type: "POST",
+                            success: function (data) {
+                                $("#resultatable").empty();
+                                $("#resultatable").show();
+                                $("#resultat").show();
+                                data.forEach((parcelle)=>{
+                                    $("#resultatable").append(
+                                        '<tr>'+
+                                        '<td><a href="#">'+parcelle.idu+'</a></td>'+
+                                        '<td> ['+parcelle.insee+'] '+parcelle.commune+'</td>'+
+                                        '</tr>'
+                                    );
+                                    i = i+1;
+                                });
+                              
+                            }
+    
+                        });
+                    }
+                   
+                });
 
+            }
 
-            //         }
-            //     });*/
-
-            // }
-
-        }).on('typeahead:click',(event,selection)=>{
-           alert(selection);
         });
     });
 });

@@ -269,32 +269,43 @@ function ParcelleForm() {
     const parcelle =
         '<form onsubmit="return false;" class="form-horizontal" name="parcelleForm" id="parcelle" >' +
         '<div class="form-group">' +
-        ' <label class="col-sm-2">Commune:</label>' +
+        ' <label class="col-sm-3">Commune:</label>' +
         '<div class="col-sm-9">' +
         '<input class="form-control typeahead" placeholder="commune" type="text" id="communeS" autocomplete="off">' +
         '</div>' +
         '</div>' +
         '<div class="form-group" id="paramParcelle" style="display:none">' +
-        '<div class="col-sm-3">' +
-        '<input class="form-control rondeur" id="codInsee" placeholder="INSEE" type="text">' +
+        '<div class="col-sm-12 alert alert-success">'+
+        '<h4>Commune :'+
+        '<span  id="communecherche" ></span>'+
+        '</h4>'+
+        '</div>'+
+        '<div class="col-sm-5">' +
+        '<input class="form-control rondeur " id="Parsection" placeholder="Section" type="text" >' +
         '</div>' +
-        '<div class="col-sm-3">' +
-        '<input class="form-control rondeur " placeholder="Section" type="text" >' +
+        '<div class="col-sm-5">' +
+        '<input class="form-control rondeur " id="numpar" placeholder="numParcelle" type="text" >' +
         '</div>' +
-        '<div class="col-sm-3">' +
-        '<input class="form-control rondeur " placeholder="numParcelle" type="text" >' +
+        '<div class="">' +
+        '<input class="form-control rondeur " id="sectionID" placeholder="numParcelle" type="text" style="display:none;" >' +
         '</div>' +
-        '<div class="col-sm-3">' +
-        '<a href="" class="btn-primary btn btn-sm btn-rounded " placeholder="commune" type="text" >OK' +
+        '<div class="col-sm-2">' +
+        '<button class="btn-primary btn btn-sm btn-rounded " id="parcelleSearcher"placeholder="commune" type="text" >OK' +
+        '</button>'+
+        '</div>' +
+        '<div class="col-sm-12 " id="erreurParcelle" style="display:none">'+
+        '<br><h5 class="text-danger"  >[Erreur] Remplir au moins l\'un des champs!!!</h5>'+
+        '</div>'+
+        '</div>' +
         
-        '</a>'+
-        '</div>' +
-        '</div>' +
-
-
         '</form>';
 
     return parcelle;
+}
+
+function resultParcelle(parcelle){
+    return '<li class="full-height-scroll">'+parcelle.idu+' '+parcelle.commune+' '+'</li>' ;
+
 }
 
 function formLoader(option) {

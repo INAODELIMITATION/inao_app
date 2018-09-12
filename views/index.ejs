@@ -19,7 +19,7 @@
 
         </script>
 
-        <div class="col-sm-3" id="popup">
+        <div class="col-sm-3" id="popup" >
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Autre recherche</h5>
@@ -33,19 +33,29 @@
                 <div class="ibox-content">
                     <form class="form-horizontal" id="advancedSearch">
                         <div class="form-group">
-                            <label class="col-sm-2">
+                            <label class="col-sm-3">
                                 <i class="fa fa-search fa-2x"></i>
                             </label>
                             <div class="col-sm-9">
                                 <select class="form-control" id="searchChooser">
                                     <option value="empty" selected="selected"></option>
-                                    <option  value="communeForm">commune</option>
-                                    <option  value="parcelleForm">parcelle</option>
+                                    <option value="communeForm">commune</option>
+                                    <option value="parcelleForm">parcelle</option>
                                 </select>
                             </div>
                         </div>
                     </form>
                     <div id="formloader">
+
+                    </div>
+                    <div class="tailleur" id="resultat" style="display: none;" >
+                        <div class="table-responsive full-height-scroll" >
+                            <table class="table table-striped table-hover" >
+                                <tbody id="resultatable">
+
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
