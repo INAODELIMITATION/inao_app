@@ -12,6 +12,13 @@ $(document).ready(function () {
         onFailure: fail,
     });
 
+    $("#AutreRecherche").on('click',()=>{
+        $("#popup").toggle();
+    });
+    $("#hideAutreRecherche").on('click',()=>{
+        $("#popup").css("display","none");
+    });
+    
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,
@@ -143,7 +150,7 @@ $(document).ready(function () {
                                         '<td> ['+parcelle.insee+'] '+parcelle.commune+'</td>'+
                                         '</tr>'
                                     );
-                                    i = i+1;
+                                  
                                 });
                               
                             }
