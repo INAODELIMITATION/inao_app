@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 //WinMove();
 var clicked = 0;
 
@@ -18,7 +18,7 @@ $(document).ready(function () {
     $("#hideAutreRecherche").on('click',()=>{
         $("#popup").css("display","none");
     });
-    
+
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,
@@ -146,7 +146,7 @@ $(document).ready(function () {
                                 data.forEach((parcelle)=>{
                                     $("#resultatable").append(
                                         '<tr>'+
-                                        '<td><a href="#">'+parcelle.idu+'</a></td>'+
+                                        '<td><a href="#" onclick="loadParcelle('+parcelle.id+')">'+parcelle.idu+'</a></td>'+
                                         '<td> ['+parcelle.insee+'] '+parcelle.commune+'</td>'+
                                         '</tr>'
                                     );

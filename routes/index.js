@@ -53,4 +53,7 @@ router.route('/session/couches/:data')
 
 router.route('/parcelles')
   .post(parcellesController.fetchParcelles);
+
+router.route('/parcelles/:id')
+  .get(parcellesController.getParcelle);
 module.exports = router;

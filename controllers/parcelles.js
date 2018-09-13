@@ -57,6 +57,23 @@ module.exports = {
                 return res.status(200).send((JSON.stringify(parcelles)));
             })
             .catch(error => res.status(400).send(error));
+    },
+    getParcelle(req,res){
+        return Parcelle
+        .findOne({
+            where:{
+                id: req.params.id
+            }
+        })
+        .then(parcelle =>{
+            if(!parcelle){
+                return res.status(404).send({
+                    message: "pas trouvé"
+                });
+            }
+            return res.status(200).send(parcelle);
+        })
+        .catch(error=> res.status(400).send(error));
     }
 
 };

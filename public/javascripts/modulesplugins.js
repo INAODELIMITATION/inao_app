@@ -420,3 +420,53 @@ function makeLayerByCoord(coord, denom, hex) {
     }
 
 }
+
+
+/*
+ * 
+ * @param {*} denomination 
+ * @param {*} callback 
+ */
+function fetchParcelle(id,callback) {
+    $.ajax({
+        url: "/parcelles/" + id,
+        type: 'GET',
+        dataType: "json",
+        success: parcelle => {
+            callback(parcelle);
+
+        }
+    });
+}
+
+function makeParcelle(id){
+    console.log("ID EST :"+id);
+    fetchParcelle(id, parcelle=>{
+        let name = String("par"+parcelle.id);
+        console.log(name);
+        try {
+            map.addLayer(new ol.layer.Vector({
+                projection: "EPSG:2154",
+                name: name,
+                source: new ol.source.Vector({
+                    projection: "EPSG:2154",
+                    features: (new ol.format.GeoJSON()).readFeatures(parcelle.geom)
+                }),
+                style: styleColorStroke("yellow"),
+            }));
+            let extent = getLayer("par"+id).getSource().getExtent();
+            map.getView().fit(extent, map.getSize());
+            map.updateSize();
+            SearchRow(parcelle,"parcelle");
+        } catch (e) {
+            console.log("erreur " + e);
+        }
+    
+    });
+}
+
+function loadParcelle(id){
+    makeParcelle(id);
+    map.updateSize();
+    
+}

@@ -329,3 +329,21 @@ function formLoader(option) {
     }
 
 }
+
+function SearchRow(data,type){
+    $("#couches").prepend(
+        '<li class="success-element" id="c' + data.id + '">' +
+        '<span><strong>'+type+'</strong>' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
+        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
+        ' </a>' +
+        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-success ">' +
+        ' <i class="fa fa-1x fa-paint-brush"></i>' +
+        ' </a>' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
+        ' <i class="fa fa-1x fa-map-marker"></i>' +
+        ' </a>' +
+        '</span>' +
+        ' </li>'
+    );
+}
