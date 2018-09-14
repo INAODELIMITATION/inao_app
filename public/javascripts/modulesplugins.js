@@ -422,8 +422,29 @@ function makeLayerByCoord(coord, denom, hex) {
 }
 
 
+
 /*
- * 
+ * recupère la parcelle
+ * @param {*} denomination 
+ * @param {*} callback 
+ */
+function fetchCommune(insee,callback) {
+    $.ajax({
+        url: "/communes/" + insee,
+        type: 'GET',
+        dataType: "json",
+        success: commune => {
+            callback(commune);
+
+        }
+    });
+}
+
+
+
+
+/*
+ * recupère la parcelle
  * @param {*} denomination 
  * @param {*} callback 
  */
@@ -439,11 +460,64 @@ function fetchParcelle(id,callback) {
     });
 }
 
+
+
+/**
+ * retourne la liste des parcelles en fonction de la recherche
+ */
+function AjaxParcelle(){
+    $.ajax({
+        url: "/parcelles",
+        data: {
+            'insee': $("#sectionID").val(),
+            'section': $("#Parsection").val(),
+            'numpar': $("#numpar").val()
+        },
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+            resetParcelleSearch();
+            data.forEach((parcelle) => {
+               
+                appendParcelle(parcelle);
+            });
+
+        }
+
+    });
+}
+
+
+function makeCommune(insee){
+    fetchCommune(insee,commune=>{
+        let name = String("com"+commune.code_insee);
+        try {
+            map.addLayer(new ol.layer.Vector({
+                projection: "EPSG:2154",
+                name: name,
+                source: new ol.source.Vector({
+                    projection: "EPSG:2154",
+                    features: (new ol.format.GeoJSON()).readFeatures(commune.geom)
+                }),
+                style: styleColorStroke("yellow"),
+            }));
+            let extent = getLayer("com"+insee).getSource().getExtent();
+            map.getView().fit(extent, map.getSize());
+            map.updateSize();
+            SearchRow(commune,"commune");
+        } catch (e) {
+            console.log("erreur " + e);
+        }
+    });
+}
+
+function loadCommune(insee){
+    makeCommune(insee);
+}
+
 function makeParcelle(id){
-    console.log("ID EST :"+id);
     fetchParcelle(id, parcelle=>{
         let name = String("par"+parcelle.id);
-        console.log(name);
         try {
             map.addLayer(new ol.layer.Vector({
                 projection: "EPSG:2154",

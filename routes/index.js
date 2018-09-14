@@ -48,8 +48,11 @@ router.route('/session/couches/:data')
   .delete(parcellaireController.delLayerSess)
   .post(parcellaireController.changeSess);
 
-  router.route('/commune')
-    .post(communesController.findCommunes);
+  router.route('/communes')
+    .post(communesController.fetchCommunes);
+  
+  router.route('/communes/:insee')
+    .get(communesController.getCommune);
 
 router.route('/parcelles')
   .post(parcellesController.fetchParcelles);

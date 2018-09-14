@@ -98,7 +98,7 @@ $(document).ready(function () {
             maxItem: 10,
             source: function (query, result) {
                 $.ajax({
-                    url: "/commune/",
+                    url: "/communes/",
                     data: 'commune=' + query,
                     dataType: "json",
                     type: "POST",

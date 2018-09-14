@@ -8683,3 +8683,9 @@ body.md-skin {
 .tailleur{
     height: 40vh !important;
 }
+
+.content {
+    padding: 16px;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }

@@ -331,6 +331,8 @@ function Resarch(option, item) {
     if (option == "commune") {
         //fonction commune
         resetCommuneForm();
+        let numbers = item.match(/\d+/g).map(Number);
+        makeCommune(numbers);
     }
     if (option == "parcelle") {
         resetParcelleForm();
@@ -394,34 +396,14 @@ function errorParcelleSearch(option){
   
 }
 
-/**
- * retourne la liste des parcelles en fonction de la recherche
- */
-function AjaxParcelle(){
-    $.ajax({
-        url: "/parcelles",
-        data: {
-            'insee': $("#sectionID").val(),
-            'section': $("#Parsection").val(),
-            'numpar': $("#numpar").val()
-        },
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-            resetParcelleSearch();
-            data.forEach((parcelle) => {
-                $("#resultatable").append(
-                    '<tr>' +
-                    '<td><a href="#" onclick="loadParcelle(' + parcelle.id + ')">' + parcelle.idu + '</a></td>' +
-                    '<td> [' + parcelle.insee + '] ' + parcelle.commune + '</td>' +
-                    '</tr>'
-                );
 
-            });
-
-        }
-
-    });
+function appendParcelle(parcelle){
+    $("#resultatable").append(
+        '<tr>' +
+        '<td><a href="#" onclick="loadParcelle(' + parcelle.id + ')">' + parcelle.idu + '</a></td>' +
+        '<td> [' + parcelle.insee + '] ' + parcelle.commune + '</td>' +
+        '</tr>'
+    );
 }
 
 /**

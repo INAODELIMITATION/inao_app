@@ -12,7 +12,7 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 var sess;
 
 module.exports = {
-    findCommunes(req, res) {
+    fetchCommunes(req, res) {
         console.log("debut méthode findCommunes");
         return Commune
             .findAll({
@@ -35,15 +35,15 @@ module.exports = {
             })
             .catch(error => res.status(400).send(error));
     },
-    fetchCommune(req, res) {
+    getCommune(req, res) {
         console.log("debut méthode fetch commune");
         return Commune
-            .findAll({
+            .findOne({
                 raw: true,
                 where: {
-                    commune: req.params.commune,
+                    code_insee: req.params.insee,
                 },
-                attributes: ['commune', 'insee'],
+                attributes: ['nom_com', 'code_insee','geom'],
             })
             .then(commune => {
                 if (!commune) {
@@ -51,7 +51,7 @@ module.exports = {
                         message: 'pas trouvé',
                     });
                 }
-                return res.status(200).send({ commune: commune });
+                return res.status(200).send(commune );
             })
             .catch(error => res.status(400).send(error));
     }
