@@ -20,7 +20,10 @@ module.exports = {
                 where: {
                     nom_com: { [Op.iLike]: '%' + req.body.commune + '%' }
                 },
-                limit: 10,
+                // order: [
+                //     ['nom_com', 'DESC'],
+                // ],
+                limit: 50,
                 attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('nom_com')), 'commune'],'code_insee'],
             })
             .then(communes => {

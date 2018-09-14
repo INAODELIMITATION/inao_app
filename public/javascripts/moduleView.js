@@ -274,12 +274,13 @@ function advanceForm() {
         '<input class="form-control typeahead" placeholder="commune" type="text" id="communeS" autocomplete="off">' +
         '</div>' +
         '</div>' +
-        '<div class="form-group" id="paramParcelle" style="display:none">' +
-        '<div class="col-sm-12 alert alert-success">' +
+        '<div class="form-group" >' +
+        '<div class="col-sm-12 alert alert-success" style="display:none" id="alertCommune">' +
         '<h4>Commune :' +
         '<span  id="communecherche" ></span>' +
         '</h4>' +
         '</div>' +
+        '<div class="row" style="display:none" id="paramParcelle">'+
         '<div class="col-sm-5" id="parcellerInput">' +
         '<input class="form-control rondeur " id="Parsection" placeholder="Section" type="text" >' +
         '</div>' +
@@ -297,7 +298,7 @@ function advanceForm() {
         '<br><h5 class="text-danger"  >[Erreur] Remplir au moins l\'un des champs!!!</h5>' +
         '</div>' +
         '</div>' +
-
+        '</div>'
         '</form>';
 
     return formulaire;
@@ -314,8 +315,12 @@ function resultParcelle(parcelle) {
  */
 function formLoader(option) {
     if(option == "commune" || option == "parcelle"){
+        $("#resultatable").empty();
+        $("#resultatable").css('display','none');
         $("#formloader").empty();
         $("#formloader").append(advanceForm() + '');
+        $(".resultPar").empty();
+        $(".resultPar").hide();
     }else{
         $("#formloader").empty();
     }
@@ -329,10 +334,13 @@ function formLoader(option) {
  */
 function Resarch(option, item) {
     if (option == "commune") {
-        //fonction commune
+       
         resetCommuneForm();
-        let numbers = item.match(/\d+/g).map(Number);
-        makeCommune(numbers);
+        let pieces = item.split(/[\s-]+/);
+        let number = String(pieces[0]);
+        $("#alertCommune").show();
+        $("#communecherche").append(item);
+        makeCommune(number);
     }
     if (option == "parcelle") {
         resetParcelleForm();
@@ -345,6 +353,11 @@ function Resarch(option, item) {
  * Efface tous les champs pour recommencer la recherche
  */
 function resetCommuneForm(){
+    $(".resultPar").empty();
+    $(".resultPar").hide();
+    $("#paramParcelle").hide();
+    $("#alertCommune").hide();
+    $("#communecherche").empty();
     $("#parcellerInput").hide();
     //suites
 }
@@ -369,8 +382,12 @@ function resetParcelleForm() {
  */
 function setSection(item){
     let numbers = item.match(/\d+/g).map(Number);
+    let pieces = item.split(/[\s-]+/);
+    let number = String(pieces[0]);
+    $("#alertCommune").show();
     $("#communecherche").append(item);
-    $("#sectionID").val(numbers);
+    $("#sectionID").val(number);
+    console.log(number);
 }
 
 /**
@@ -380,6 +397,7 @@ function resetParcelleSearch(){
     $("#resultatable").empty();
     $("#resultatable").show();
     $("#resultat").show();
+    $("#alertCommune").hide();
 }
 
 /**
@@ -399,7 +417,7 @@ function errorParcelleSearch(option){
 
 function appendParcelle(parcelle){
     $("#resultatable").append(
-        '<tr>' +
+        '<tr class="resultPar">' +
         '<td><a href="#" onclick="loadParcelle(' + parcelle.id + ')">' + parcelle.idu + '</a></td>' +
         '<td> [' + parcelle.insee + '] ' + parcelle.commune + '</td>' +
         '</tr>'
@@ -430,18 +448,9 @@ function searchParcelle() {
  */
 function SearchRow(data, type) {
     $("#couches").prepend(
-        '<li class="success-element" id="c' + data.id + '">' +
-        '<span><strong>' + type + '</strong>' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
-        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
-        ' </a>' +
-        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-success ">' +
-        ' <i class="fa fa-1x fa-paint-brush"></i>' +
-        ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
-        ' <i class="fa fa-1x fa-map-marker"></i>' +
-        ' </a>' +
-        '</span>' +
+        '<li class="warning-element" id="c' + data.id + '">' +
+        '<h3 class="text-center">' + type + ': '+ data.idu+
+        '</h3>' +
         ' </li>'
     );
 }

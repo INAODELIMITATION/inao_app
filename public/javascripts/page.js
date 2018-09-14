@@ -22,7 +22,7 @@ $(document).ready(function () {
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,
-        maxItem: 10,
+        items: 15,
         source: function (query, result) {
             $.ajax({
                 url: "/search",
@@ -95,7 +95,7 @@ $(document).ready(function () {
         formLoader(option);
         $('#communeS').typeahead({
             minLength: 3,
-            maxItem: 10,
+            items: 15,
             source: function (query, result) {
                 $.ajax({
                     url: "/communes/",
@@ -104,8 +104,8 @@ $(document).ready(function () {
                     type: "POST",
                     success: function (data) {
                         result($.map(data, function (item) {
-
-                            return '[' + item.code_insee + ']' + ' ' + (item.commune).trim();
+                            
+                            return  ''+item.code_insee +  '-' + (item.commune).trim();
                         }));
                     }
                 });
