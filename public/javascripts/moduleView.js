@@ -265,9 +265,9 @@ function modalInfo(aire_geo) {
 
 
 /**Pour la recherche avancée */
-function ParcelleForm() {
-    const parcelle =
-        '<form onsubmit="return false;" class="form-horizontal" name="parcelleForm" id="parcelle" >' +
+function advanceForm() {
+    const formulaire =
+        '<form onsubmit="return false;" class="form-horizontal" name="advanceForm" id="parcelle" >' +
         '<div class="form-group">' +
         ' <label class="col-sm-3">Commune:</label>' +
         '<div class="col-sm-9">' +
@@ -275,12 +275,12 @@ function ParcelleForm() {
         '</div>' +
         '</div>' +
         '<div class="form-group" id="paramParcelle" style="display:none">' +
-        '<div class="col-sm-12 alert alert-success">'+
-        '<h4>Commune :'+
-        '<span  id="communecherche" ></span>'+
-        '</h4>'+
-        '</div>'+
-        '<div class="col-sm-5">' +
+        '<div class="col-sm-12 alert alert-success">' +
+        '<h4>Commune :' +
+        '<span  id="communecherche" ></span>' +
+        '</h4>' +
+        '</div>' +
+        '<div class="col-sm-5" id="parcellerInput">' +
         '<input class="form-control rondeur " id="Parsection" placeholder="Section" type="text" >' +
         '</div>' +
         '<div class="col-sm-5">' +
@@ -291,49 +291,153 @@ function ParcelleForm() {
         '</div>' +
         '<div class="col-sm-2">' +
         '<button class="btn-primary btn btn-sm btn-rounded " id="parcelleSearcher"placeholder="commune" type="text" >OK' +
-        '</button>'+
+        '</button>' +
         '</div>' +
-        '<div class="col-sm-12 " id="erreurParcelle" style="display:none">'+
-        '<br><h5 class="text-danger"  >[Erreur] Remplir au moins l\'un des champs!!!</h5>'+
-        '</div>'+
+        '<div class="col-sm-12 " id="erreurParcelle" style="display:none">' +
+        '<br><h5 class="text-danger"  >[Erreur] Remplir au moins l\'un des champs!!!</h5>' +
         '</div>' +
-        
+        '</div>' +
+
         '</form>';
 
-    return parcelle;
+    return formulaire;
 }
 
-function resultParcelle(parcelle){
-    return '<li class="full-height-scroll">'+parcelle.idu+' '+parcelle.commune+' '+'</li>' ;
+function resultParcelle(parcelle) {
+    return '<li class="full-height-scroll">' + parcelle.idu + ' ' + parcelle.commune + ' ' + '</li>';
 
 }
 
+/**
+ * Affiche le formulaire en fonction de l'élément choisi
+ * @param {String} option 
+ */
 function formLoader(option) {
-   
-    switch (option) {
-        case "parcelleForm": {
-            $("#formloader").empty();
-            $("#formloader").append(ParcelleForm() + '');
-            break;
-        }
-        case "communeForm":{
-            $("#formloader").empty();
-
-            break;
-        }
-        case "empty":{
-            $("#formloader").empty();
-
-            break;
-        }
+    if(option == "commune" || option == "parcelle"){
+        $("#formloader").empty();
+        $("#formloader").append(advanceForm() + '');
+    }else{
+        $("#formloader").empty();
     }
 
 }
 
-function SearchRow(data,type){
+/**
+ *Effectue la recherche soit pour les communes, soit pour les parcelles
+ * @param {String} option 
+ * @param {JSON} item 
+ */
+function Resarch(option, item) {
+    if (option == "commune") {
+        //fonction commune
+        resetCommuneForm();
+    }
+    if (option == "parcelle") {
+        resetParcelleForm();
+        setSection(item);
+        searchParcelle(item);
+    }
+}
+
+/**
+ * Efface tous les champs pour recommencer la recherche
+ */
+function resetCommuneForm(){
+    $("#parcellerInput").hide();
+    //suites
+}
+
+/**
+ * efface tous les champs pour recommencer la recherche sur les parcelles
+ */
+function resetParcelleForm() {
+    $("#paramParcelle").show();
+    $("#communecherche").empty();
+    $("#resultatable").empty();
+    $("#resultatable").hide();
+    $("#Parsection").val('');
+    $("#numpar").val('');
+    $("#resultat").hide();
+}
+
+
+/**
+ * Initialize la section
+ * @param {Object} item 
+ */
+function setSection(item){
+    let numbers = item.match(/\d+/g).map(Number);
+    $("#communecherche").append(item);
+    $("#sectionID").val(numbers);
+}
+
+/**
+ * reinitialise les champs resultats
+ */
+function resetParcelleSearch(){
+    $("#resultatable").empty();
+    $("#resultatable").show();
+    $("#resultat").show();
+}
+
+/**
+ * Message d'erreur pour signaler qu'au moins un champ doit etre rempli
+ */
+function errorParcelleSearch(){
+    $("#paramParcelle").addClass('has-error');
+    $("#erreurParcelle").show();
+}
+
+/**
+ * retourne la liste des parcelles en fonction de la recherche
+ */
+function AjaxParcelle(){
+    $.ajax({
+        url: "/parcelles",
+        data: {
+            'insee': $("#sectionID").val(),
+            'section': $("#Parsection").val(),
+            'numpar': $("#numpar").val()
+        },
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+            resetParcelleSearch();
+            data.forEach((parcelle) => {
+                $("#resultatable").append(
+                    '<tr>' +
+                    '<td><a href="#" onclick="loadParcelle(' + parcelle.id + ')">' + parcelle.idu + '</a></td>' +
+                    '<td> [' + parcelle.insee + '] ' + parcelle.commune + '</td>' +
+                    '</tr>'
+                );
+
+            });
+
+        }
+
+    });
+}
+
+
+function searchParcelle() {
+    $("#parcelleSearcher").on('click', () => {
+        if (!$("#Parsection").val() && !$("#numpar").val()) {
+           
+        }
+        else {
+            $("#erreurParcelle").hide();
+            $("#paramParcelle").removeClass('has-error');
+            AjaxParcelle();
+        }
+
+    });
+
+}
+
+function SearchRow(data, type) {
     $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
-        '<span><strong>'+type+'</strong>' +
+        '<span><strong>' + type + '</strong>' +
         ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
         ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +

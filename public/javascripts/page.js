@@ -91,8 +91,8 @@ $(document).ready(function () {
 
     /*icic*/
     $("#searchChooser").change(function () {
-        formLoader($(this).val());
-
+        let option = $(this).val();
+        formLoader(option);
         $('#communeS').typeahead({
             minLength: 3,
             maxItem: 10,
@@ -112,54 +112,8 @@ $(document).ready(function () {
             },
 
             updater: function (item) {
-                $("#paramParcelle").show();
-                $("#communecherche").empty();
-                $("#resultatable").empty();
-                $("#resultatable").hide();
-                $("#Parsection").val('');
-                $("#numpar").val('');
-                $("#resultat").hide();
-                var numbers = item.match(/\d+/g).map(Number);
-                $("#communecherche").append(item);
-                $("#sectionID").val(numbers);
-                $("#parcelleSearcher").on('click', () => {
-                    if(!$("#Parsection").val() && !$("#numpar").val()){
-                        $("#paramParcelle").addClass('has-error');
-                        $("#erreurParcelle").show();
-                    }
-                    else{
-                        $("#erreurParcelle").hide();
-                        $("#paramParcelle").removeClass('has-error');
-                        $.ajax({
-                            url: "/parcelles",
-                            data: {
-                                'insee':  $("#sectionID").val(),
-                                'section': $("#Parsection").val(),
-                                'numpar': $("#numpar").val()
-                            },
-                            dataType: "json",
-                            type: "POST",
-                            success: function (data) {
-                                $("#resultatable").empty();
-                                $("#resultatable").show();
-                                $("#resultat").show();
-                                data.forEach((parcelle)=>{
-                                    $("#resultatable").append(
-                                        '<tr>'+
-                                        '<td><a href="#" onclick="loadParcelle('+parcelle.id+')">'+parcelle.idu+'</a></td>'+
-                                        '<td> ['+parcelle.insee+'] '+parcelle.commune+'</td>'+
-                                        '</tr>'
-                                    );
-                                  
-                                });
-                              
-                            }
-    
-                        });
-                    }
-                   
-                });
-
+               
+                Resarch(option,item);
             }
 
         });
