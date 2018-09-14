@@ -14,6 +14,9 @@ module.exports = {
       code_insee: {
         type: Sequelize.STRING
       },
+      geom: {
+        type: Sequelize.GEOMETRY('MULTIPOLYGON',2154)
+      },
      
     });
   },

@@ -2,7 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   var Commune = sequelize.define('commune', {
     nom_com: DataTypes.STRING,
-    code_insee: DataTypes.STRING
+    code_insee: DataTypes.STRING,
+    geom: DataTypes.GEOMETRY('MULTIPOLYGON',2154)
   }, 
   {
     timestamps: false, //n'ajoute pas les attributs createdAt et updatedAt

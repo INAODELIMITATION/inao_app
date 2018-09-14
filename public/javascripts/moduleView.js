@@ -381,11 +381,17 @@ function resetParcelleSearch(){
 }
 
 /**
- * Message d'erreur pour signaler qu'au moins un champ doit etre rempli
+ * Affiche ou non le message d'erreur pour qu'un champ soit rempli
  */
-function errorParcelleSearch(){
-    $("#paramParcelle").addClass('has-error');
-    $("#erreurParcelle").show();
+function errorParcelleSearch(option){
+    if(option == "yes"){
+        $("#paramParcelle").addClass('has-error');
+        $("#erreurParcelle").show();
+    }else{
+        $("#erreurParcelle").hide();
+        $("#paramParcelle").removeClass('has-error');
+    }
+  
 }
 
 /**
@@ -418,15 +424,16 @@ function AjaxParcelle(){
     });
 }
 
-
+/**
+ * gère la recherche sur les parcelles
+ */
 function searchParcelle() {
     $("#parcelleSearcher").on('click', () => {
         if (!$("#Parsection").val() && !$("#numpar").val()) {
-           
+            errorParcelleSearch("yes");
         }
         else {
-            $("#erreurParcelle").hide();
-            $("#paramParcelle").removeClass('has-error');
+            errorParcelleSearch("no");
             AjaxParcelle();
         }
 
@@ -434,6 +441,11 @@ function searchParcelle() {
 
 }
 
+/**
+ * 
+ * @param {*} data 
+ * @param {*} type 
+ */
 function SearchRow(data, type) {
     $("#couches").prepend(
         '<li class="success-element" id="c' + data.id + '">' +
