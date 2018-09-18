@@ -8,8 +8,8 @@
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS");
-    setIgnLayer("ADMINEXPRESS_COG_CARTO_2017");
+    setIgnLayer("CADASTRALPARCELS.PARCELS",0.7);
+    setIgnLayer("ADMINEXPRESS_COG_CARTO_2017",0.8);
 
     // setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
 
@@ -49,7 +49,7 @@ function checkformat(name) {
  * Fonction qui initialise une couche de l'IGN
  * @param {String} name 
  */
-function setIgnLayer(name) {
+function setIgnLayer(name,opacity) {
     format = checkformat(name);
     map.addLayer(
         new ol.layer.Tile({
@@ -59,7 +59,8 @@ function setIgnLayer(name) {
                 olParams: {
                     format: format
                 }
-            })
+            }),
+            opacity:opacity
         })
 
     );
@@ -119,7 +120,6 @@ function updateSess(data) {
         url: "/session/couches/NULL",
         type: 'POST',
         data: 'session=' + data,
-        // dataType:"json",
         success: filter => {
             alert("changement");
             console.log(filter);
@@ -140,7 +140,6 @@ function LoadLayers() {
             loadLayersess(filtered);
 
         } else {
-            //map.addLayer(layerMVT); //ajout de la couche à la carte
             map.getView().setZoom(zoom);
             successMessage('Chargement terminé', 'Bienvenue sur la plateforme de visualisation cartographique');
         }
@@ -496,7 +495,7 @@ function makeCommune(insee){
                 projection: "EPSG:2154",
                 name: name,
                 source: new ol.source.Vector({
-                    projection: "EPSG:2154",
+                   projection: "EPSG:2154",
                     features: (new ol.format.GeoJSON()).readFeatures(commune.geom)
                 }),
                 style: styleColorStroke("yellow"),
@@ -515,6 +514,7 @@ function loadCommune(insee){
     makeCommune(insee);
 }
 
+
 function makeParcelle(id){
     fetchParcelle(id, parcelle=>{
         let name = String("par"+parcelle.id);
@@ -529,7 +529,7 @@ function makeParcelle(id){
                 style: styleColorStroke("yellow"),
             }));
             let extent = getLayer("par"+id).getSource().getExtent();
-            map.getView().fit(extent, map.getSize());
+            map.getView().fit(extent, {minResolution: 0.1});
             map.updateSize();
             SearchRow(parcelle,"parcelle");
         } catch (e) {

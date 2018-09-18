@@ -1,9 +1,12 @@
 // "use strict";
 //WinMove();
 var clicked = 0;
-
+window.addEventListener('beforeunload', (event) => {
+    event.returnValue = `Are you sure you want to leave?`;
+  });
+  
 $(document).ready(function () {
-
+   
     Gp.Services.getConfig({
         serverUrl: "/javascripts/autoconf/local.json", //local
         //serverUrl: "/GPautoconf/autoconf.json", //server

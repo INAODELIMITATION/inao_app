@@ -144,8 +144,6 @@ function clickSidebar() {
  * @param {number} id 
  */
 function switchLayerVisibility(id, fa, precede) {
-
-
     fetchSess(data => {
         let sess = data.filter;
         sess.forEach(element => {
@@ -280,7 +278,7 @@ function advanceForm() {
         '<span  id="communecherche" ></span>' +
         '</h4>' +
         '</div>' +
-        '<div class="row" style="display:none" id="paramParcelle">'+
+        '<div class="row" style="display:none" id="paramParcelle">' +
         '<div class="col-sm-5" id="parcellerInput">' +
         '<input class="form-control rondeur " id="Parsection" placeholder="Section" type="text" >' +
         '</div>' +
@@ -299,30 +297,22 @@ function advanceForm() {
         '</div>' +
         '</div>' +
         '</div>'
-        '</form>';
+    '</form>';
 
     return formulaire;
 }
 
-function resultParcelle(parcelle) {
-    return '<li class="full-height-scroll">' + parcelle.idu + ' ' + parcelle.commune + ' ' + '</li>';
 
-}
 
 /**
  * Affiche le formulaire en fonction de l'élément choisi
  * @param {String} option 
  */
 function formLoader(option) {
-    if(option == "commune" || option == "parcelle"){
-        $("#resultatable").empty();
-        $("#resultatable").css('display','none');
-        $("#formloader").empty();
+    $("#formloader").empty();
+    $("#resultat").hide();
+    if (option == "commune" || option == "parcelle") {
         $("#formloader").append(advanceForm() + '');
-        $(".resultPar").empty();
-        $(".resultPar").hide();
-    }else{
-        $("#formloader").empty();
     }
 
 }
@@ -334,7 +324,7 @@ function formLoader(option) {
  */
 function Resarch(option, item) {
     if (option == "commune") {
-       
+
         resetCommuneForm();
         let pieces = item.split(/[\s-]+/);
         let number = String(pieces[0]);
@@ -352,7 +342,7 @@ function Resarch(option, item) {
 /**
  * Efface tous les champs pour recommencer la recherche
  */
-function resetCommuneForm(){
+function resetCommuneForm() {
     $(".resultPar").empty();
     $(".resultPar").hide();
     $("#paramParcelle").hide();
@@ -380,42 +370,41 @@ function resetParcelleForm() {
  * Initialize la section
  * @param {Object} item 
  */
-function setSection(item){
-    let numbers = item.match(/\d+/g).map(Number);
+function setSection(item) {
     let pieces = item.split(/[\s-]+/);
     let number = String(pieces[0]);
     $("#alertCommune").show();
     $("#communecherche").append(item);
     $("#sectionID").val(number);
-    console.log(number);
+  
 }
 
 /**
  * reinitialise les champs resultats
  */
-function resetParcelleSearch(){
+function resetParcelleSearch() {
     $("#resultatable").empty();
     $("#resultatable").show();
     $("#resultat").show();
-    $("#alertCommune").hide();
+    $("#alertCommune").show();
 }
 
 /**
  * Affiche ou non le message d'erreur pour qu'un champ soit rempli
  */
-function errorParcelleSearch(option){
-    if(option == "yes"){
+function errorParcelleSearch(option) {
+    if (option == "yes") {
         $("#paramParcelle").addClass('has-error');
         $("#erreurParcelle").show();
-    }else{
+    } else {
         $("#erreurParcelle").hide();
         $("#paramParcelle").removeClass('has-error');
     }
-  
+
 }
 
 
-function appendParcelle(parcelle){
+function appendParcelle(parcelle) {
     $("#resultatable").append(
         '<tr class="resultPar">' +
         '<td><a href="#" onclick="loadParcelle(' + parcelle.id + ')">' + parcelle.idu + '</a></td>' +
@@ -447,10 +436,66 @@ function searchParcelle() {
  * @param {*} type 
  */
 function SearchRow(data, type) {
+        let element = returnElement(data,type);
+        let str = type.substring(0,3);
+        let fa = 'fa'+str;
     $("#couches").prepend(
-        '<li class="warning-element" id="c' + data.id + '">' +
-        '<h3 class="text-center">' + type + ': '+ data.idu+
+        '<li class="warning-element" id="c' + element.id + '">' +
+        '<h3 class="text-center">' + type + ': ' + element.valeur +
         '</h3>' +
+
+        '<div class="agile-detail">' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility2(\'' + element.id + '\',\''+fa+'\',\''+str+'\')">' +
+        ' <i id="fa'+str + element.id + '" class="fa fa-1x fa-eye"></i>' +
+        ' </a>' +
+        ' <a href="#" id="c'+str + data.id + '" class="painter btn btn-xs btn-success" >' +
+        ' <i class="fa fa-1x fa-paint-brush"></i>' +
+        ' </a>' +
+        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteLayerRow2(\'' + element.id + '\')">' +
+        ' <i class="fa fa-1x fa-trash"></i>' +
+        ' </a>' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + element.id + '\')">' +
+        ' <i class="fa fa-1x fa-map-marker"></i>' +
+        ' </a>' +
+        '</div>' +
         ' </li>'
     );
+  
+}
+
+function returnElement(data,type){
+    if(type == "parcelle"){
+        return {
+            id : data.id,
+            valeur: data.idu
+        };
+    }
+    if(type == "commune"){
+        return {
+            id: data.code_insee,
+            valeur: data.nom_com
+        };
+    }
+
+}
+
+function switchLayerVisibility2(id, fa, precede) {
+    fetchSess(data => {
+        let sess = data.filter;
+        sess.forEach(element => {
+            if (element.id == id) {
+                let name = precede + '' + element.id;
+
+                let vectLayer = getLayer(name);
+                if (vectLayer.getVisible() == true) {
+                    vectLayer.setVisible(false);
+                    $("#" + fa + '' + id).removeClass('fa-eye').addClass('fa-eye-slash');
+
+                } else {
+                    vectLayer.setVisible(true);
+                    $("#" + fa + '' + id).removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            }
+        });
+    });
 }

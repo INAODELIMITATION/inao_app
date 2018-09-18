@@ -17,6 +17,17 @@ function changeUndefined(variable) {
     }
     return variable;
 }
+
+
+function setParams(type, valeur, id_parcelle) {
+    var tab = {
+        type: type,
+        valeur: valeur,
+        id: id_parcelle,
+    };
+    return tab;
+}
+
 module.exports = {
     getAll(req, res) {
         return Parcelle
@@ -71,6 +82,11 @@ module.exports = {
                     message: "pas trouvé"
                 });
             }
+            sess = req.session;
+            if (typeof (sess.aire) == 'undefined') {
+                sess.aire = [];
+            }
+            //sess.aire.push(setParams("parcelle", parcelle.idu, parcelle.id));
             return res.status(200).send(parcelle);
         })
         .catch(error=> res.status(400).send(error));
