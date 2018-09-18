@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 var sess;
 const parcellaireController = require('../controllers').parcellaires; //controleur des aire_parcellaires
-const aire_geoController    = require('../controllers').aire_geos; // controleur des aires géographiques  
-const parcellesController   = require('../controllers').parcelles; // controleur des parcelles
-const communesController    = require('../controllers').communes; //controleur des communes
+const aire_geoController = require('../controllers').aire_geos; // controleur des aires géographiques  
+const parcellesController = require('../controllers').parcelles; // controleur des parcelles
+const communesController = require('../controllers').communes; //controleur des communes
+const zonesController = require('../controllers').zones;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -29,9 +30,12 @@ router.route('/api/denomination/:denom)
 router.route('/api/denomination/:denom')
   .get(parcellaireController.retrieveBydenomination);
 
-router.route('/search')
-  .post(parcellaireController.findDeno);
+// router.route('/search')
+//   .post(parcellaireController.findDeno);
 
+
+router.route('/search')
+  .post(zonesController.findLibelle);
 
 router.post('/search/appel', parcellaireController.findAppel);
 router.get('/extendTest/:denom', parcellaireController.getExtend);
@@ -39,7 +43,7 @@ router.get('/extendTest/:denom', parcellaireController.getExtend);
 router.route('/aire_geo/getInfo/:denomination')
   .get(aire_geoController.retrieveByDenom);
 
-  router.route('/aire_geo/:denom')
+router.route('/aire_geo/:denom')
   .get(aire_geoController.getAire);
 
 
@@ -48,11 +52,11 @@ router.route('/session/couches/:data')
   .delete(parcellaireController.delLayerSess)
   .post(parcellaireController.changeSess);
 
-  router.route('/communes')
-    .post(communesController.fetchCommunes);
-  
-  router.route('/communes/:insee')
-    .get(communesController.getCommune);
+router.route('/communes')
+  .post(communesController.fetchCommunes);
+
+router.route('/communes/:insee')
+  .get(communesController.getCommune);
 
 router.route('/parcelles')
   .post(parcellesController.fetchParcelles);

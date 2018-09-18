@@ -25,17 +25,17 @@ $(document).ready(function () {
     list();
     $('#search,#searchM').typeahead({
         minLength: 3,
-        items: 15,
+        items: 18,
         source: function (query, result) {
             $.ajax({
                 url: "/search",
-                data: 'denom=' + query,
+                data: 'libelle=' + query,
                 dataType: "json",
                 type: "POST",
                 success: function (data) {
 
                     result($.map(data, function (item) {
-                        return item.denomination;
+                        return item.lbl_aire_geo;
                     }));
                 }
             });
