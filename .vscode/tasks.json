@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "taskName": "Show in console",
+      "type": "shell",
+      "osx": {
+        "command": "/usr/local/bin/node ${file}"
+      },
+      "linux": {
+        "command": "/usr/bin/node ${file}"
+      },
+      "windows": {
+        "command": "C:\\Program Files\\nodejs\\node.exe ${file}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

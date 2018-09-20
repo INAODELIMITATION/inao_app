@@ -22,8 +22,7 @@ function setParams(type, valeur, id_denom) {
         type: type,
         valeur: valeur,
         id: id_denom,
-    };
-    console.log("ici");
+    }; 
     return tab;
 }
 module.exports = {
