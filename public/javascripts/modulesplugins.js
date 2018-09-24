@@ -256,6 +256,8 @@ function aire_geoCreator(id_aire, color){
             );
         }else{
             makeLayerTypeByCoord(aire_geo[0].geom,color,"geo",aire_geo[0].id_aire);
+            airegeoParams(id_aire,color);
+           
         }
     });
 }

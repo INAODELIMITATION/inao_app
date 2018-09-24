@@ -116,6 +116,31 @@ function rowInexistant(typeAire){
     return "<span><strong>"+typeAire+":&nbsp; </strong><span class='badge badge-danger'> Inexistante</span><br><br>";
 }
 
+function airegeoRow(id_aire){
+    let a =
+    '<span><strong>Aire géographique:&nbsp;</strong>' +
+    ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + id_aire + '\',\'fageo\',\'geo\')">' +
+    ' <i id="fageo' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
+    ' </a>' +
+    ' <a href="#" id="cpgeo' + id_aire + '" class="painter btn btn-xs btn-success" >' +
+    ' <i class="fa fa-1x fa-paint-brush"></i>' +
+    ' </a>' +
+
+    '</span><br><br>';
+return a;
+}
+
+function airegeoParams(id_aire,color){
+    $("#options"+id_aire).prepend(
+        ''+airegeoRow(id_aire)
+    );
+    let name = "geo" + id_aire;
+    $('#cpgeo' + id_aire).css({ 'background-color': color });
+    $('#cpgeo' + id_aire + '').colorpicker().on('changeColor', function (e) {
+        changeAireColor(name, e.color.toString('hex'));
+        $('#cpgeo' + id_aire).css({ 'background-color': e.color.toString('hex') });
+    });
+}
 /**
  * supprime une couche ajouté
  * @param {number} id 
@@ -515,4 +540,8 @@ function switchLayerVisibility2(id, fa, precede) {
             }
         });
     });
+}
+
+function LayerVisibilitySwitcher(id, fa,precede){
+   
 }
