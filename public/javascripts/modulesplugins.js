@@ -237,6 +237,115 @@ function layerAdder(element) {
 }
 
 
+
+
+function LayerCreator(data){
+      let color = RandomcolorHexRgba();
+      createAppelationRow(data);
+      aire_geoCreator(data.id_aire,color.hex1);
+      aire_parcellaireCreator(data.id_aire,color.rgba);
+     
+}
+
+
+function aire_geoCreator(id_aire, color){
+    getAire_geo(id_aire,aire_geo=>{
+        if(aire_geo == false){
+            $("#options"+id_aire).prepend(
+                ''+rowInexistant("Aire Geographique")
+            );
+        }else{
+            makeLayerTypeByCoord(aire_geo[0].geom,color,"geo",aire_geo[0].id_aire);
+        }
+    });
+}
+
+/**
+ * crée une couche de vectorTile
+ * @param {*} data 
+ * @param {*} color 
+ */
+function tileLayerCreator(data,color){
+    let name = "airePar"+data.id_aire;
+    try {
+        map.addLayer(new ol.layer.VectorTile({
+            opacity: 0.8,
+            source: sourceL,
+            name: name, // nom dela couche
+            style: (feature => {
+                if (feature.get("denomination") === data.lbl_aire) {
+                    return styleColorFill(color);
+                } else {
+                    return new ol.style.Style({});
+                }
+            }),
+        }));
+        getextent(data.id_aire);
+    } catch (e) {
+        swal({
+            title: "ERREUR lors du chargement de la couche : " + data.lbl_aire + " " + e,
+            text: "Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
+            type: "warning",
+            showConfirmButton: true,
+        });
+    }
+}
+
+
+/**
+ * 
+ * @param {string} valeur ce qui est recherché, dénomination ou appellation 
+ * 
+ */
+function getextent(id_aire) {
+    $.ajax({
+        url: "/getExtendParcellaire/" + id_aire,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+
+            var ex = [data[0].st_xmin, data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
+
+            map.getView().fit(ex, map.getSize());
+        }
+    });
+
+}
+function aire_parcellaireCreator(id_aire,color){
+    getAireParcellaire(id_aire,aire=>{
+        if(aire == false){
+            $("#options"+id_aire).append(
+                ''+rowInexistant("Aire Parcellaire")
+            );
+        }else{
+            tileLayerCreator(aire,color);
+        }
+    });
+}
+function getAireParcellaire(id_aire,callback){
+    $.ajax({
+        url: "/zone/aire_parcellaire/" + id_aire,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+           callback(data)      
+        }
+    });
+}
+
+function getAire_geo(id_aire,callback){
+    $.ajax({
+        url: "/zone/aire_geo/" + id_aire,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+            callback(data);
+          
+        }
+    });
+}
+
+
 function loadLayerEvents(element, hex) {
     makeAireGeo(element.valeur, aire => {
         if (typeof aire !== 'undefined' && aire.length > 0) {
@@ -418,6 +527,33 @@ function makeLayerByCoord(coord, denom, hex) {
         console.log("erreur " + e);
     }
 
+}
+
+/**
+ * 
+ * @param {*} coord 
+ * @param {*} couleur 
+ * @param {*} type 
+ * @param {*} nom 
+ */
+function makeLayerTypeByCoord(coord,couleur,type,id){
+    let name = String(type+''+id);
+    try {
+        map.addLayer(new ol.layer.Vector({
+            projection: "EPSG:2154",
+            name: name,
+            source: new ol.source.Vector({
+                projection: "EPSG:2154",
+                features: (new ol.format.GeoJSON()).readFeatures(coord)
+            }),
+            style: styleColorStroke(couleur),
+        }));
+        let extent = getLayer(name).getSource().getExtent();
+        map.getView().fit(extent, map.getSize());
+        map.updateSize();
+    } catch (e) {
+        console.log("erreur " + e);
+    }
 }
 
 

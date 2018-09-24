@@ -98,6 +98,23 @@ function createRow(data, situation, color) {
     }
 }
 
+function createAppelationRow(data){
+    $("#couches").prepend(
+        '<li class="success-element" id="couche' + data.id_aire + '">' +
+        '<h3 class="text-center">' + data.lbl_aire +
+        ' <a href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info" data-toggle="modal" data-target="#myModal6" >' +
+        ' <i class="fa fa-1x fa-info"> </i>' +
+        ' </a>' +
+        '</h3>' +
+        '<div id="options'+data.id_aire+'">'+
+        '</div>'+
+        ' </li>'
+    );
+}
+
+function rowInexistant(typeAire){
+    return "<span><strong>"+typeAire+":&nbsp; </strong><span class='badge badge-danger'> Inexistante</span><br><br>";
+}
 
 /**
  * supprime une couche ajouté

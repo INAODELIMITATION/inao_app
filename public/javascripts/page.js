@@ -23,10 +23,12 @@ $(document).ready(function () {
     });
 
     list();
+    let libelle = [];
     $('#search,#searchM').typeahead({
         minLength: 3,
         items: 18,
         source: function (query, result) {
+           
             $.ajax({
                 url: "/search",
                 data: 'libelle=' + query,
@@ -35,27 +37,35 @@ $(document).ready(function () {
                 success: function (data) {
 
                     result($.map(data, function (item) {
-                        return item.lbl_aire;
+                        libelle[item.lbl_aire] = item.id_aire;
+                        return item.lbl_aire.trim();
                     }));
                 }
             });
         },
-
+      
         updater: function (item) {
-            $.ajax({
-                url: "/api/denomination/" + item,
-                type: 'GET',
-                dataType: "json",
-                success: function (data) {
-                    var data1 = data.filter;
-                    layerAdder(data1[data1.length - 1]);
+            let data = {
+                id_aire: libelle[item],
+                lbl_aire:item
+            };
+            LayerCreator(data);
+            // $.ajax({
+            //     // url: "/api/denomination/" + item,
+            //     url: "/zone/"+libelle[item],
+            //     type: 'GET',
+            //     dataType: "json",
+            //     success: function (data) {
+            //         // var data1 = data.filter;
+            //         // layerAdder(data1[data1.length - 1]);
 
-
-                }
-            });
+            //         LayerCreator(data[0]);
+            //     }
+            // });
+            libelle = [];
 
         }
-
+       
     });
 
 

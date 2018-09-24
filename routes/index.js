@@ -38,8 +38,16 @@ router.route('/api/denomination/:denom')
 router.route('/search')
   .post(lbl_AireController.findLibelle);
 
+router.route('/zone/aire_geo/:id_aire')
+  .get(zonesController.getAire);
+
+router.route('/zone/aire_parcellaire/:id_aire')
+  .get(zonesController.getParcellaire);
+
+  
+
 router.post('/search/appel', parcellaireController.findAppel);
-router.get('/extendTest/:denom', parcellaireController.getExtend);
+router.get('/getExtendParcellaire/:id_aire', zonesController.getExtend);
 
 router.route('/aire_geo/getInfo/:denomination')
   .get(aire_geoController.retrieveByDenom);

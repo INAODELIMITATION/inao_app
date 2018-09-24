@@ -1,7 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Zone = sequelize.define('v_lst_zone', {
-    id_zone: DataTypes.INTEGER,
+    id_zone:{
+      type: DataTypes.INTEGER,
+      primaryKey:true
+    },
     type_zone: DataTypes.INTEGER,
     id_aire: DataTypes.INTEGER,
     lbl_aire: DataTypes.STRING,
