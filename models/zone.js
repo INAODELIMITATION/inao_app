@@ -1,9 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var zone = sequelize.define('zone', {
+  var Zone = sequelize.define('v_lst_zone', {
     id_zone: DataTypes.INTEGER,
-    lbl_aire_geo: DataTypes.STRING,
-    id_type_zone: DataTypes.INTEGER,
+    type_zone: DataTypes.INTEGER,
+    id_aire: DataTypes.INTEGER,
+    lbl_aire: DataTypes.STRING,
+    insee: DataTypes.STRING,
+    nomcom: DataTypes.STRING,
     geom: DataTypes.GEOMETRY('MULTIPOLYGON',2154)
   }, 
   {
@@ -11,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true, // n'ajoute pas de s au nom de la table
     schema:'metier_inao',
   });
-  zone.associate = function(models) {
+  Zone.associate = function(models) {
     // associations can be defined here
   };
-  return zone;
+  return Zone;
 };

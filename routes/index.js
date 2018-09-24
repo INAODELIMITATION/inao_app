@@ -5,7 +5,8 @@ const parcellaireController = require('../controllers').parcellaires; //controle
 const aire_geoController = require('../controllers').aire_geos; // controleur des aires géographiques  
 const parcellesController = require('../controllers').parcelles; // controleur des parcelles
 const communesController = require('../controllers').communes; //controleur des communes
-const zonesController = require('../controllers').zones;
+const lbl_AireController = require('../controllers').lbl_Aires;
+const zonesController    = require('../controllers').Zones;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -35,7 +36,7 @@ router.route('/api/denomination/:denom')
 
 
 router.route('/search')
-  .post(zonesController.findLibelle);
+  .post(lbl_AireController.findLibelle);
 
 router.post('/search/appel', parcellaireController.findAppel);
 router.get('/extendTest/:denom', parcellaireController.getExtend);

@@ -35,7 +35,7 @@ $(document).ready(function () {
                 success: function (data) {
 
                     result($.map(data, function (item) {
-                        return item.lbl_aire_geo;
+                        return item.lbl_aire;
                     }));
                 }
             });

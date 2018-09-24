@@ -1,9 +1,9 @@
 /**
  * @author JEAN ROGER NIGOUMI GUIALA
- * @description controlleur pour les zones
+ * @description controlleur pour les libelle aire
  */
 
-const Zone = require('../models').zone;
+const Zone = require('../models').v_lst_zone;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 var env = process.env.NODE_ENV || 'development';
@@ -26,35 +26,5 @@ function setParams(type, valeur, id_denom) {
     return tab;
 }
 module.exports = {
-
-    /**
-     * ensemble des denomination qui correspondent a ce qui a été rentré par l'utilisateur
-     * @param {*} req 
-     * @param {*} res 
-     */
-    findLibelle(req,res){
-        console.log("Début de la fonction FindLibelle");
-        return Zone
-        .findAll({
-            raw:true,
-            where:{
-                lbl_aire_geo : { [Op.iLike]: '%' + req.body.libelle + '%' }
-            },
-            limit: 30,
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('lbl_aire_geo')), 'lbl_aire_geo']],
-        })
-        .then(zones =>{
-            if (!zones) {
-                return res.status(404).send({
-                    message: 'denomination pas trouvé',
-                });
-            }
-            console.log("success");
-            return res.status(200).send(JSON.stringify(zones));
-        })
-        .catch(error => res.status(400).send(error));
-
-    }
-
 
 };
