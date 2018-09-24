@@ -542,6 +542,6 @@ function switchLayerVisibility2(id, fa, precede) {
     });
 }
 
-function LayerVisibilitySwitcher(id, fa,precede){
+function layerVisibilitySwitcher(id, fa,precede){
    
 }
