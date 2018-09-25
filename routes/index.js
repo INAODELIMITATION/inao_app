@@ -27,9 +27,9 @@ router.route('/api/denomination/:denom)
   .delete () what delete does
 
   https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
-*/
-router.route('/api/denomination/:denom')
-  .get(parcellaireController.retrieveBydenomination);
+// */
+// router.route('/api/denomination/:denom')
+//   .get(parcellaireController.retrieveBydenomination);
 
 // router.route('/search')
 //   .post(parcellaireController.findDeno);
@@ -46,7 +46,7 @@ router.route('/zone/aire_parcellaire/:id_aire')
 
   
 
-router.post('/search/appel', parcellaireController.findAppel);
+// router.post('/search/appel', parcellaireController.findAppel);
 router.get('/getExtendParcellaire/:id_aire', zonesController.getExtend);
 
 router.route('/aire_geo/getInfo/:denomination')
