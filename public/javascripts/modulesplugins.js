@@ -243,7 +243,7 @@ function LayerCreator(data){
       let color = RandomcolorHexRgba();
       createAppelationRow(data);
       aire_geoCreator(data.id_aire,color.hex1);
-      aire_parcellaireCreator(data.id_aire,color.rgba);
+      aire_parcellaireCreator(data.id_aire,color);
      
 }
 
@@ -276,7 +276,7 @@ function tileLayerCreator(data,color){
             name: name, // nom dela couche
             style: (feature => {
                 if (feature.get("denomination") === data.lbl_aire) {
-                    return styleColorFill(color);
+                    return styleColorFill(color.rgba);
                 } else {
                     return new ol.style.Style({});
                 }
@@ -291,6 +291,29 @@ function tileLayerCreator(data,color){
             showConfirmButton: true,
         });
     }
+}
+function aire_parcellaireCreator(id_aire,color){
+    getAireParcellaire(id_aire,aire=>{
+        if(aire == false){
+            $("#options"+id_aire).append(
+                ''+rowInexistant("Aire Parcellaire")
+            );
+        }else{
+            tileLayerCreator(aire,color);
+           
+            aireParcParams(aire,color);
+        }
+    });
+}
+function getAireParcellaire(id_aire,callback){
+    $.ajax({
+        url: "/zone/aire_parcellaire/" + id_aire,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+           callback(data)      
+        }
+    });
 }
 
 
@@ -312,27 +335,6 @@ function getextent(id_aire) {
         }
     });
 
-}
-function aire_parcellaireCreator(id_aire,color){
-    getAireParcellaire(id_aire,aire=>{
-        if(aire == false){
-            $("#options"+id_aire).append(
-                ''+rowInexistant("Aire Parcellaire")
-            );
-        }else{
-            tileLayerCreator(aire,color);
-        }
-    });
-}
-function getAireParcellaire(id_aire,callback){
-    $.ajax({
-        url: "/zone/aire_parcellaire/" + id_aire,
-        type: 'GET',
-        dataType: "json",
-        success: function (data) {
-           callback(data)      
-        }
-    });
 }
 
 function getAire_geo(id_aire,callback){
@@ -453,6 +455,20 @@ function ChangeLayerColor(type, layerName, code) {
     }
 }
 
+function tileLayerColorChanger(lbl_aire,name,color){
+    let layer = getLayer(name);
+    if (layer != undefined) {
+        let style = styleColorFill(color);
+        layer.setStyle((feature => {
+            if (feature.get("denomination") === lbl_aire) {
+                return style;
+            } else {
+                return new ol.style.Style({});
+            }
+        }));
+        map.updateSize();
+    }
+}
 /**
  * Change la couleur de l'aire géographique
  * @param {*} layerName 

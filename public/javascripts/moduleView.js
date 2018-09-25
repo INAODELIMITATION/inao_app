@@ -98,7 +98,7 @@ function createRow(data, situation, color) {
     }
 }
 
-function createAppelationRow(data){
+function createAppelationRow(data) {
     $("#couches").prepend(
         '<li class="success-element" id="couche' + data.id_aire + '">' +
         '<h3 class="text-center">' + data.lbl_aire +
@@ -106,33 +106,71 @@ function createAppelationRow(data){
         ' <i class="fa fa-1x fa-info"> </i>' +
         ' </a>' +
         '</h3>' +
-        '<div id="options'+data.id_aire+'">'+
+        '<div id="options' + data.id_aire + '">' +
+        '</div>' +
+        '<div class="agile-detail">' +
+        ' <a href="#" type="button" class=" btn btn-xs  btn-rounded btn-info" style="visibility: hidden;" >' +
+        ' <i class="fa fa-1x fa-info-circle"></i>' +
+        ' </a>' +
+        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
+        ' <i class="fa fa-1x fa-trash"></i>' +
+        ' </a>' +
         '</div>'+
         ' </li>'
     );
 }
 
-function rowInexistant(typeAire){
-    return "<span><strong>"+typeAire+":&nbsp; </strong><span class='badge badge-danger'> Inexistante</span><br><br>";
+function rowInexistant(typeAire) {
+    return "<span><strong>" + typeAire + ":&nbsp; </strong><span class='badge badge-danger'> Inexistante</span><br><br>";
 }
 
-function airegeoRow(id_aire){
+function airegeoRow(id_aire) {
     let a =
-    '<span><strong>Aire géographique:&nbsp;</strong>' +
-    ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + id_aire + '\',\'fageo\',\'geo\')">' +
-    ' <i id="fageo' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
+        '<span><strong>Aire géographique:&nbsp;</strong>' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + id_aire + '\',\'fageo\',\'geo\')">' +
+        ' <i id="fageo' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
+        ' </a>' +
+        ' <a href="#" id="cpgeo' + id_aire + '" class="painter btn btn-xs btn-success" >' +
+        ' <i class="fa fa-1x fa-paint-brush"></i>' +
+        ' </a>' +
+
+        '</span><br><br>';
+    return a;
+}
+
+function airePaRow(id_aire){
+    let message =
+    '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
+    ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + id_aire + '\',\'fa\',\'airePar\')">' +
+    ' <i id="fa' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
     ' </a>' +
-    ' <a href="#" id="cpgeo' + id_aire + '" class="painter btn btn-xs btn-success" >' +
+    ' <a href="#" id="cp' + id_aire + '" class="painter btn btn-xs btn-success ">' +
     ' <i class="fa fa-1x fa-paint-brush"></i>' +
     ' </a>' +
+    ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + id_aire + '\')">' +
+    ' <i class="fa fa-1x fa-map-marker"></i>' +
+    ' </a>' +
+    '</span>';
 
-    '</span><br><br>';
-return a;
+return message;
 }
 
-function airegeoParams(id_aire,color){
-    $("#options"+id_aire).prepend(
-        ''+airegeoRow(id_aire)
+function aireParcParams(data, color){
+    let name = "airePar"+data.id_aire;
+    $("#options" + data.id_aire).append(
+        ''+airePaRow(data.id_aire)
+    );
+    $('#cp' + data.id_aire).css({ 'background-color': color.hex1 });
+    $('body').css('overflow', 'hidden'); //solution temporaire
+    $('#cp' + data.id_aire+ '').colorpicker().on('changeColor', function (e) {
+        tileLayerColorChanger(data.lbl_aire, name, e.color.toString('rgba'));
+        $('#cp' + data.id_aire).css({ 'background-color': e.color.toString('hex') });
+    });
+}
+
+function airegeoParams(id_aire, color) {
+    $("#options" + id_aire).prepend(
+        '' + airegeoRow(id_aire)
     );
     let name = "geo" + id_aire;
     $('#cpgeo' + id_aire).css({ 'background-color': color });
@@ -141,6 +179,24 @@ function airegeoParams(id_aire,color){
         $('#cpgeo' + id_aire).css({ 'background-color': e.color.toString('hex') });
     });
 }
+
+
+function layerVisibilitySwitcher(id, fa, precede) {
+    let name = precede + '' + id;
+    try {
+        let vectLayer = getLayer(name);
+        if (vectLayer.getVisible() == true) {
+            vectLayer.setVisible(false);
+            $("#" + fa + '' + id).removeClass('fa-eye').addClass('fa-eye-slash');
+        }else{
+            vectLayer.setVisible(true);
+            $("#" + fa + '' + id).removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    }catch(error){
+        console.log(error);
+    }
+}
+
 /**
  * supprime une couche ajouté
  * @param {number} id 
@@ -418,7 +474,7 @@ function setSection(item) {
     $("#alertCommune").show();
     $("#communecherche").append(item);
     $("#sectionID").val(number);
-  
+
 }
 
 /**
@@ -478,19 +534,19 @@ function searchParcelle() {
  * @param {*} type 
  */
 function SearchRow(data, type) {
-        let element = returnElement(data,type);
-        let str = type.substring(0,3);
-        let fa = 'fa'+str;
+    let  element = returnElement(data, type);
+    let str = type.substring(0, 3);
+    let fa = 'fa' + str;
     $("#couches").prepend(
         '<li class="warning-element" id="c' + element.id + '">' +
         '<h3 class="text-center">' + type + ': ' + element.valeur +
         '</h3>' +
 
         '<div class="agile-detail">' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility2(\'' + element.id + '\',\''+fa+'\',\''+str+'\')">' +
-        ' <i id="fa'+str + element.id + '" class="fa fa-1x fa-eye"></i>' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility2(\'' + element.id + '\',\'' + fa + '\',\'' + str + '\')">' +
+        ' <i id="fa' + str + element.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" id="c'+str + data.id + '" class="painter btn btn-xs btn-success" >' +
+        ' <a href="#" id="c' + str + data.id + '" class="painter btn btn-xs btn-success" >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
         ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteLayerRow2(\'' + element.id + '\')">' +
@@ -502,17 +558,17 @@ function SearchRow(data, type) {
         '</div>' +
         ' </li>'
     );
-  
+
 }
 
-function returnElement(data,type){
-    if(type == "parcelle"){
+function returnElement(data, type) {
+    if (type == "parcelle") {
         return {
-            id : data.id,
+            id: data.id,
             valeur: data.idu
         };
     }
-    if(type == "commune"){
+    if (type == "commune") {
         return {
             id: data.code_insee,
             valeur: data.nom_com
@@ -540,8 +596,4 @@ function switchLayerVisibility2(id, fa, precede) {
             }
         });
     });
-}
-
-function layerVisibilitySwitcher(id, fa,precede){
-   
 }
