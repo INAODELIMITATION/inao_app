@@ -112,10 +112,10 @@ function createAppelationRow(data) {
         ' <a href="#" type="button" class=" btn btn-xs  btn-rounded btn-info" style="visibility: hidden;" >' +
         ' <i class="fa fa-1x fa-info-circle"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
+        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteAppelationRow(\'' + data.id_aire + '\')">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         ' </a>' +
-        '</div>'+
+        '</div>' +
         ' </li>'
     );
 }
@@ -138,31 +138,31 @@ function airegeoRow(id_aire) {
     return a;
 }
 
-function airePaRow(id_aire){
+function airePaRow(id_aire) {
     let message =
-    '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
-    ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + id_aire + '\',\'fa\',\'airePar\')">' +
-    ' <i id="fa' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
-    ' </a>' +
-    ' <a href="#" id="cp' + id_aire + '" class="painter btn btn-xs btn-success ">' +
-    ' <i class="fa fa-1x fa-paint-brush"></i>' +
-    ' </a>' +
-    ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + id_aire + '\')">' +
-    ' <i class="fa fa-1x fa-map-marker"></i>' +
-    ' </a>' +
-    '</span>';
+        '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + id_aire + '\',\'fa\',\'airePar\')">' +
+        ' <i id="fa' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
+        ' </a>' +
+        ' <a href="#" id="cp' + id_aire + '" class="painter btn btn-xs btn-success ">' +
+        ' <i class="fa fa-1x fa-paint-brush"></i>' +
+        ' </a>' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="getextent(\'' + id_aire + '\')">' +
+        ' <i class="fa fa-1x fa-map-marker"></i>' +
+        ' </a>' +
+        '</span>';
 
-return message;
+    return message;
 }
 
-function aireParcParams(data, color){
-    let name = "airePar"+data.id_aire;
+function aireParcParams(data, color) {
+    let name = "airePar" + data.id_aire;
     $("#options" + data.id_aire).append(
-        ''+airePaRow(data.id_aire)
+        '' + airePaRow(data.id_aire)
     );
     $('#cp' + data.id_aire).css({ 'background-color': color.hex1 });
     $('body').css('overflow', 'hidden'); //solution temporaire
-    $('#cp' + data.id_aire+ '').colorpicker().on('changeColor', function (e) {
+    $('#cp' + data.id_aire + '').colorpicker().on('changeColor', function (e) {
         tileLayerColorChanger(data.lbl_aire, name, e.color.toString('rgba'));
         $('#cp' + data.id_aire).css({ 'background-color': e.color.toString('hex') });
     });
@@ -188,15 +188,40 @@ function layerVisibilitySwitcher(id, fa, precede) {
         if (vectLayer.getVisible() == true) {
             vectLayer.setVisible(false);
             $("#" + fa + '' + id).removeClass('fa-eye').addClass('fa-eye-slash');
-        }else{
+        } else {
             vectLayer.setVisible(true);
             $("#" + fa + '' + id).removeClass('fa-eye-slash').addClass('fa-eye');
         }
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 }
 
+function deleteAppelationRow(id_aire) {
+    deleteAireGeo(id_aire);
+    deleteAirePar(id_aire);
+    $("#couche" + id_aire).remove();
+    //supression en session
+    //zoom sur le dernier element
+}
+
+function deleteAirePar(id_aire) {
+    getAireParcellaire(id_aire, aire => {
+        if (aire != false) {
+            let nom = "airePar" + id_aire;
+            layerRemover(nom);
+        }
+    });
+}
+
+function deleteAireGeo(id_aire) {
+    getAire_geo(id_aire, aire_geo => {
+        if (aire_geo != false) {
+            let nom = "geo" + id_aire;
+            layerRemover(nom);
+        }
+    });
+}
 /**
  * supprime une couche ajouté
  * @param {number} id 
@@ -229,6 +254,7 @@ function extentCouche(id) {
         });
     });
 }
+
 
 
 function clickSidebar() {
@@ -534,7 +560,7 @@ function searchParcelle() {
  * @param {*} type 
  */
 function SearchRow(data, type) {
-    let  element = returnElement(data, type);
+    let element = returnElement(data, type);
     let str = type.substring(0, 3);
     let fa = 'fa' + str;
     $("#couches").prepend(

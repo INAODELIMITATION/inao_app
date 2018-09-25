@@ -432,6 +432,22 @@ function removeLayer(nom, id) {
     }
 
 }
+/**
+ * Nom de la couche
+ * @param {String} nom 
+ */
+function layerRemover(nom){
+    try{
+    let layer = getLayer(nom);
+    if(layer !=undefined){
+        map.removeLayer(layer);
+    }
+    map.updateSize();
+    successMessage("Couche retiré avec succès", "Suppression de la couche ");
+}catch(error){
+    console.log(error);
+}
+}
 
 
 /**
