@@ -50,22 +50,8 @@ $(document).ready(function () {
                 lbl_aire:item
             };
             LayerCreator(data);
-            // $.ajax({
-            //     // url: "/api/denomination/" + item,
-            //     url: "/zone/"+libelle[item],
-            //     type: 'GET',
-            //     dataType: "json",
-            //     success: function (data) {
-            //         // var data1 = data.filter;
-            //         // layerAdder(data1[data1.length - 1]);
-
-            //         LayerCreator(data[0]);
-            //     }
-            // });
             libelle = [];
-
-        }
-       
+        }  
     });
 
 

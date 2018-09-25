@@ -206,35 +206,35 @@ function sidebarClicked() {
     }
 }
 
-/**
- * Fonction qui crée une couche sur la carte en fonction du type et de la valeur
- * @param {Objec{type,valeur}} element contient le type et le nom de la couche
-*/
-function layerAdder(element) {
-    var colors = RandomcolorHexRgba();
-    try {
-        map.addLayer(new ol.layer.VectorTile({
-            opacity: 0.8,
-            source: sourceL,
-            name: element.valeur, // nom dela couche
-            style: (feature => {
-                if (feature.get(element.type) === element.valeur) {
-                    return styleColorFill(colors.rgba);
-                } else {
-                    return new ol.style.Style({});
-                }
-            }),
-        }));
-        loadLayerEvents(element, colors.hex1);
-    } catch (e) {
-        swal({
-            title: "ERREUR lors du chargement de la couche : " + element.valeur + " " + e,
-            text: "Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
-            type: "warning",
-            showConfirmButton: true,
-        });
-    }
-}
+// /**
+//  * Fonction qui crée une couche sur la carte en fonction du type et de la valeur
+//  * @param {Objec{type,valeur}} element contient le type et le nom de la couche
+// */
+// function layerAdder(element) {
+//     var colors = RandomcolorHexRgba();
+//     try {
+//         map.addLayer(new ol.layer.VectorTile({
+//             opacity: 0.8,
+//             source: sourceL,
+//             name: element.valeur, // nom dela couche
+//             style: (feature => {
+//                 if (feature.get(element.type) === element.valeur) {
+//                     return styleColorFill(colors.rgba);
+//                 } else {
+//                     return new ol.style.Style({});
+//                 }
+//             }),
+//         }));
+//         loadLayerEvents(element, colors.hex1);
+//     } catch (e) {
+//         swal({
+//             title: "ERREUR lors du chargement de la couche : " + element.valeur + " " + e,
+//             text: "Transmettre l'erreur ci-dessus à votre administrateur ou éssayez de réactualiser la page.",
+//             type: "warning",
+//             showConfirmButton: true,
+//         });
+//     }
+// }
 
 
 
@@ -244,6 +244,7 @@ function LayerCreator(data){
       createAppelationRow(data);
       aire_geoCreator(data.id_aire,color.hex1);
       aire_parcellaireCreator(data.id_aire,color);
+      successMessage("ajout termnié avec succès", "ajout de la couche " + data.lbl_aire);
      
 }
 
@@ -292,6 +293,7 @@ function tileLayerCreator(data,color){
         });
     }
 }
+
 function aire_parcellaireCreator(id_aire,color){
     getAireParcellaire(id_aire,aire=>{
         if(aire == false){
@@ -350,20 +352,20 @@ function getAire_geo(id_aire,callback){
 }
 
 
-function loadLayerEvents(element, hex) {
-    makeAireGeo(element.valeur, aire => {
-        if (typeof aire !== 'undefined' && aire.length > 0) {
-            makeLayerByCoord(aire, element.valeur, hex);
-            createRow(element, "aireGeo", hex);
-        } else {
-            createRow(element, "pasAireGeo", hex);
-        }
-    });
+// function loadLayerEvents(element, hex) {
+//     makeAireGeo(element.valeur, aire => {
+//         if (typeof aire !== 'undefined' && aire.length > 0) {
+//             makeLayerByCoord(aire, element.valeur, hex);
+//             createRow(element, "aireGeo", hex);
+//         } else {
+//             createRow(element, "pasAireGeo", hex);
+//         }
+//     });
 
-    successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
-    fitToextent(element.valeur);
-    sidebarClicked();
-}
+//     successMessage("ajout termnié avec succès", "ajout de la couche " + element.valeur);
+//     fitToextent(element.valeur);
+//     sidebarClicked();
+// }
 
 
 function deleteSessLayer(id) {
@@ -389,49 +391,49 @@ function getLayer(name) {
     return couche;
 }
 
-/**
- * Si la couche existe,il la supprime
- * @param {*} nom 
- */
-function rmAiregeo(nom) {
-    let aire_geo = getLayer("geo" + nom);
-    if (aire_geo != undefined) {
-        map.removeLayer(aire_geo);
-    }
-}
+// /**
+//  * Si la couche existe,il la supprime
+//  * @param {*} nom 
+//  */
+// function rmAiregeo(nom) {
+//     let aire_geo = getLayer("geo" + nom);
+//     if (aire_geo != undefined) {
+//         map.removeLayer(aire_geo);
+//     }
+// }
 
-/**
- * Supprime une couche chargée ainsi que l'aire geo associé
- * @param {String} nom Nom de la couche
- */
-function removeLayer(nom, id) {
-    let layer = getLayer(nom);
-    if (layer != undefined) {
-        if (layer instanceof ol.layer.VectorTile) {
-            rmAiregeo(nom);
-        }
-        try {
-            map.removeLayer(layer);
-            deleteSessLayer(id);
-            fetchSess(dat => {
-                let data = dat.filter;
-                if (data.length > 0) {
-                    fitToextent(data[data.length - 1].valeur); //zoom sur le dernier élément du tableau
-                } else {
+// /**
+//  * Supprime une couche chargée ainsi que l'aire geo associé
+//  * @param {String} nom Nom de la couche
+//  */
+// function removeLayer(nom, id) {
+//     let layer = getLayer(nom);
+//     if (layer != undefined) {
+//         if (layer instanceof ol.layer.VectorTile) {
+//             rmAiregeo(nom);
+//         }
+//         try {
+//             map.removeLayer(layer);
+//             deleteSessLayer(id);
+//             fetchSess(dat => {
+//                 let data = dat.filter;
+//                 if (data.length > 0) {
+//                     fitToextent(data[data.length - 1].valeur); //zoom sur le dernier élément du tableau
+//                 } else {
 
-                    LoadLayers();
-                }
+//                     LoadLayers();
+//                 }
 
-            });
-            map.updateSize();
-            successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
+//             });
+//             map.updateSize();
+//             successMessage("Couche retiré avec succès", "Suppression de la couche " + nom);
 
-        } catch (e) {
-            alert("error " + e);
-        }
-    }
+//         } catch (e) {
+//             alert("error " + e);
+//         }
+//     }
 
-}
+// }
 /**
  * Nom de la couche
  * @param {String} nom 
@@ -450,26 +452,26 @@ function layerRemover(nom){
 }
 
 
-/**
- * Change la couche d'une couche
- * @param {String} layerName 
- * @param {String} couleur 
- * @param {String} code 
- */
-function ChangeLayerColor(type, layerName, code) {
-    let layer = getLayer(layerName);
-    if (layer != undefined) {
-        let style = styleColorFill(code);
-        layer.setStyle((feature => {
-            if (feature.get(type) === layerName) {
-                return style;
-            } else {
-                return new ol.style.Style({});
-            }
-        }));
-        map.updateSize();
-    }
-}
+// /**
+//  * Change la coueleur d'une couche
+//  * @param {String} layerName 
+//  * @param {String} couleur 
+//  * @param {String} code 
+//  */
+// function ChangeLayerColor(type, layerName, code) {
+//     let layer = getLayer(layerName);
+//     if (layer != undefined) {
+//         let style = styleColorFill(code);
+//         layer.setStyle((feature => {
+//             if (feature.get(type) === layerName) {
+//                 return style;
+//             } else {
+//                 return new ol.style.Style({});
+//             }
+//         }));
+//         map.updateSize();
+//     }
+// }
 
 function tileLayerColorChanger(lbl_aire,name,color){
     let layer = getLayer(name);
@@ -506,62 +508,62 @@ function changeAireColor(layerName, code) {
     }
 }
 
-/**
- * 
- * @param {*} denomination 
- * @param {*} callback 
- */
-function makeAireGeo(denomination, callback) {
-    $.ajax({
-        url: "/aire_geo/" + denomination,
-        type: 'GET',
-        dataType: "json",
-        success: coord => {
-            callback(coord);
+// /**
+//  * 
+//  * @param {*} denomination 
+//  * @param {*} callback 
+//  */
+// function makeAireGeo(denomination, callback) {
+//     $.ajax({
+//         url: "/aire_geo/" + denomination,
+//         type: 'GET',
+//         dataType: "json",
+//         success: coord => {
+//             callback(coord);
 
-        }
-    });
-}
+//         }
+//     });
+// }
 
-/**
- * 
- * @param {*} denomination 
- * @param {*} callback 
- */
-function fetchAireGeo(denomination, callback) {
-    $.ajax({
-        url: "/aire_geo/getInfo/" + denomination,
-        type: 'GET',
-        dataType: "json",
-        success: aire_geo => {
-            callback(aire_geo);
-        }
-    });
-}
+// /**
+//  * 
+//  * @param {*} denomination 
+//  * @param {*} callback 
+//  */
+// function fetchAireGeo(denomination, callback) {
+//     $.ajax({
+//         url: "/aire_geo/getInfo/" + denomination,
+//         type: 'GET',
+//         dataType: "json",
+//         success: aire_geo => {
+//             callback(aire_geo);
+//         }
+//     });
+// }
 
-/**
- * 
- * @param {*} coord 
- * @param {*} denom 
- * @param {*} hex 
- */
-function makeLayerByCoord(coord, denom, hex) {
-    let name = String("geo" + denom);
-    try {
-        map.addLayer(new ol.layer.Vector({
-            projection: "EPSG:2154",
-            name: name,
-            source: new ol.source.Vector({
-                projection: "EPSG:2154",
-                features: (new ol.format.GeoJSON()).readFeatures(coord[0].geom)
-            }),
-            style: styleColorStroke(hex),
-        }));
-    } catch (e) {
-        console.log("erreur " + e);
-    }
+// /**
+//  * 
+//  * @param {*} coord 
+//  * @param {*} denom 
+//  * @param {*} hex 
+//  */
+// function makeLayerByCoord(coord, denom, hex) {
+//     let name = String("geo" + denom);
+//     try {
+//         map.addLayer(new ol.layer.Vector({
+//             projection: "EPSG:2154",
+//             name: name,
+//             source: new ol.source.Vector({
+//                 projection: "EPSG:2154",
+//                 features: (new ol.format.GeoJSON()).readFeatures(coord[0].geom)
+//             }),
+//             style: styleColorStroke(hex),
+//         }));
+//     } catch (e) {
+//         console.log("erreur " + e);
+//     }
 
-}
+// }
 
 /**
  * 

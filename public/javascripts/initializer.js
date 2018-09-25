@@ -38,7 +38,7 @@ var sourceL = new ol.source.VectorTile({
         origin: ol.extent.getTopLeft(projectionExtent),
 
     }),
-   //url: 'http://127.0.0.1:8080/geoserver/gwc/service/tms/1.0.0/test:aire_p@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+  
     url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
     crossOrigin: 'anonymous',
 });

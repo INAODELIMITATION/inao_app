@@ -65,38 +65,38 @@ function makeGeoRow(data, color) {
     });
 }
 
-/**
- * Crée une ligne avec les parametres aire geo et aire parcellaire
- * @param {*} data 
- * @param {*} situation 
- * @param {*} color 
- */
-function createRow(data, situation, color) {
-    $("#couches").prepend(
-        '<li class="success-element" id="c' + data.id + '">' +
-        '<h3 class="text-center">' + data.valeur +
-        ' <a href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info" data-toggle="modal" data-target="#myModal6" >' +
-        ' <i class="fa fa-1x fa-info"> </i>' +
-        ' </a>' +
-        '</h3>' +
-        createGeoRow(data, situation, color) + createAppelRow(data, color) +
-        ' </li>'
-    );
-    $('#cp' + data.id).css({ 'background-color': color });
+// /**
+//  * Crée une ligne avec les parametres aire geo et aire parcellaire
+//  * @param {*} data 
+//  * @param {*} situation 
+//  * @param {*} color 
+//  */
+// function createRow(data, situation, color) {
+//     $("#couches").prepend(
+//         '<li class="success-element" id="c' + data.id + '">' +
+//         '<h3 class="text-center">' + data.valeur +
+//         ' <a href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info" data-toggle="modal" data-target="#myModal6" >' +
+//         ' <i class="fa fa-1x fa-info"> </i>' +
+//         ' </a>' +
+//         '</h3>' +
+//         createGeoRow(data, situation, color) + createAppelRow(data, color) +
+//         ' </li>'
+//     );
+//     $('#cp' + data.id).css({ 'background-color': color });
 
-    fetchAireGeo(data.valeur, aire_geo => {
-        $('body').append(modalInfo(aire_geo));
-    });
+//     fetchAireGeo(data.valeur, aire_geo => {
+//         $('body').append(modalInfo(aire_geo));
+//     });
 
-    $('body').css('overflow', 'hidden'); //solution temporaire
-    $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
-        ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
-        $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
-    });
-    if (situation == "aireGeo") {
-        makeGeoRow(data, color);
-    }
-}
+//     $('body').css('overflow', 'hidden'); //solution temporaire
+//     $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
+//         ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
+//         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
+//     });
+//     if (situation == "aireGeo") {
+//         makeGeoRow(data, color);
+//     }
+// }
 
 function createAppelationRow(data) {
     $("#couches").prepend(
