@@ -460,27 +460,31 @@ function SearchRow(data, type) {
     let element = returnElement(data, type);
     let str = type.substring(0, 3);
     let fa = 'fa' + str;
+    let name = str+''+element.id;
     $("#couches").prepend(
         '<li class="warning-element" id="c' + element.id + '">' +
-        '<h3 class="text-center">' + type + ': ' + element.valeur +
+        '<h3 class="text-center"> ' + element.valeur.replace(/^\w/, c => c.toUpperCase()) +'<small class="badge badge-warning"> '+type+'</small>'+
         '</h3>' +
-
         '<div class="agile-detail">' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility2(\'' + element.id + '\',\'' + fa + '\',\'' + str + '\')">' +
+        ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + element.id + '\',\'' + fa + '\',\'' + str + '\')">' +
         ' <i id="fa' + str + element.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" id="c' + str + data.id + '" class="painter btn btn-xs btn-success" >' +
+        ' <a href="#" id="cpo' + element.id + '" class="painter btn btn-xs btn-success" >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteLayerRow2(\'' + element.id + '\')">' +
+        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="removerOther(\'' + name + '\',\'' + element.id + '\')">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + element.id + '\')">' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="zoomExtentVectorLayer(\'' + name + '\')">' +
         ' <i class="fa fa-1x fa-map-marker"></i>' +
         ' </a>' +
         '</div>' +
         ' </li>'
     );
+    $('#cpo' + element.id + '').colorpicker().on('changeColor', function (e) {
+        changeAireColor(name, e.color.toString('hex'));
+        $('#cpo' + element.id).css({ 'background-color': e.color.toString('hex') });
+    });
 
 }
 
@@ -499,24 +503,8 @@ function returnElement(data, type) {
     }
 
 }
-
-function switchLayerVisibility2(id, fa, precede) {
-    fetchSess(data => {
-        let sess = data.filter;
-        sess.forEach(element => {
-            if (element.id == id) {
-                let name = precede + '' + element.id;
-
-                let vectLayer = getLayer(name);
-                if (vectLayer.getVisible() == true) {
-                    vectLayer.setVisible(false);
-                    $("#" + fa + '' + id).removeClass('fa-eye').addClass('fa-eye-slash');
-
-                } else {
-                    vectLayer.setVisible(true);
-                    $("#" + fa + '' + id).removeClass('fa-eye-slash').addClass('fa-eye');
-                }
-            }
-        });
-    });
+function removerOther(name,id){
+    layerRemover(name);
+    $("#c" + id).remove();
 }
+

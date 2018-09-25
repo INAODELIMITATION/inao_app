@@ -8,8 +8,8 @@
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS",0.7);
-    setIgnLayer("ADMINEXPRESS_COG_CARTO_2017",0.8);
+    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7);
+    setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8);
 
     // setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
 
@@ -49,7 +49,7 @@ function checkformat(name) {
  * Fonction qui initialise une couche de l'IGN
  * @param {String} name 
  */
-function setIgnLayer(name,opacity) {
+function setIgnLayer(name, opacity) {
     format = checkformat(name);
     map.addLayer(
         new ol.layer.Tile({
@@ -60,7 +60,7 @@ function setIgnLayer(name,opacity) {
                     format: format
                 }
             }),
-            opacity:opacity
+            opacity: opacity
         })
 
     );
@@ -200,7 +200,7 @@ function sidebarClicked() {
         clickSidebar();
         this.clicked = 1;
     }
-    if(this.clicked == 1){
+    if (this.clicked == 1) {
         clickSidebar();
         clickSidebar();
     }
@@ -239,26 +239,26 @@ function sidebarClicked() {
 
 
 
-function LayerCreator(data){
-      let color = RandomcolorHexRgba();
-      createAppelationRow(data);
-      aire_geoCreator(data.id_aire,color.hex1);
-      aire_parcellaireCreator(data.id_aire,color);
-      successMessage("ajout termnié avec succès", "ajout de la couche " + data.lbl_aire);
-     
+function LayerCreator(data) {
+    let color = RandomcolorHexRgba();
+    createAppelationRow(data);
+    aire_geoCreator(data.id_aire, color.hex1);
+    aire_parcellaireCreator(data.id_aire, color);
+    successMessage("ajout termnié avec succès", "ajout de la couche " + data.lbl_aire);
+
 }
 
 
-function aire_geoCreator(id_aire, color){
-    getAire_geo(id_aire,aire_geo=>{
-        if(aire_geo == false){
-            $("#options"+id_aire).prepend(
-                ''+rowInexistant("Aire Geographique")
+function aire_geoCreator(id_aire, color) {
+    getAire_geo(id_aire, aire_geo => {
+        if (aire_geo == false) {
+            $("#options" + id_aire).prepend(
+                '' + rowInexistant("Aire Geographique")
             );
-        }else{
-            makeLayerTypeByCoord(aire_geo[0].geom,color,"geo",aire_geo[0].id_aire);
-            airegeoParams(id_aire,color);
-           
+        } else {
+            makeLayerTypeByCoord(aire_geo[0].geom, color, "geo", aire_geo[0].id_aire);
+            airegeoParams(id_aire, color);
+
         }
     });
 }
@@ -268,8 +268,8 @@ function aire_geoCreator(id_aire, color){
  * @param {*} data 
  * @param {*} color 
  */
-function tileLayerCreator(data,color){
-    let name = "airePar"+data.id_aire;
+function tileLayerCreator(data, color) {
+    let name = "airePar" + data.id_aire;
     try {
         map.addLayer(new ol.layer.VectorTile({
             opacity: 0.8,
@@ -294,26 +294,26 @@ function tileLayerCreator(data,color){
     }
 }
 
-function aire_parcellaireCreator(id_aire,color){
-    getAireParcellaire(id_aire,aire=>{
-        if(aire == false){
-            $("#options"+id_aire).append(
-                ''+rowInexistant("Aire Parcellaire")
+function aire_parcellaireCreator(id_aire, color) {
+    getAireParcellaire(id_aire, aire => {
+        if (aire == false) {
+            $("#options" + id_aire).append(
+                '' + rowInexistant("Aire Parcellaire")
             );
-        }else{
-            tileLayerCreator(aire,color);
-           
-            aireParcParams(aire,color);
+        } else {
+            tileLayerCreator(aire, color);
+
+            aireParcParams(aire, color);
         }
     });
 }
-function getAireParcellaire(id_aire,callback){
+function getAireParcellaire(id_aire, callback) {
     $.ajax({
         url: "/zone/aire_parcellaire/" + id_aire,
         type: 'GET',
         dataType: "json",
         success: function (data) {
-           callback(data)      
+            callback(data)
         }
     });
 }
@@ -339,14 +339,14 @@ function getextent(id_aire) {
 
 }
 
-function getAire_geo(id_aire,callback){
+function getAire_geo(id_aire, callback) {
     $.ajax({
         url: "/zone/aire_geo/" + id_aire,
         type: 'GET',
         dataType: "json",
         success: function (data) {
             callback(data);
-          
+
         }
     });
 }
@@ -438,17 +438,17 @@ function getLayer(name) {
  * Nom de la couche
  * @param {String} nom 
  */
-function layerRemover(nom){
-    try{
-    let layer = getLayer(nom);
-    if(layer !=undefined){
-        map.removeLayer(layer);
+function layerRemover(nom) {
+    try {
+        let layer = getLayer(nom);
+        if (layer != undefined) {
+            map.removeLayer(layer);
+        }
+        map.updateSize();
+        successMessage("Couche retiré avec succès", "Suppression de la couche ");
+    } catch (error) {
+        console.log(error);
     }
-    map.updateSize();
-    successMessage("Couche retiré avec succès", "Suppression de la couche ");
-}catch(error){
-    console.log(error);
-}
 }
 
 
@@ -473,7 +473,7 @@ function layerRemover(nom){
 //     }
 // }
 
-function tileLayerColorChanger(lbl_aire,name,color){
+function tileLayerColorChanger(lbl_aire, name, color) {
     let layer = getLayer(name);
     if (layer != undefined) {
         let style = styleColorFill(color);
@@ -572,8 +572,8 @@ function changeAireColor(layerName, code) {
  * @param {*} type 
  * @param {*} nom 
  */
-function makeLayerTypeByCoord(coord,couleur,type,id){
-    let name = String(type+''+id);
+function makeLayerTypeByCoord(coord, couleur, type, id) {
+    let name = String(type + '' + id);
     try {
         map.addLayer(new ol.layer.Vector({
             projection: "EPSG:2154",
@@ -599,7 +599,7 @@ function makeLayerTypeByCoord(coord,couleur,type,id){
  * @param {*} denomination 
  * @param {*} callback 
  */
-function fetchCommune(insee,callback) {
+function fetchCommune(insee, callback) {
     $.ajax({
         url: "/communes/" + insee,
         type: 'GET',
@@ -619,7 +619,7 @@ function fetchCommune(insee,callback) {
  * @param {*} denomination 
  * @param {*} callback 
  */
-function fetchParcelle(id,callback) {
+function fetchParcelle(id, callback) {
     $.ajax({
         url: "/parcelles/" + id,
         type: 'GET',
@@ -636,7 +636,7 @@ function fetchParcelle(id,callback) {
 /**
  * retourne la liste des parcelles en fonction de la recherche
  */
-function AjaxParcelle(){
+function AjaxParcelle() {
     $.ajax({
         url: "/parcelles",
         data: {
@@ -649,7 +649,7 @@ function AjaxParcelle(){
         success: function (data) {
             resetParcelleSearch();
             data.forEach((parcelle) => {
-               
+
                 appendParcelle(parcelle);
             });
 
@@ -659,37 +659,49 @@ function AjaxParcelle(){
 }
 
 
-function makeCommune(insee){
-    fetchCommune(insee,commune=>{
-        let name = String("com"+commune.code_insee);
+function makeCommune(insee) {
+    fetchCommune(insee, commune => {
+        let name = String("com" + commune.code_insee);
         try {
             map.addLayer(new ol.layer.Vector({
                 projection: "EPSG:2154",
                 name: name,
                 source: new ol.source.Vector({
-                   projection: "EPSG:2154",
+                    projection: "EPSG:2154",
                     features: (new ol.format.GeoJSON()).readFeatures(commune.geom)
                 }),
                 style: styleColorStroke("yellow"),
             }));
-            let extent = getLayer("com"+insee).getSource().getExtent();
+            let extent = getLayer("com" + insee).getSource().getExtent();
             map.getView().fit(extent, map.getSize());
             map.updateSize();
-            SearchRow(commune,"commune");
+            SearchRow(commune, "commune");
         } catch (e) {
             console.log("erreur " + e);
         }
     });
 }
 
-function loadCommune(insee){
+function loadCommune(insee) {
     makeCommune(insee);
 }
 
+function zoomExtentVectorLayer(name) {
+    try {
+        let couche = getLayer(name);
+        if (couche) {
+            let extent = couche.getSource().getExtent();
+            map.getView().fit(extent, map.getSize());
+            map.updateSize();
+        }
+    } catch (error) {
+        console.log(error);
+    }
 
-function makeParcelle(id){
-    fetchParcelle(id, parcelle=>{
-        let name = String("par"+parcelle.id);
+}
+function makeParcelle(id) {
+    fetchParcelle(id, parcelle => {
+        let name = String("par" + parcelle.id);
         try {
             map.addLayer(new ol.layer.Vector({
                 projection: "EPSG:2154",
@@ -700,19 +712,19 @@ function makeParcelle(id){
                 }),
                 style: styleColorStroke("yellow"),
             }));
-            let extent = getLayer("par"+id).getSource().getExtent();
-            map.getView().fit(extent, {minResolution: 0.1});
+            let extent = getLayer("par" + id).getSource().getExtent();
+            map.getView().fit(extent, { minResolution: 0.1 });
             map.updateSize();
-            SearchRow(parcelle,"parcelle");
+            SearchRow(parcelle, "parcelle");
         } catch (e) {
             console.log("erreur " + e);
         }
-    
+
     });
 }
 
-function loadParcelle(id){
+function loadParcelle(id) {
     makeParcelle(id);
     map.updateSize();
-    
+
 }
