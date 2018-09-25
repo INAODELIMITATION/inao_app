@@ -4,100 +4,11 @@
  * Dans ce fichier nous mettrons toutes les intéractions avec notre vue, création de block etc...
  */
 
-/**Fonction qui crée une div en fonction de la couche qui est chargée
- * @param {Object} data contient le type (denomination, appellation, parcelle, aire geographique) et la valeur (nom)
- */
-
-function createGeoRow(data, situation) {
-    if (situation == "aireGeo") {
-        let a =
-            '<span><strong>Aire géographique:&nbsp;</strong>' +
-            ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fageo\',\'geo\')">' +
-            ' <i id="fageo' + data.id + '" class="fa fa-1x fa-eye"></i>' +
-            ' </a>' +
-            ' <a href="#" id="cpgeo' + data.id + '" class="painter btn btn-xs btn-success" >' +
-            ' <i class="fa fa-1x fa-paint-brush"></i>' +
-            ' </a>' +
-
-            '</span><br><br>';
-        return a;
-    }
-    else { return '<span><strong>Aire géographique:&nbsp; </strong><span class="badge badge-danger"> Inexistante</span><br><br>'; }
-}
-
-function createAppelRow(data) {
-    let message =
-        '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="switchLayerVisibility(\'' + data.id + '\',\'fa\',\'\')">' +
-        ' <i id="fa' + data.id + '" class="fa fa-1x fa-eye"></i>' +
-        ' </a>' +
-        ' <a href="#" id="cp' + data.id + '" class="painter btn btn-xs btn-success ">' +
-        ' <i class="fa fa-1x fa-paint-brush"></i>' +
-        ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="extentCouche(\'' + data.id + '\')">' +
-        ' <i class="fa fa-1x fa-map-marker"></i>' +
-        ' </a>' +
-        '</span>' +
-
-        '<div class="agile-detail">' +
-        ' <a href="#" type="button" class=" btn btn-xs  btn-rounded btn-info" style="visibility: hidden;" >' +
-        ' <i class="fa fa-1x fa-info-circle"></i>' +
-        ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteLayerRow(\'' + data.id + '\')">' +
-        ' <i class="fa fa-1x fa-trash"></i>' +
-        ' </a>' +
-        '</div>';
-
-    return message;
-}
 
 /**
- * If situation , create airegeo
+ * crée une ligne pour les parametre d'une appellation chargée
  * @param {*} data 
- * @param {*} color 
  */
-function makeGeoRow(data, color) {
-    let name = "geo" + data.valeur;
-    $('#cpgeo' + data.id).css({ 'background-color': color });
-    $('#cpgeo' + data.id + '').colorpicker().on('changeColor', function (e) {
-        changeAireColor(name, e.color.toString('hex'));
-        $('#cpgeo' + data.id).css({ 'background-color': e.color.toString('hex') });
-    });
-}
-
-// /**
-//  * Crée une ligne avec les parametres aire geo et aire parcellaire
-//  * @param {*} data 
-//  * @param {*} situation 
-//  * @param {*} color 
-//  */
-// function createRow(data, situation, color) {
-//     $("#couches").prepend(
-//         '<li class="success-element" id="c' + data.id + '">' +
-//         '<h3 class="text-center">' + data.valeur +
-//         ' <a href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info" data-toggle="modal" data-target="#myModal6" >' +
-//         ' <i class="fa fa-1x fa-info"> </i>' +
-//         ' </a>' +
-//         '</h3>' +
-//         createGeoRow(data, situation, color) + createAppelRow(data, color) +
-//         ' </li>'
-//     );
-//     $('#cp' + data.id).css({ 'background-color': color });
-
-//     fetchAireGeo(data.valeur, aire_geo => {
-//         $('body').append(modalInfo(aire_geo));
-//     });
-
-//     $('body').css('overflow', 'hidden'); //solution temporaire
-//     $('#cp' + data.id + '').colorpicker().on('changeColor', function (e) {
-//         ChangeLayerColor(data.type, data.valeur, e.color.toString('rgba'));
-//         $('#cp' + data.id).css({ 'background-color': e.color.toString('hex') });
-//     });
-//     if (situation == "aireGeo") {
-//         makeGeoRow(data, color);
-//     }
-// }
-
 function createAppelationRow(data) {
     $("#couches").prepend(
         '<li class="success-element" id="couche' + data.id_aire + '">' +
@@ -120,10 +31,18 @@ function createAppelationRow(data) {
     );
 }
 
+/**
+ * Notifie que le type d'aire recherché n'existe pas
+ * @param {String} typeAire //aire geographique ou parcellaire
+ */
 function rowInexistant(typeAire) {
     return "<span><strong>" + typeAire + ":&nbsp; </strong><span class='badge badge-danger'> Inexistante</span><br><br>";
 }
 
+/**
+ * crée une ligne pour les parametres de la couche aire geographique
+ * @param {number} id_aire 
+ */
 function airegeoRow(id_aire) {
     let a =
         '<span><strong>Aire géographique:&nbsp;</strong>' +
@@ -138,6 +57,10 @@ function airegeoRow(id_aire) {
     return a;
 }
 
+/**
+ * crée une ligne pour les parametres de la couche aire parcellaires
+ * @param {number} id_aire 
+ */
 function airePaRow(id_aire) {
     let message =
         '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
@@ -155,6 +78,11 @@ function airePaRow(id_aire) {
     return message;
 }
 
+/**
+ * Initialise les parametres de la couche aire parcellaire
+ * @param {Object} data la zone cherchée
+ * @param {Object} color la couleur (rgba, hex)
+ */
 function aireParcParams(data, color) {
     let name = "airePar" + data.id_aire;
     $("#options" + data.id_aire).append(
@@ -168,6 +96,11 @@ function aireParcParams(data, color) {
     });
 }
 
+/**
+ *  Initialise les parametres de la couche aire géographique
+ * @param {number} id_aire l'id de la zone
+ * @param {string} color la couleur 
+ */
 function airegeoParams(id_aire, color) {
     $("#options" + id_aire).prepend(
         '' + airegeoRow(id_aire)
@@ -180,7 +113,12 @@ function airegeoParams(id_aire, color) {
     });
 }
 
-
+/**
+ * Modifie la visibilité d'une couche
+ * @param {number} id 
+ * @param {string} fa 
+ * @param {string} precede 
+ */
 function layerVisibilitySwitcher(id, fa, precede) {
     let name = precede + '' + id;
     try {
@@ -197,6 +135,10 @@ function layerVisibilitySwitcher(id, fa, precede) {
     }
 }
 
+/**
+ * supprime une appellation chargée (aire geo et aire parcellaire )
+ * @param {number} id_aire 
+ */
 function deleteAppelationRow(id_aire) {
     deleteAireGeo(id_aire);
     deleteAirePar(id_aire);
@@ -205,6 +147,10 @@ function deleteAppelationRow(id_aire) {
     //zoom sur le dernier element
 }
 
+/**
+ * supprime la couche aire parcellaire si elle existe
+ * @param {number} id_aire 
+ */
 function deleteAirePar(id_aire) {
     getAireParcellaire(id_aire, aire => {
         if (aire != false) {
@@ -214,6 +160,10 @@ function deleteAirePar(id_aire) {
     });
 }
 
+/**
+ * supprime la couche aire géographique si elle existe
+ * @param {number} id_aire 
+ */
 function deleteAireGeo(id_aire) {
     getAire_geo(id_aire, aire_geo => {
         if (aire_geo != false) {
@@ -222,38 +172,8 @@ function deleteAireGeo(id_aire) {
         }
     });
 }
-/**
- * supprime une couche ajouté
- * @param {number} id 
- * @param {String} valeur 
- */
-function deleteLayerRow(id) {
-    fetchSess(data => {
-        let sess = data.filter;
-        sess.forEach(element => {
-            if (element.id == id) {
-                removeLayer(element.valeur, element.id);
-                $("#c" + id).remove();
-            }
-        });
-    });
 
-}
 
-/**
- * Zoom sur l'emprise de la couche
- * @param {number} id 
- */
-function extentCouche(id) {
-    fetchSess(data => {
-        let sess = data.filter;
-        sess.forEach(element => {
-            if (element.id == id) {
-                fitToextent(element.valeur)
-            }
-        });
-    });
-}
 
 
 
@@ -263,30 +183,7 @@ function clickSidebar() {
 
 }
 
-/**
- * Change la visibilité d'une couche
- * @param {number} id 
- */
-function switchLayerVisibility(id, fa, precede) {
-    fetchSess(data => {
-        let sess = data.filter;
-        sess.forEach(element => {
-            if (element.id == id) {
-                let name = precede + '' + element.valeur;
 
-                let vectLayer = getLayer(name);
-                if (vectLayer.getVisible() == true) {
-                    vectLayer.setVisible(false);
-                    $("#" + fa + '' + id).removeClass('fa-eye').addClass('fa-eye-slash');
-
-                } else {
-                    vectLayer.setVisible(true);
-                    $("#" + fa + '' + id).removeClass('fa-eye-slash').addClass('fa-eye');
-                }
-            }
-        });
-    });
-}
 
 
 
@@ -420,7 +317,7 @@ function advanceForm() {
         '<br><h5 class="text-danger"  >[Erreur] Remplir au moins l\'un des champs!!!</h5>' +
         '</div>' +
         '</div>' +
-        '</div>'
+        '</div>'+
     '</form>';
 
     return formulaire;
