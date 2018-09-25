@@ -3686,7 +3686,7 @@ ol.unstyled {
     padding: 10px 20px;
     position: absolute;
     right: 0;
-    
+
 }
 .footer.fixed_full {
     position: fixed;
@@ -8570,7 +8570,15 @@ body.md-skin {
 
 /*added by Jean Roger Guiala*/
 @media (max-width: 768px) {
-    
+    #map { 
+        position: fixed; 
+        top: 50px; 
+        bottom: 0px; 
+        left: 0px; 
+        right: 0px; 
+        width: 100%;
+        height: 88%;
+    }
     #right-sidebar {
         background-color: #fff;
         border-left: 1px solid #e7eaec;
@@ -8586,7 +8594,7 @@ body.md-skin {
      .searchMobile{
         display: block!important;
         padding-top: 2vh;
-        
+
     }
     .recherche{
         display: none!important;
@@ -8597,19 +8605,28 @@ body.md-skin {
     .navbar-brand img{
         height: 20px;
     }
-    
+
     .menu-desktop{
         display: none !important;
     }
     #popup {
         display: none;
       }
-    
+
 }
 .logoInao{
     height: 30px;
 }
 @media (min-width : 769px){
+    #map { 
+        position: fixed; 
+        top: 80px; 
+        bottom: 0px; 
+        left: 0px; 
+        right: 0px; 
+        width: 100%;
+        height: 88%;
+    }
     .inputSearch input{
         height: 50px;
         border-radius: 25px 0px 0px 25px;
@@ -8641,7 +8658,7 @@ body.md-skin {
     .searchGroup1{
         padding-top: 20px;
         font-size: 10px;
-      
+
     }
     .recherche{
        position: absolute;
@@ -8651,7 +8668,7 @@ body.md-skin {
     }
     .searchMobile{
         display: none!important;
-        
+
     }
     #popup {
         position: absolute;
@@ -8659,21 +8676,21 @@ body.md-skin {
         top: .5em;
         left: .0em;
         z-index: 9999999;
-        display: block; 
+        display: block;
       }
 
 }
-.carte{
+/* .carte{
     margin: 0 !important;
     padding: 0!important;
     border: 0 !important;
-}
+} */
 
-
+/* 
 #map{
-   
-   
-}
+
+
+} */
 
 
 .rondeur{

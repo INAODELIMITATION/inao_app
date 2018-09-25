@@ -14,7 +14,7 @@ var projection = new ol.proj.Projection({
     units: 'm',
     axisOrientation: 'neu'
 }); // definition du EPSG 2154
-var zoom = 2.5;
+var zoom = 2.2;
 ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
 var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
 proj2154.setExtent(extent);
