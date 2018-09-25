@@ -661,24 +661,8 @@ function AjaxParcelle() {
 
 function makeCommune(insee) {
     fetchCommune(insee, commune => {
-        let name = String("com" + commune.code_insee);
-        try {
-            map.addLayer(new ol.layer.Vector({
-                projection: "EPSG:2154",
-                name: name,
-                source: new ol.source.Vector({
-                    projection: "EPSG:2154",
-                    features: (new ol.format.GeoJSON()).readFeatures(commune.geom)
-                }),
-                style: styleColorStroke("yellow"),
-            }));
-            let extent = getLayer("com" + insee).getSource().getExtent();
-            map.getView().fit(extent, map.getSize());
-            map.updateSize();
-            SearchRow(commune, "commune");
-        } catch (e) {
-            console.log("erreur " + e);
-        }
+        makeLayerTypeByCoord(commune.geom,"yellow","com",commune.code_insee);
+        SearchRow(commune, "commune");
     });
 }
 
@@ -701,27 +685,11 @@ function zoomExtentVectorLayer(name) {
 }
 function makeParcelle(id) {
     fetchParcelle(id, parcelle => {
-        let name = String("par" + parcelle.id);
-        try {
-            map.addLayer(new ol.layer.Vector({
-                projection: "EPSG:2154",
-                name: name,
-                source: new ol.source.Vector({
-                    projection: "EPSG:2154",
-                    features: (new ol.format.GeoJSON()).readFeatures(parcelle.geom)
-                }),
-                style: styleColorStroke("yellow"),
-            }));
-            let extent = getLayer("par" + id).getSource().getExtent();
-            map.getView().fit(extent, { minResolution: 0.1 });
-            map.updateSize();
-            SearchRow(parcelle, "parcelle");
-        } catch (e) {
-            console.log("erreur " + e);
-        }
-
+        makeLayerTypeByCoord(parcelle.geom,"yellow","par",parcelle.id);
+        SearchRow(parcelle, "parcelle");
     });
 }
+
 
 function loadParcelle(id) {
     makeParcelle(id);
