@@ -171,25 +171,25 @@ function successMessage(libelle, valeur) {
 
 
 
-/**
- * 
- * @param {string} valeur ce qui est recherché, dénomination ou appellation 
- * 
- */
-function fitToextent(valeur) {
-    $.ajax({
-        url: "/extendTest/" + valeur,
-        type: 'GET',
-        dataType: "json",
-        success: function (data) {
+// /**
+//  * 
+//  * @param {string} valeur ce qui est recherché, dénomination ou appellation 
+//  * 
+//  */
+// function fitToextent(valeur) {
+//     $.ajax({
+//         url: "/extendTest/" + valeur,
+//         type: 'GET',
+//         dataType: "json",
+//         success: function (data) {
 
-            var ex = [data[0].st_xmin, data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
+//             var ex = [data[0].st_xmin, data[0].st_ymin, data[0].st_xmax, data[0].st_ymax];
 
-            map.getView().fit(ex, map.getSize());
-        }
-    });
+//             map.getView().fit(ex, map.getSize());
+//         }
+//     });
 
-}
+// }
 
 /**
  * vérifie si on a cliqué ou pas sur la barre de menu
