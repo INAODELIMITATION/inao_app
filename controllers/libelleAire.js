@@ -33,7 +33,7 @@ module.exports = {
      * @param {*} res 
      */
     findLibelle(req,res){
-        console.log("Début de la fonction FindLibelle");
+       
         return lbl_Aire
         .findAll({
             raw:true,
