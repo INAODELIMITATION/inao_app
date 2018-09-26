@@ -8,10 +8,10 @@
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7);
-    setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7);
+    // setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8);
 
-    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
+    setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
 
     LoadLayers();
     map.getView().fit(extent, map.getSize());

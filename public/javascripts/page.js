@@ -3,23 +3,25 @@
 var clicked = 0;
 window.addEventListener('beforeunload', (event) => {
     event.returnValue = `Are you sure you want to leave?`;
-  });
-  
+});
+
+
+
 $(document).ready(function () {
    
     Gp.Services.getConfig({
-        serverUrl: "/javascripts/autoconf/local.json", //local
-        //serverUrl: "/GPautoconf/autoconf.json", //server
+        // serverUrl: "/javascripts/autoconf/local.json", //local
+        serverUrl: "/GPautoconf/autoconf.json", //server
         callbackSuffix: "",
         onSuccess: initialisation,
         onFailure: fail,
     });
 
-    $("#AutreRecherche").on('click',()=>{
+    $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });
-    $("#hideAutreRecherche").on('click',()=>{
-        $("#popup").css("display","none");
+    $("#hideAutreRecherche").on('click', () => {
+        $("#popup").css("display", "none");
     });
 
     list();
@@ -28,7 +30,7 @@ $(document).ready(function () {
         minLength: 3,
         items: 18,
         source: function (query, result) {
-           
+
             $.ajax({
                 url: "/search",
                 data: 'libelle=' + query,
@@ -43,15 +45,15 @@ $(document).ready(function () {
                 }
             });
         },
-      
+
         updater: function (item) {
             let data = {
                 id_aire: libelle[item],
-                lbl_aire:item
+                lbl_aire: item
             };
             LayerCreator(data);
             libelle = [];
-        }  
+        }
     });
 
 
@@ -103,16 +105,16 @@ $(document).ready(function () {
                     type: "POST",
                     success: function (data) {
                         result($.map(data, function (item) {
-                            
-                            return  ''+item.code_insee +  '-' + (item.commune).trim();
+
+                            return '' + item.code_insee + '-' + (item.commune).trim();
                         }));
                     }
                 });
             },
 
             updater: function (item) {
-               
-                Resarch(option,item);
+
+                Resarch(option, item);
             }
 
         });
