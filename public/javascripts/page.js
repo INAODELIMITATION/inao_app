@@ -57,7 +57,7 @@ $(document).ready(function () {
            
             try {
                 LayerCreator(data);
-                storageAdderAppel(data);
+                storageAdder(data);
             } catch (error) {
                 console.log(error);
             }

@@ -82,51 +82,7 @@ function removeDuplicates(arr, key) {
     }
 }
 
-/**
- * charge les couches en session
- * @param {Array} val tableau de couches en session
- */
-function loadLayersess(val) {
-    for (var i = 0; i < val.length; i++) {
-        layerAdder(val[i]);
-    }
-    fitToextent(val[val.length - 1].valeur);
-}
-/**
- * Fonction qui charge la session
- * @param {*} handleData 
- */
-function fetchSess(handleData) {
-    $.ajax({
-        url: "/session/couches/NULL",
-        type: 'GET',
-        dataType: "json",
-        success: data => {
-            handleData(data);
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert("Status: " + textStatus); alert("Error: " + errorThrown);
-        }
-    });
-}
 
-/**
- * mis à jour de la sesison
- * NE FONCTIONNE PAS ENCORE
- * @param {*} data 
- */
-function updateSess(data) {
-    $.ajax({
-        url: "/session/couches/NULL",
-        type: 'POST',
-        data: 'session=' + data,
-        success: filter => {
-            alert("changement");
-            console.log(filter);
-        }
-
-    });
-}
 
 
 /**
@@ -140,6 +96,12 @@ function LoadLayers() {
        layersData.forEach(item=>{
            if(item.type == "appellation"){
             LayerCreator(item);
+           }
+           if(item.type == "parcelle"){
+            makeParcelle(item.id);
+           }
+           if(item.type == "commune"){
+            makeCommune(item.id);
            }
        });
     }
@@ -185,7 +147,7 @@ function sidebarClicked() {
     }
 }
 
-function storageAdderAppel(data){
+function storageAdder(data){
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
    if(!layersData){
        layersData = [];
@@ -199,6 +161,13 @@ function storagedeleterAppel(id_aire){
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
     if(layersData){
         let filtered = layersData.filter(layer=>layer.id_aire != id_aire);
+        window.localStorage.setItem("layers", JSON.stringify(filtered));
+    }
+}
+function storagedeleterOther(id){
+    let layersData = JSON.parse(window.localStorage.getItem("layers"));
+    if(layersData){
+        let filtered = layersData.filter(layer=>layer.id != id);
         window.localStorage.setItem("layers", JSON.stringify(filtered));
     }
 }
@@ -315,13 +284,6 @@ function getAire_geo(id_aire, callback) {
 }
 
 
-
-function deleteSessLayer(id) {
-    $.ajax({
-        type: 'delete',
-        url: "/session/couches/" + id,
-    });
-}
 
 /**
  * Retourne la couche vectorielle en fonction de son nom
@@ -496,6 +458,11 @@ function makeCommune(insee) {
 
 function loadCommune(insee) {
     makeCommune(insee);
+    let data = {
+        id : insee,
+        type: "commune"
+    };
+    storageAdder(data);
 }
 
 function zoomExtentVectorLayer(name) {
@@ -515,12 +482,18 @@ function makeParcelle(id) {
     fetchParcelle(id, parcelle => {
         makeLayerTypeByCoord(parcelle.geom,"yellow","par",parcelle.id);
         SearchRow(parcelle, "parcelle");
+       
     });
 }
 
 
 function loadParcelle(id) {
     makeParcelle(id);
+    let data = {
+        id : id,
+        type: "parcelle"
+    };
+    storageAdder(data);
     map.updateSize();
 
 }

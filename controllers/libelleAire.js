@@ -17,14 +17,7 @@ var sess;
  * @param {String} valeur 
  * @param {Number} id_denom 
  */
-function setParams(type, valeur, id_denom) {
-    var tab = {
-        type: type,
-        valeur: valeur,
-        id: id_denom,
-    }; 
-    return tab;
-}
+
 module.exports = {
 
     /**

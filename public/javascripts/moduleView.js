@@ -352,7 +352,8 @@ function Resarch(option, item) {
         let number = String(pieces[0]);
         $("#alertCommune").show();
         $("#communecherche").append(item);
-        makeCommune(number);
+       
+        loadCommune(number);
     }
     if (option == "parcelle") {
         resetParcelleForm();
@@ -506,6 +507,7 @@ function returnElement(data, type) {
 }
 function removerOther(name,id){
     layerRemover(name);
+    storagedeleterOther(id);
     $("#c" + id).remove();
 }
 
