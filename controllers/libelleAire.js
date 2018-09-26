@@ -49,7 +49,7 @@ module.exports = {
                     message: 'denomination pas trouvé',
                 });
             }
-            console.log("success");
+           
             return res.status(200).send(JSON.stringify(lbl_Aires));
         })
         .catch(error => res.status(400).send(error));

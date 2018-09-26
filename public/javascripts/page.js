@@ -8,10 +8,10 @@ window.addEventListener('beforeunload', (event) => {
 
 
 $(document).ready(function () {
-   
+
     Gp.Services.getConfig({
-        // serverUrl: "/javascripts/autoconf/local.json", //local
-        serverUrl: "/GPautoconf/autoconf.json", //server
+        serverUrl: "/javascripts/autoconf/local.json", //local
+        // serverUrl: "/GPautoconf/autoconf.json", //server
         callbackSuffix: "",
         onSuccess: initialisation,
         onFailure: fail,
@@ -39,7 +39,8 @@ $(document).ready(function () {
                 success: function (data) {
 
                     result($.map(data, function (item) {
-                        libelle[item.lbl_aire] = item.id_aire;
+                        libelle[item.lbl_aire.trim()] = item.id_aire;
+                        
                         return item.lbl_aire.trim();
                     }));
                 }
@@ -47,11 +48,20 @@ $(document).ready(function () {
         },
 
         updater: function (item) {
+           
             let data = {
                 id_aire: libelle[item],
-                lbl_aire: item
+                lbl_aire: item,
+                type: "appellation"
             };
-            LayerCreator(data);
+           
+            try {
+                LayerCreator(data);
+                storageAdderAppel(data);
+            } catch (error) {
+                console.log(error);
+            }
+
             libelle = [];
         }
     });

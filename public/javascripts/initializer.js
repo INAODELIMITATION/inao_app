@@ -39,7 +39,7 @@ var sourceL = new ol.source.VectorTile({
 
     }),
   
-    url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+    url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aireParcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
     crossOrigin: 'anonymous',
 });
 var view = new ol.View({ 

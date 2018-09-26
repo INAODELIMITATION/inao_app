@@ -143,6 +143,7 @@ function deleteAppelationRow(id_aire) {
     deleteAireGeo(id_aire);
     deleteAirePar(id_aire);
     $("#couche" + id_aire).remove();
+    storagedeleterAppel(id_aire);
     //supression en session
     //zoom sur le dernier element
 }

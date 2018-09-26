@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
     sess.aire = [];
   }
   //res.locals.aire = sess.aire;
-  res.render('index', { title: 'SeekInao', layerSess: sess.aire });
+  res.render('index', { title: 'sig-inao', layerSess: sess.aire });
   //next();
 });
 
