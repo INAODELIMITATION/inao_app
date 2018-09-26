@@ -140,41 +140,32 @@ function layerVisibilitySwitcher(id, fa, precede) {
  * @param {number} id_aire 
  */
 function deleteAppelationRow(id_aire) {
-    deleteAireGeo(id_aire);
-    deleteAirePar(id_aire);
+    deleteAire(id_aire,"geo");
+    deleteAire(id_aire,"par");
     $("#couche" + id_aire).remove();
     storagedeleterAppel(id_aire);
-    //supression en session
-    //zoom sur le dernier element
-}
-
-/**
- * supprime la couche aire parcellaire si elle existe
- * @param {number} id_aire 
- */
-function deleteAirePar(id_aire) {
-    getAireParcellaire(id_aire, aire => {
-        if (aire != false) {
-            let nom = "airePar" + id_aire;
-            layerRemover(nom);
-        }
-    });
-}
-
-/**
- * supprime la couche aire géographique si elle existe
- * @param {number} id_aire 
- */
-function deleteAireGeo(id_aire) {
-    getAire_geo(id_aire, aire_geo => {
-        if (aire_geo != false) {
-            let nom = "geo" + id_aire;
-            layerRemover(nom);
-        }
-    });
+   
 }
 
 
+function deleteAire(id_aire,type){
+    if(type == "geo"){
+        getAire_geo(id_aire, aire_geo => {
+            if (aire_geo != false) {
+                let nom = "geo" + id_aire;
+                layerRemover(nom);
+            }
+        });
+    }
+    if(type == "par"){
+        getAireParcellaire(id_aire, aire => {
+            if (aire != false) {
+                let nom = "airePar" + id_aire;
+                layerRemover(nom);
+            }
+        });
+    }
+}
 
 
 
