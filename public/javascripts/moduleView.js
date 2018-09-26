@@ -188,6 +188,12 @@ function list() {
         update: function (event, ui) {
             let couches = $("#couches").sortable("toArray");
             tabid = makeID(couches);
+            console.log(tabid);
+            let layersData = JSON.parse(window.localStorage.getItem("layers"));
+            layersData.forEach(lay=>{
+
+            });
+            /*
             fetchSess(dat => {
                 let t = findPostion(tabid, dat.filter);
                 positionLayers(t);
@@ -202,7 +208,7 @@ function list() {
                     }
                 });
                 //updateSess(tab); TRAVAILLER A CE NIVEAU POUR LA BD
-            });
+            });*/
 
         }
     }).disableSelection();
@@ -214,24 +220,24 @@ function list() {
 function makeID(tableauID) {
     let tab = [];
     tableauID.forEach(element => {
-        tab.push(parseInt(element.substr(1)));
+        tab.push(parseInt(element.substr(6)));
     });
     return tab.reverse(); //renverse l'ordre le premier devient le dernier 
 }
 
 function findPostion(tabid, sess) {
     let tableauuuu = [];
-    sess.forEach(lay => {
-        for (let k = 0; k < tabid.length; k++) {
-            if (tabid[k] == parseInt(lay.id)) {
-                tableauuuu.push({
-                    "nom": lay.valeur,
-                    "position": k,
-                    "id": lay.id
-                });
-            }
-        }
-    });
+    // sess.forEach(lay => {
+    //     for (let k = 0; k < tabid.length; k++) {
+    //         if (tabid[k] == parseInt(lay.id)) {
+    //             tableauuuu.push({
+    //                 "nom": lay.valeur,
+    //                 "position": k,
+    //                 "id": lay.id
+    //             });
+    //         }
+    //     }
+    // });
     return tableauuuu;
 }
 function positionLayers(ta) {
