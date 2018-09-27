@@ -8,13 +8,19 @@
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7);
-    setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8);
+    //setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+   
+  
 
-    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93");
-
+    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    try {
+        setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", false);
+    } catch (error) {
+       console.log(error); 
+    }
+   
     LoadLayers();
-   map.getView().fit(extent, map.getSize());
+    map.getView().fit(extent, map.getSize());
 
 }
 
@@ -49,7 +55,7 @@ function checkformat(name) {
  * Fonction qui initialise une couche de l'IGN
  * @param {String} name 
  */
-function setIgnLayer(name, opacity) {
+function setIgnLayer(name, opacity, libelle, visibility) {
     format = checkformat(name);
     map.addLayer(
         new ol.layer.Tile({
@@ -60,10 +66,48 @@ function setIgnLayer(name, opacity) {
                     format: format
                 }
             }),
+            visible: visibility,
             opacity: opacity
         })
 
     );
+
+
+    appendIgnparams(name, libelle);
+
+
+
+}
+
+function appendIgnparams(name, libelle) {
+    let little = name.substring(0,4);
+    let inp;
+    if(little == "CADA"){
+        inp =   ' <input type="checkbox" checked  name="collapsemenu" class="onoffswitch-checkbox" id="' +little + '">';
+    }else{
+        inp =   ' <input type="checkbox"   name="collapsemenu" class="onoffswitch-checkbox" id="' +little + '">';
+    }
+    $("#coucheIGN").append(
+        ' <div class="setings-item">' +
+        ' <span>' +
+        libelle +
+        ' </span>' +
+        ' <div class="switch">' +
+        ' <div class="onoffswitch">' +
+        inp+
+        ' <label class="onoffswitch-label" for="' + little + '">' +
+        '     <span class="onoffswitch-inner"></span>' +
+        '   <span class="onoffswitch-switch"></span>' +
+        '    </label>' +
+        '    </div>' +
+        ' </div>' +
+        '   </div>'
+    );
+    let id = "#"+little;
+    console.log(id);
+    $("" + id+"").on('click', () => {
+        ignLayerswitcher(name);
+    });
 }
 
 
@@ -90,22 +134,22 @@ function removeDuplicates(arr, key) {
  */
 function LoadLayers() {
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
-    if(!layersData){
+    if (!layersData) {
         layersData = [];
-    }else{
-       layersData.forEach(item=>{
-           if(item.type == "appellation"){
-            LayerCreator(item);
-           }
-           if(item.type == "parcelle"){
-            makeParcelle(item.id);
-           }
-           if(item.type == "commune"){
-            makeCommune(item.id);
-           }
-       });
+    } else {
+        layersData.forEach(item => {
+            if (item.type == "appellation") {
+                LayerCreator(item);
+            }
+            if (item.type == "parcelle") {
+                makeParcelle(item.id);
+            }
+            if (item.type == "commune") {
+                makeCommune(item.id);
+            }
+        });
     }
-    
+
 }
 
 
@@ -147,27 +191,27 @@ function sidebarClicked() {
     }
 }
 
-function storageAdder(data){
+function storageAdder(data) {
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
-   if(!layersData){
-       layersData = [];
-   }
-   layersData.push(data);
-   window.localStorage.setItem("layers", JSON.stringify(layersData));
-  
+    if (!layersData) {
+        layersData = [];
+    }
+    layersData.push(data);
+    window.localStorage.setItem("layers", JSON.stringify(layersData));
+
 }
 
-function storagedeleterAppel(id_aire){
+function storagedeleterAppel(id_aire) {
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
-    if(layersData){
-        let filtered = layersData.filter(layer=>layer.id_aire != id_aire);
+    if (layersData) {
+        let filtered = layersData.filter(layer => layer.id_aire != id_aire);
         window.localStorage.setItem("layers", JSON.stringify(filtered));
     }
 }
-function storagedeleterOther(id){
+function storagedeleterOther(id) {
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
-    if(layersData){
-        let filtered = layersData.filter(layer=>layer.id != id);
+    if (layersData) {
+        let filtered = layersData.filter(layer => layer.id != id);
         window.localStorage.setItem("layers", JSON.stringify(filtered));
     }
 }
@@ -451,7 +495,7 @@ function AjaxParcelle() {
 
 function makeCommune(insee) {
     fetchCommune(insee, commune => {
-        makeLayerTypeByCoord(commune.geom,"yellow","com",commune.code_insee);
+        makeLayerTypeByCoord(commune.geom, "yellow", "com", commune.code_insee);
         SearchRow(commune, "commune");
     });
 }
@@ -459,7 +503,7 @@ function makeCommune(insee) {
 function loadCommune(insee) {
     makeCommune(insee);
     let data = {
-        id : insee,
+        id: insee,
         type: "commune"
     };
     storageAdder(data);
@@ -480,9 +524,9 @@ function zoomExtentVectorLayer(name) {
 }
 function makeParcelle(id) {
     fetchParcelle(id, parcelle => {
-        makeLayerTypeByCoord(parcelle.geom,"yellow","par",parcelle.id);
+        makeLayerTypeByCoord(parcelle.geom, "yellow", "par", parcelle.id);
         SearchRow(parcelle, "parcelle");
-       
+
     });
 }
 
@@ -490,7 +534,7 @@ function makeParcelle(id) {
 function loadParcelle(id) {
     makeParcelle(id);
     let data = {
-        id : id,
+        id: id,
         type: "parcelle"
     };
     storageAdder(data);

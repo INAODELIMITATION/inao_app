@@ -1,6 +1,7 @@
 /**
+ * @file View toutes les fonctions d'interaction et de création de vue
  * @author Guiala Jean Roger
- * @module View toutes les fonctions d'interaction et de création de vue
+ * @version 1.0.0
  * Dans ce fichier nous mettrons toutes les intéractions avec notre vue, création de block etc...
  */
 
@@ -135,6 +136,23 @@ function layerVisibilitySwitcher(id, fa, precede) {
     }
 }
 
+function ignLayerswitcher(name){
+    console.log(name);
+    try {
+        let vectLayer = getLayer(name);
+      
+        if (vectLayer.getVisible() == true) {
+            vectLayer.setVisible(false);
+        
+        } else {
+            vectLayer.setVisible(true);
+        
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 /**
  * supprime une appellation chargée (aire geo et aire parcellaire )
  * @param {number} id_aire 
@@ -147,7 +165,12 @@ function deleteAppelationRow(id_aire) {
    
 }
 
-
+/**
+ * supprime une aire geographique ou une aire parcellaire en fonction du type
+ * @author Jean Roger NIGOUMI Guiala
+ * @param  {number} id_aire
+ * @param  {string} type
+ */
 function deleteAire(id_aire,type){
     if(type == "geo"){
         getAire_geo(id_aire, aire_geo => {
@@ -190,9 +213,17 @@ function list() {
             tabid = makeID(couches);
             console.log(tabid);
             let layersData = JSON.parse(window.localStorage.getItem("layers"));
-            layersData.forEach(lay=>{
+            let appel = layersData.filter(layer=>layer.type="appellation");
+            let parcelle = layersData.filter(layer=>layer.type="parcelle");
+            let commune = layersData.filter(layer=>layer.type="commune");
+            if(appel){
+                for(let i = 0; i<tabid.length; i++){
+                    let ap =appel.filter(app=>app.id_aire = tabid[i]);
+                    if(ap){
 
-            });
+                    }
+                }
+            }
             /*
             fetchSess(dat => {
                 let t = findPostion(tabid, dat.filter);
@@ -227,17 +258,21 @@ function makeID(tableauID) {
 
 function findPostion(tabid, sess) {
     let tableauuuu = [];
-    // sess.forEach(lay => {
-    //     for (let k = 0; k < tabid.length; k++) {
-    //         if (tabid[k] == parseInt(lay.id)) {
-    //             tableauuuu.push({
-    //                 "nom": lay.valeur,
-    //                 "position": k,
-    //                 "id": lay.id
-    //             });
-    //         }
-    //     }
-    // });
+    sess.filter(lay=>{
+        
+    })
+    sess.forEach(lay => {
+        for (let k = 0; k < tabid.length; k++) {
+           
+            if (tabid[k] == parseInt(lay.id)) {
+                tableauuuu.push({
+                    "nom": lay.valeur,
+                    "position": k,
+                    "id": lay.id
+                });
+            }
+        }
+    });
     return tableauuuu;
 }
 function positionLayers(ta) {
