@@ -92,7 +92,7 @@ function aireParcParams(data, color) {
     $('#cp' + data.id_aire).css({ 'background-color': color.hex1 });
     $('body').css('overflow', 'hidden'); //solution temporaire
     $('#cp' + data.id_aire + '').colorpicker().on('changeColor', function (e) {
-        tileLayerColorChanger(data.lbl_aire, name, e.color.toString('rgba'));
+        tileLayerColorChanger(data.id_aire, name, e.color.toString('rgba'));
         $('#cp' + data.id_aire).css({ 'background-color': e.color.toString('hex') });
     });
 }

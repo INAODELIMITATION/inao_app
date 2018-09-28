@@ -9,16 +9,16 @@
  */
 function initialisation() {
     setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
-   
-  
+
+
 
     // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", false);
     } catch (error) {
-       console.log(error); 
+        console.log(error);
     }
-   
+
     LoadLayers();
     map.getView().fit(extent, map.getSize());
 
@@ -71,43 +71,61 @@ function setIgnLayer(name, opacity, libelle, visibility) {
         })
 
     );
-
-
     appendIgnparams(name, libelle);
-
-
-
 }
 
+function changeOpacity(name, opacity) {
+    let lay = getLayer(name);
+    if (lay) {
+        lay.setOpacity(opacity);
+    }
+}
+
+
 function appendIgnparams(name, libelle) {
-    let little = name.substring(0,4);
+    let little = name.substring(0, 4);
     let inp;
-    if(little == "CADA"){
-        inp =   ' <input type="checkbox" checked  name="collapsemenu" class="onoffswitch-checkbox" id="' +little + '">';
-    }else{
-        inp =   ' <input type="checkbox"   name="collapsemenu" class="onoffswitch-checkbox" id="' +little + '">';
+    if (little == "CADA") {
+        inp = ' <input type="checkbox" checked  name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
+    } else {
+        inp = ' <input type="checkbox"   name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     }
     $("#coucheIGN").append(
-        ' <div class="setings-item">' +
+        ' <div class=" setings-item">' +
         ' <span>' +
         libelle +
         ' </span>' +
         ' <div class="switch">' +
         ' <div class="onoffswitch">' +
-        inp+
+        inp +
         ' <label class="onoffswitch-label" for="' + little + '">' +
         '     <span class="onoffswitch-inner"></span>' +
         '   <span class="onoffswitch-switch"></span>' +
         '    </label>' +
         '    </div>' +
-        ' </div>' +
+        ' </div><br><br>' +
+        '<div class="row form-group">'+
+        '<div class="col-sm-6">'+
+        '<input class="form-control"  id="slider'+little+'" type="range" min="0" max="1" step="0.1" value="0.7"  >'+
+        '</div>'+
+        '<div class="col-sm-3">'+
+        '<span id="value'+little+'" class="form-control"  >70%</span>'+
+        '</div>'+
+        '</div>'+
         '   </div>'
     );
-    let id = "#"+little;
-    console.log(id);
-    $("" + id+"").on('click', () => {
+  
+    $("#" + little + "").on('click', () => {
         ignLayerswitcher(name);
     });
+
+    $("#slider"+little).on("input change",()=>{
+        let opacity = parseFloat($("#slider"+little).val());
+        $("#value"+little).text(opacity*100+"%");
+        changeOpacity(name,opacity);
+    });
+    
+   
 }
 
 
@@ -133,22 +151,28 @@ function removeDuplicates(arr, key) {
  * Charge la carte de base et affiche les couches en session si il y en a 
  */
 function LoadLayers() {
-    let layersData = JSON.parse(window.localStorage.getItem("layers"));
-    if (!layersData) {
-        layersData = [];
-    } else {
-        layersData.forEach(item => {
-            if (item.type == "appellation") {
-                LayerCreator(item);
-            }
-            if (item.type == "parcelle") {
-                makeParcelle(item.id);
-            }
-            if (item.type == "commune") {
-                makeCommune(item.id);
-            }
-        });
+    try {
+        let layersData = JSON.parse(window.localStorage.getItem("layers"));  
+        if (!layersData) {
+            layersData = [];
+        } else {
+            layersData.forEach(item => {
+                if (item.type == "appellation") {
+                    LayerCreator(item);
+                }
+                if (item.type == "parcelle") {
+                    makeParcelle(item.id);
+                }
+                if (item.type == "commune") {
+                    makeCommune(item.id);
+                }
+            });
+        } 
+    } catch (error) {
+        
     }
+  
+   
 
 }
 
@@ -362,13 +386,18 @@ function layerRemover(nom) {
     }
 }
 
-
-function tileLayerColorChanger(lbl_aire, name, color) {
+/**
+ * 
+ * @param {number} id_aire id aire
+ * @param {string} name libelle 
+ * @param {string} color 
+ */
+function tileLayerColorChanger(id_aire, name, color) {
     let layer = getLayer(name);
     if (layer != undefined) {
         let style = styleColorFill(color);
         layer.setStyle((feature => {
-            if (feature.get("denomination") === lbl_aire) {
+            if (feature.get("id_aire") === id_aire) {
                 return style;
             } else {
                 return new ol.style.Style({});
