@@ -90,41 +90,8 @@ function appendIgnparams(name, libelle) {
     } else {
         inp = ' <input type="checkbox"   name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     }
-    $("#coucheIGN").append(
-        ' <div class=" setings-item">' +
-        ' <span>' +
-        libelle +
-        ' </span>' +
-        ' <div class="switch">' +
-        ' <div class="onoffswitch">' +
-        inp +
-        ' <label class="onoffswitch-label" for="' + little + '">' +
-        '     <span class="onoffswitch-inner"></span>' +
-        '   <span class="onoffswitch-switch"></span>' +
-        '    </label>' +
-        '    </div>' +
-        ' </div><br><br>' +
-        '<div class="row form-group">'+
-        '<div class="col-sm-6">'+
-        '<input class="form-control"  id="slider'+little+'" type="range" min="0" max="1" step="0.1" value="0.7"  >'+
-        '</div>'+
-        '<div class="col-sm-3">'+
-        '<span id="value'+little+'" class="form-control"  >70%</span>'+
-        '</div>'+
-        '</div>'+
-        '   </div>'
-    );
   
-    $("#" + little + "").on('click', () => {
-        ignLayerswitcher(name);
-    });
-
-    $("#slider"+little).on("input change",()=>{
-        let opacity = parseFloat($("#slider"+little).val());
-        $("#value"+little).text(opacity*100+"%");
-        changeOpacity(name,opacity);
-    });
-    
+    appendIgn(libelle,little,inp,name);
    
 }
 
