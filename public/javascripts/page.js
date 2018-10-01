@@ -5,18 +5,13 @@ window.addEventListener('beforeunload', (event) => {
     event.returnValue = `Are you sure you want to leave?`;
 });
 
-// $("#cadastreIGN").on('click',()=>{
-//     ignLayerswitcher("CADASTRALPARCELS.PARCELS");
-// });
-// $("#ADMINEXPRESS_COG_CARTO_2017").on('click',()=>{
-//     ignLayerswitcher("ADMINEXPRESS_COG_CARTO_2017");
-// });
+
 
 $(document).ready(function () {
    
     Gp.Services.getConfig({
-        // serverUrl: "/javascripts/autoconf/local.json", //local
-        serverUrl: "/GPautoconf/autoconf.json", //server
+        serverUrl: "/javascripts/autoconf/local.json", //local
+        // serverUrl: "/GPautoconf/autoconf.json", //server
         callbackSuffix: "",
         onSuccess: initialisation,
         onFailure: fail,
