@@ -88,7 +88,7 @@ function appendIgnparams(name, libelle) {
     if (little == "CADA") {
         inp = ' <input type="checkbox" checked  name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     } else {
-        inp = ' <input type="checkbox"   name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
+        inp = ' <input type="checkbox"    name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     }
   
     appendIgn(libelle,little,inp,name);

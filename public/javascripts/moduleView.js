@@ -137,15 +137,18 @@ function layerVisibilitySwitcher(id, fa, precede) {
 }
 
 function ignLayerswitcher(name){
-    console.log(name);
+ 
+    let little = name.substring(0, 4);
     try {
         let vectLayer = getLayer(name);
       
         if (vectLayer.getVisible() == true) {
             vectLayer.setVisible(false);
+            $("#slider"+little).prop('disabled',true);
         
         } else {
             vectLayer.setVisible(true);
+            $("#slider"+little).prop('disabled',false);
         
         }
     } catch (error) {
@@ -579,11 +582,14 @@ function appendIgn(libelle,little,inp,name){
         '<input class="form-control"  id="slider'+little+'" type="range" min="0" max="1" step="0.1" value="0.7"  >'+
         '</div>'+
         '<div class="col-sm-3">'+
-        '<span id="value'+little+'" class="form-control"  >70%</span>'+
+        '<span id="value'+little+'"  class="form-control"  >70%</span>'+
         '</div>'+
         '</div>'+
         '   </div>'
     );
+    if(little != "CADA"){
+        $("#slider"+little).prop('disabled',true);
+    }
     enableswitcherIgn(little,name);
     enableOpacityChangeIgn(little,name);
 }

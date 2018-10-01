@@ -1,5 +1,5 @@
 // "use strict";
-//WinMove();
+
 var clicked = 0;
 window.addEventListener('beforeunload', (event) => {
     event.returnValue = `Are you sure you want to leave?`;
@@ -8,15 +8,19 @@ window.addEventListener('beforeunload', (event) => {
 
 
 $(document).ready(function () {
-   
+   try {
     Gp.Services.getConfig({
         serverUrl: "/javascripts/autoconf/local.json", //local
-        // serverUrl: "/GPautoconf/autoconf.json", //server
+        //serverUrl: "/GPautoconf/autoconf.json", //server
         callbackSuffix: "",
         onSuccess: initialisation,
         onFailure: fail,
     });
-
+   } catch (error) {
+       fail();
+   }
+   
+   
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });
