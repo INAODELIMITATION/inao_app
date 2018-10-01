@@ -136,20 +136,20 @@ function layerVisibilitySwitcher(id, fa, precede) {
     }
 }
 
-function ignLayerswitcher(name){
- 
+function ignLayerswitcher(name) {
+
     let little = name.substring(0, 4);
     try {
         let vectLayer = getLayer(name);
-      
+
         if (vectLayer.getVisible() == true) {
             vectLayer.setVisible(false);
-            $("#slider"+little).prop('disabled',true);
-        
+            $("#slider" + little).prop('disabled', true);
+
         } else {
             vectLayer.setVisible(true);
-            $("#slider"+little).prop('disabled',false);
-        
+            $("#slider" + little).prop('disabled', false);
+
         }
     } catch (error) {
         console.log(error);
@@ -161,11 +161,11 @@ function ignLayerswitcher(name){
  * @param {number} id_aire 
  */
 function deleteAppelationRow(id_aire) {
-    deleteAire(id_aire,"geo");
-    deleteAire(id_aire,"par");
+    deleteAire(id_aire, "geo");
+    deleteAire(id_aire, "par");
     $("#couche" + id_aire).remove();
     storagedeleterAppel(id_aire);
-   
+
 }
 
 /**
@@ -174,8 +174,8 @@ function deleteAppelationRow(id_aire) {
  * @param  {number} id_aire
  * @param  {string} type
  */
-function deleteAire(id_aire,type){
-    if(type == "geo"){
+function deleteAire(id_aire, type) {
+    if (type == "geo") {
         getAire_geo(id_aire, aire_geo => {
             if (aire_geo != false) {
                 let nom = "geo" + id_aire;
@@ -183,7 +183,7 @@ function deleteAire(id_aire,type){
             }
         });
     }
-    if(type == "par"){
+    if (type == "par") {
         getAireParcellaire(id_aire, aire => {
             if (aire != false) {
                 let nom = "airePar" + id_aire;
@@ -215,34 +215,69 @@ function list() {
             let couches = $("#couches").sortable("toArray");
             tabid = makeID(couches);
             console.log(tabid);
-            let layersData = JSON.parse(window.localStorage.getItem("layers"));
-            let appel = layersData.filter(layer=>layer.type="appellation");
-            let parcelle = layersData.filter(layer=>layer.type="parcelle");
-            let commune = layersData.filter(layer=>layer.type="commune");
-            if(appel){
-                for(let i = 0; i<tabid.length; i++){
-                    let ap =appel.filter(app=>app.id_aire = tabid[i]);
-                    if(ap){
 
-                    }
-                }
-            }
-            /*
-            fetchSess(dat => {
-                let t = findPostion(tabid, dat.filter);
-                positionLayers(t);
-                //debut partie session
-                let filter = dat.filter;
-                let tab = new Array(filter.length);
-                filter.forEach(element => {
-                    for (let k = 0; k < t.length; k++) {
-                        if (element.id == t[k].id) {
-                            tab[t[k].position] = element;
+            let layersData = JSON.parse(window.localStorage.getItem("layers"));
+            // layersData.forEach(element=>{
+            //     if(element.type == "appellation"){
+
+            //     }
+            // })
+            let position = 0;
+            let numberLayer = layersData.length;
+            tabid.forEach(element => {
+                if (element.type == "appellation") {
+                    getAireParcellaire(element.id_aire, aire => {
+                        if (aire == false) {
+
+                        } else {
+                            let name = "airePar" + aire.id_aire;
+                            let couche = getLayer(name);
+                            couche.setZIndex(position+element.position);
+                            position = position+1;
                         }
+                    });
+                    getAire_geo(parseInt(element.id_aire), aire => {
+                        if (aire == false) {
+                        } else {
+                            let nom = "geo" + element.id_aire;
+                            try {
+                                let couche2 = getLayer(nom);
+                                couche2.setZIndex(position + element.position);
+                                position = position+1;
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        }
+                    });
+
+                }/*else{
+                    let parce = layersData.filter(layer => layer.type == "parcelle" );
+                    let commune = layersData.filter(layer => layer.type == "commune" );
+                    console.log(commune);
+                    if(parce.length>0){
+                        parce.forEach(parces=>{
+                            if(parces.id == parseInt(element.id)){
+                                let couchePar = getLayer("par"+parces.id);
+                                couchePar.setZIndex(position+element.position);
+                                position = position+1;
+                            }
+                        });
                     }
-                });
-                //updateSess(tab); TRAVAILLER A CE NIVEAU POUR LA BD
-            });*/
+                    if(commune.length>0){
+                        commune.forEach(communes=>{
+                            if(communes.id == parseInt(element.id)){
+                                let coucheCom = getLayer("com"+communes.id);
+                                coucheCom.setZIndex(position+element.position);
+                                position = position+1;
+                            }
+                          
+                          
+                        });
+                    }
+                }*/
+
+            });
+
 
         }
     }).disableSelection();
@@ -254,19 +289,40 @@ function list() {
 function makeID(tableauID) {
     let tab = [];
     tableauID.forEach(element => {
-        tab.push(parseInt(element.substr(6)));
+        tab.push(element);
     });
-    return tab.reverse(); //renverse l'ordre le premier devient le dernier 
+    tab = tab.reverse();
+    let data = [];
+    tab.forEach((element, i) => {
+        if (element.startsWith("couche")) {
+            data.push({
+                id_aire: element.substring(6),
+                type: "appellation",
+                position: i
+            });
+        }
+        if (element.startsWith("autrecouche")) {
+            data.push({
+                id: element.substring(11),
+                type: "autre",
+                position: i
+            });
+        }
+
+    });
+
+    return data.reverse(); //renverse l'ordre le premier devient le dernier 
 }
+
 
 function findPostion(tabid, sess) {
     let tableauuuu = [];
-    sess.filter(lay=>{
-        
+    sess.filter(lay => {
+
     })
     sess.forEach(lay => {
         for (let k = 0; k < tabid.length; k++) {
-           
+
             if (tabid[k] == parseInt(lay.id)) {
                 tableauuuu.push({
                     "nom": lay.valeur,
@@ -353,8 +409,8 @@ function advanceForm() {
         '<br><h5 class="text-danger"  >[Erreur] Remplir au moins l\'un des champs!!!</h5>' +
         '</div>' +
         '</div>' +
-        '</div>'+
-    '</form>';
+        '</div>' +
+        '</form>';
 
     return formulaire;
 }
@@ -387,7 +443,7 @@ function Resarch(option, item) {
         let number = String(pieces[0]);
         $("#alertCommune").show();
         $("#communecherche").append(item);
-       
+
         loadCommune(number);
     }
     if (option == "parcelle") {
@@ -497,10 +553,10 @@ function SearchRow(data, type) {
     let element = returnElement(data, type);
     let str = type.substring(0, 3);
     let fa = 'fa' + str;
-    let name = str+''+element.id;
+    let name = str + '' + element.id;
     $("#couches").prepend(
-        '<li class="warning-element" id="c' + element.id + '">' +
-        '<h3 class="text-center"> ' + element.valeur.replace(/^\w/, c => c.toUpperCase()) +'<small class="badge badge-warning"> '+type+'</small>'+
+        '<li class="warning-element" id="autrecouche' + element.id + '">' +
+        '<h3 class="text-center"> ' + element.valeur.replace(/^\w/, c => c.toUpperCase()) + '<small class="badge badge-warning"> ' + type + '</small>' +
         '</h3>' +
         '<div class="agile-detail">' +
         ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + element.id + '\',\'' + fa + '\',\'' + str + '\')">' +
@@ -540,29 +596,29 @@ function returnElement(data, type) {
     }
 
 }
-function removerOther(name,id){
+function removerOther(name, id) {
     layerRemover(name);
     storagedeleterOther(id);
-    $("#c" + id).remove();
+    $("#autrecouche" + id).remove();
 }
 
 
-function enableswitcherIgn(little,name){
+function enableswitcherIgn(little, name) {
     $("#" + little + "").on('click', () => {
         ignLayerswitcher(name);
     });
 }
 
-function enableOpacityChangeIgn(little,name){
-    $("#slider"+little).on("input change",()=>{
-        let opacity = parseFloat($("#slider"+little).val());
-        $("#value"+little).text(opacity*100+"%");
-        changeOpacity(name,opacity);
+function enableOpacityChangeIgn(little, name) {
+    $("#slider" + little).on("input change", () => {
+        let opacity = parseFloat($("#slider" + little).val());
+        $("#value" + little).text(opacity * 100 + "%");
+        changeOpacity(name, opacity);
     });
-    
+
 }
 
-function appendIgn(libelle,little,inp,name){
+function appendIgn(libelle, little, inp, name) {
     $("#coucheIGN").append(
         ' <div class=" setings-item">' +
         ' <span>' +
@@ -577,19 +633,19 @@ function appendIgn(libelle,little,inp,name){
         '    </label>' +
         '    </div>' +
         ' </div><br><br>' +
-        '<div class="row form-group">'+
-        '<div class="col-sm-6">'+
-        '<input class="form-control"  id="slider'+little+'" type="range" min="0" max="1" step="0.1" value="0.7"  >'+
-        '</div>'+
-        '<div class="col-sm-3">'+
-        '<span id="value'+little+'"  class="form-control"  >70%</span>'+
-        '</div>'+
-        '</div>'+
+        '<div class="row form-group">' +
+        '<div class="col-sm-6">' +
+        '<input class="form-control"  id="slider' + little + '" type="range" min="0" max="1" step="0.1" value="0.7"  >' +
+        '</div>' +
+        '<div class="col-sm-3">' +
+        '<span id="value' + little + '"  class="form-control"  >70%</span>' +
+        '</div>' +
+        '</div>' +
         '   </div>'
     );
-    if(little != "CADA"){
-        $("#slider"+little).prop('disabled',true);
+    if (little != "CADA") {
+        $("#slider" + little).prop('disabled', true);
     }
-    enableswitcherIgn(little,name);
-    enableOpacityChangeIgn(little,name);
+    enableswitcherIgn(little, name);
+    enableOpacityChangeIgn(little, name);
 }

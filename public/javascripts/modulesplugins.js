@@ -123,7 +123,8 @@ function LoadLayers() {
         if (!layersData) {
             layersData = [];
         } else {
-            layersData.forEach(item => {
+            layersData.reverse();
+            layersData.forEach((item,i) => {
                 if (item.type == "appellation") {
                     LayerCreator(item);
                 }
@@ -183,12 +184,17 @@ function sidebarClicked() {
 }
 
 function storageAdder(data) {
-    let layersData = JSON.parse(window.localStorage.getItem("layers"));
-    if (!layersData) {
-        layersData = [];
+    try {
+        let layersData = JSON.parse(window.localStorage.getItem("layers"));
+        if (!layersData) {
+            layersData = [];
+        }
+        layersData.push(data);
+        window.localStorage.setItem("layers", JSON.stringify(layersData));
+    } catch (error) {
+        
     }
-    layersData.push(data);
-    window.localStorage.setItem("layers", JSON.stringify(layersData));
+   
 
 }
 
