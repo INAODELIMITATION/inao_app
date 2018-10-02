@@ -311,7 +311,7 @@ function makeID(tableauID) {
 
     });
 
-    return data.reverse(); //renverse l'ordre le premier devient le dernier 
+    return data; //renverse l'ordre le premier devient le dernier 
 }
 
 
@@ -554,7 +554,7 @@ function SearchRow(data, type) {
     let str = type.substring(0, 3);
     let fa = 'fa' + str;
     let name = str + '' + element.id;
-    $("#couches").prepend(
+    $("#couches").append(
         '<li class="warning-element" id="autrecouche' + element.id + '">' +
         '<h3 class="text-center"> ' + element.valeur.replace(/^\w/, c => c.toUpperCase()) + '<small class="badge badge-warning"> ' + type + '</small>' +
         '</h3>' +
