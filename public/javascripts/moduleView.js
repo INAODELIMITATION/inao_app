@@ -232,7 +232,7 @@ function list() {
                         } else {
                             let name = "airePar" + aire.id_aire;
                             let couche = getLayer(name);
-                            couche.setZIndex(position+element.position);
+                            couche.setZIndex(element.position);
                             position = position+1;
                         }
                     });
@@ -242,7 +242,7 @@ function list() {
                             let nom = "geo" + element.id_aire;
                             try {
                                 let couche2 = getLayer(nom);
-                                couche2.setZIndex(position + element.position);
+                                couche2.setZIndex(element.position);
                                 position = position+1;
                             } catch (error) {
                                 console.log(error);
@@ -250,7 +250,7 @@ function list() {
                         }
                     });
 
-                }/*else{
+                }else{
                     let parce = layersData.filter(layer => layer.type == "parcelle" );
                     let commune = layersData.filter(layer => layer.type == "commune" );
                     console.log(commune);
@@ -258,7 +258,7 @@ function list() {
                         parce.forEach(parces=>{
                             if(parces.id == parseInt(element.id)){
                                 let couchePar = getLayer("par"+parces.id);
-                                couchePar.setZIndex(position+element.position);
+                                couchePar.setZIndex(element.position);
                                 position = position+1;
                             }
                         });
@@ -267,14 +267,14 @@ function list() {
                         commune.forEach(communes=>{
                             if(communes.id == parseInt(element.id)){
                                 let coucheCom = getLayer("com"+communes.id);
-                                coucheCom.setZIndex(position+element.position);
+                                coucheCom.setZIndex(element.position);
                                 position = position+1;
                             }
                           
                           
                         });
                     }
-                }*/
+                }
 
             });
 
