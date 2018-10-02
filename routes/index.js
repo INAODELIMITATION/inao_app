@@ -30,6 +30,9 @@ router.route('/search')
 router.route('/zone/aire_geo/:id_aire')
   .get(zonesController.getAire);
 
+  router.route('/aire_geo/:id_aire')
+  .get(zonesController.findAireGeo);
+  
 router.route('/zone/aire_parcellaire/:id_aire')
   .get(zonesController.getParcellaire);
 

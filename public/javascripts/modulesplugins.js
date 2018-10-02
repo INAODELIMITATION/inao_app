@@ -10,11 +10,12 @@
 function initialisation() {
     // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
-
-
+   
     setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", false);
+        setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS",0.7,"orthoPhotos",false);
+        setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93",0.7,"SCAN 25 Topographique",false);
     } catch (error) {
         console.log(error);
     }
@@ -47,6 +48,7 @@ function checkformat(name) {
         case "CADASTRALPARCELS.PARCELS.L93": { return "image/png"; break; }
         case "CADASTRALPARCELS.PARCELS": { return "image/png"; break; }
         case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png"; break; }
+        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93" : {return "image/png"; break}
         default: { return "image/jpeg"; break; }
     }
 }
@@ -68,6 +70,31 @@ function setIgnLayer(name, opacity, libelle, visibility) {
             }),
             visible: visibility,
             opacity: opacity
+        })
+
+    );
+    appendIgnparams(name, libelle);
+}
+
+/**
+ * Fonction qui initialise une couche de l'IGN
+ * @param {String} name 
+ */
+function setBrgmLayer(name,libelle,visibility,opacity) {
+   // format = checkformat(name);
+    map.addLayer(
+        new ol.layer.Tile({
+            name:name,
+            source: new ol.source.TileWMS({
+                url: 'https://geoservices.brgm.fr/geologie',
+                params: {
+                    LAYERS: 'SCAN_D_GEOL50', 
+                    TRANSPARENT:true
+                },
+                projection:'EPSG:2154' 
+            }),
+            // visible: visibility,
+            // opacity: opacity
         })
 
     );
@@ -324,6 +351,18 @@ function getAire_geo(id_aire, callback) {
     });
 }
 
+function airegeoExist(id_aire, callback) {
+    $.ajax({
+        url: "/aire_geo/" + id_aire,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+            callback(data);
+
+        }
+    });
+}
+
 
 
 /**
@@ -428,6 +467,31 @@ function makeLayerTypeByCoord(coord, couleur, type, id) {
     }
 }
 
+
+/**
+ * supprime une aire geographique ou une aire parcellaire en fonction du type
+ * @author Jean Roger NIGOUMI Guiala
+ * @param  {number} id_aire
+ * @param  {string} type
+ */
+function deleteAire(id_aire, type) {
+    if (type == "geo") {
+        getAire_geo(id_aire, aire_geo => {
+            if (aire_geo != false) {
+                let nom = "geo" + id_aire;
+                layerRemover(nom);
+            }
+        });
+    }
+    if (type == "par") {
+        getAireParcellaire(id_aire, aire => {
+            if (aire != false) {
+                let nom = "airePar" + id_aire;
+                layerRemover(nom);
+            }
+        });
+    }
+}
 
 
 /*
@@ -543,3 +607,132 @@ function loadParcelle(id) {
     map.updateSize();
 
 }
+
+
+
+
+/**
+ * change la position d'une couche en fonction du nom de la couche et la position
+ * @param {String} nom 
+ * @param {number} position 
+ */
+function changeIndexLayer(nom, position) {
+    try {
+        let couche = getLayer(nom);
+        couche.setZIndex(position);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/**
+ * change la position d'une couche commune
+ * @param {Object} layersData couches en cache
+ * @param {Object} element element qui change de position
+ */
+function changeIndexCommune(layersData, element) {
+    let commune = layersData.filter(layer => layer.type == "commune");
+
+    if (commune.length > 0) {
+        commune.forEach(communes => {
+            if (communes.id == parseInt(element.id)) {
+                changeIndexLayer("com" + communes.id, element.position);
+            }
+
+
+        });
+    }
+}
+
+/**
+ * change la position d'une couche parcelle
+ * @param {array Object} layersData couches en cache
+ * @param {*} element element qui change de position
+ */
+function changeIndexParcelle(layersData, element) {
+    let parce = layersData.filter(layer => layer.type == "parcelle");
+    if (parce.length > 0) {
+        parce.forEach(parces => {
+            if (parces.id == parseInt(element.id)) {
+                changeIndexLayer("par" + parces.id, element.position);
+            }
+        });
+    }
+}
+
+/**
+ * change la position d'une couche d'aire parcellaire
+ * @param {Object} element element qui change de position
+ */
+function changeIndexParcellaire(element) {
+    getAireParcellaire(element.id_aire, aire => {
+        if (aire == false) {
+        } else {
+            changeIndexLayer("airePar" + aire.id_aire, element.position);
+        }
+    });
+}
+
+/**
+ * change la position d'une couche d'aire geographique
+ * @param {Object} element  element qui change de position
+ */
+function changeIndexAireGeo(element) {
+    airegeoExist(parseInt(element.id_aire), aire => {
+        if (aire == false) {
+        } else {
+            changeIndexLayer("geo" + element.id_aire, element.position);
+        }
+    });
+}
+/**
+ *change les positions de la liste des couches
+ * @param {Array Object} tableau  Tableau contenant les élements qui change de position ainsi que leur position
+ */
+function changePositions(tableau){
+    tableau.forEach(element => {
+        if (element.type == "appellation") {
+            changeIndexParcellaire(element);
+            changeIndexAireGeo(element);
+
+        } else {
+            let layersData = JSON.parse(window.localStorage.getItem("layers"));
+            changeIndexParcelle(layersData, element);
+
+            changeIndexCommune(layersData, element);
+        }
+
+    });
+}
+/**
+ * constitue un tableau des elements et positions en fonctions des id des couches
+ * @param {Array} tableauID 
+ */
+function makeID(tableauID) {
+    let tab = [];
+    tableauID.forEach(element => {
+        tab.push(element);
+    });
+    tab = tab.reverse();
+    let data = [];
+    tab.forEach((element, i) => {
+        if (element.startsWith("couche")) {
+            data.push({
+                id_aire: element.substring(6),
+                type: "appellation",
+                position: i
+            });
+        }
+        if (element.startsWith("autrecouche")) {
+            data.push({
+                id: element.substring(11),
+                type: "autre",
+                position: i
+            });
+        }
+
+    });
+
+    return data; //renverse l'ordre le premier devient le dernier 
+}
+

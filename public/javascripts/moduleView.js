@@ -168,31 +168,6 @@ function deleteAppelationRow(id_aire) {
 
 }
 
-/**
- * supprime une aire geographique ou une aire parcellaire en fonction du type
- * @author Jean Roger NIGOUMI Guiala
- * @param  {number} id_aire
- * @param  {string} type
- */
-function deleteAire(id_aire, type) {
-    if (type == "geo") {
-        getAire_geo(id_aire, aire_geo => {
-            if (aire_geo != false) {
-                let nom = "geo" + id_aire;
-                layerRemover(nom);
-            }
-        });
-    }
-    if (type == "par") {
-        getAireParcellaire(id_aire, aire => {
-            if (aire != false) {
-                let nom = "airePar" + id_aire;
-                layerRemover(nom);
-            }
-        });
-    }
-}
-
 
 
 function clickSidebar() {
@@ -214,133 +189,12 @@ function list() {
         update: function (event, ui) {
             let couches = $("#couches").sortable("toArray");
             tabid = makeID(couches);
-            console.log(tabid);
-
-            let layersData = JSON.parse(window.localStorage.getItem("layers"));
-            // layersData.forEach(element=>{
-            //     if(element.type == "appellation"){
-
-            //     }
-            // })
-            let position = 0;
-            let numberLayer = layersData.length;
-            tabid.forEach(element => {
-                if (element.type == "appellation") {
-                    getAireParcellaire(element.id_aire, aire => {
-                        if (aire == false) {
-
-                        } else {
-                            let name = "airePar" + aire.id_aire;
-                            let couche = getLayer(name);
-                            couche.setZIndex(element.position);
-                            position = position+1;
-                        }
-                    });
-                    getAire_geo(parseInt(element.id_aire), aire => {
-                        if (aire == false) {
-                        } else {
-                            let nom = "geo" + element.id_aire;
-                            try {
-                                let couche2 = getLayer(nom);
-                                couche2.setZIndex(element.position);
-                                position = position+1;
-                            } catch (error) {
-                                console.log(error);
-                            }
-                        }
-                    });
-
-                }else{
-                    let parce = layersData.filter(layer => layer.type == "parcelle" );
-                    let commune = layersData.filter(layer => layer.type == "commune" );
-                    console.log(commune);
-                    if(parce.length>0){
-                        parce.forEach(parces=>{
-                            if(parces.id == parseInt(element.id)){
-                                let couchePar = getLayer("par"+parces.id);
-                                couchePar.setZIndex(element.position);
-                                position = position+1;
-                            }
-                        });
-                    }
-                    if(commune.length>0){
-                        commune.forEach(communes=>{
-                            if(communes.id == parseInt(element.id)){
-                                let coucheCom = getLayer("com"+communes.id);
-                                coucheCom.setZIndex(element.position);
-                                position = position+1;
-                            }
-                          
-                          
-                        });
-                    }
-                }
-
-            });
-
-
+            changePositions(tabid);
         }
     }).disableSelection();
 }
 
 
-
-
-function makeID(tableauID) {
-    let tab = [];
-    tableauID.forEach(element => {
-        tab.push(element);
-    });
-    tab = tab.reverse();
-    let data = [];
-    tab.forEach((element, i) => {
-        if (element.startsWith("couche")) {
-            data.push({
-                id_aire: element.substring(6),
-                type: "appellation",
-                position: i
-            });
-        }
-        if (element.startsWith("autrecouche")) {
-            data.push({
-                id: element.substring(11),
-                type: "autre",
-                position: i
-            });
-        }
-
-    });
-
-    return data; //renverse l'ordre le premier devient le dernier 
-}
-
-
-function findPostion(tabid, sess) {
-    let tableauuuu = [];
-    sess.filter(lay => {
-
-    })
-    sess.forEach(lay => {
-        for (let k = 0; k < tabid.length; k++) {
-
-            if (tabid[k] == parseInt(lay.id)) {
-                tableauuuu.push({
-                    "nom": lay.valeur,
-                    "position": k,
-                    "id": lay.id
-                });
-            }
-        }
-    });
-    return tableauuuu;
-}
-function positionLayers(ta) {
-    for (let k = 0; k < ta.length; k++) {
-        let cou = getLayer(ta[k].nom);
-        cou.setZIndex(ta[k].position);
-        map.updateSize();
-    }
-}
 
 /**
  * Fonction qui au clique affiche un modal contenant les infos sur l'aire

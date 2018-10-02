@@ -16,26 +16,23 @@ module.exports = {
     findAireGeo(req,res){
         return Zone
         .findOne({
-            raw:true,
             where:{
-                id_aire: req.params.id_aire,
+                id_aire : req.params.id_aire,
                 type_zone:1
-            }
+            },
+            attributes: { exclude: ['geom'] },
         })
         .then(aire_geo=>{
             if(!aire_geo){
-                return res.status(404).send({
-                    message: "pas trouvé"
-                });
+                res.status(200).send(false);
+            }else{
+                return res.status(200).send(aire_geo);
             }
-            sess = req.session;
-            if (typeof (sess.aire) == 'undefined') {
-                sess.aire = [];
-            }
-            return res.status(200).send(aire_geo);
+           
         })
-        .catch(error=>res.status(400).send(error));
+        .catch(error => res.status(400).send(error));
     },
+    
     /**
      * récuper l'extend d'une denomination/appellation
      * @param {*} req 
@@ -65,6 +62,8 @@ module.exports = {
             })
             .catch(error => res.status(400).send(error));
     },
+
+   
      /**
      * récuper l'extend d'une denomination/appellation
      * @param {*} req 
