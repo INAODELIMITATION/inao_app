@@ -8,10 +8,10 @@
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
    
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", false);
         setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS",0.7,"orthoPhotos",false);
@@ -714,6 +714,15 @@ function makeID(tableauID) {
         tab.push(element);
     });
     tab = tab.reverse();
+    let tablePositions = makepositionTable(tab); 
+    return tablePositions;
+}
+
+/**
+ * crée le tableau des positions
+ * @param {*} tab 
+ */
+function makepositionTable(tab){
     let data = [];
     tab.forEach((element, i) => {
         if (element.startsWith("couche")) {
@@ -732,7 +741,5 @@ function makeID(tableauID) {
         }
 
     });
-
-    return data; //renverse l'ordre le premier devient le dernier 
+    return data; 
 }
-
