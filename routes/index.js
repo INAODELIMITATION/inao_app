@@ -10,11 +10,15 @@ const zonesController    = require('../controllers').Zones;
 router.get('/', function (req, res, next) {
   sess = req.session;
   console.log("ici");
-  if (typeof (sess.aire) == 'undefined') {
-    sess.aire = [];
+  // sess.user="bonjour";
+  if (typeof (sess.user) == 'undefined') {
+   res.render('login',{title:'sig-inao'});
   }
   //res.locals.aire = sess.aire;
-  res.render('index', { title: 'sig-inao', layerSess: sess.aire });
+  else{
+    res.render('index', { title: 'sig-inao', layerSess: sess.aire });
+  }
+  
   
   //next();
 });
