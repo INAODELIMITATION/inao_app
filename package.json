@@ -9,6 +9,7 @@
   "keywords": [],
   "author": "Jean Roger NIGOUMI GUIALA",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "compression": "^1.7.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",

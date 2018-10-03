@@ -4702,11 +4702,7 @@ body.mini-navbar.fixed-sidebar .logo-element {
 .loginscreen.middle-box {
     width: 300px;
 }
-.loginColumns {
-    /* max-width: 800px; */
-    /* margin: 0px 40px 0px 40px; */
-    padding: 100px 0px 0px 0px;
-}
+
 .passwordBox {
     max-width: 460px;
     margin: 0 auto;
@@ -8618,6 +8614,10 @@ body.md-skin {
     height: 30px;
 }
 @media (min-width : 769px){
+    .loginColumns {
+       
+        padding: 25vh 0px 0px 0px;
+    }
     #map { 
         position: fixed; 
         top: 80px; 

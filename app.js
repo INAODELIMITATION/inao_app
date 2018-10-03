@@ -8,6 +8,7 @@ var compression = require('compression');
 var minify = require('express-minify');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var bcrypt = require('bcrypt-nodejs');
 
 var app = express();
 app.use(compression());
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge:31557600}));
 
 app.use(session({
+  key:'user_sid',
   secret:'inaoMontpel',
   resave:true,
   saveUninitialized:false,
