@@ -31,7 +31,7 @@ app.use(session({
   saveUninitialized:false,
   cookie:{
     secure : false ,//true on https
-    expires:600000
+    expires:90000000
   }
 
 }));

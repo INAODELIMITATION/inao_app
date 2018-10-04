@@ -58,3 +58,19 @@ var map = new ol.Map({
     view:view
 });
 
+
+let layerMVT = new ol.layer.VectorTile({
+    opacity:0.8,
+    source:sourceL,
+    //name:"couchegenerale",
+   
+    style: (feature => {
+        if (feature.get("id_aire")) {
+            return styleColorFill("red");
+        } else {
+            return new ol.style.Style({});
+        }
+    }),
+});
+layerMVT.setVisible(false);
+map.addLayer(layerMVT);
