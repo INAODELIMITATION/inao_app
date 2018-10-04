@@ -4,8 +4,8 @@ var sess;
 const parcellesController = require('../controllers').parcelles; // controleur des parcelles
 const communesController = require('../controllers').communes; //controleur des communes
 const lbl_AireController = require('../controllers').lbl_Aires;
-const zonesController    = require('../controllers').Zones;
-const userController     = require('../controllers').Users;
+const zonesController = require('../controllers').Zones;
+const userController = require('../controllers').Users;
 
 
 
@@ -13,10 +13,10 @@ const userController     = require('../controllers').Users;
 // https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
 
 
-var sessionchecker = (req,res,next)=>{
-  if(req.session.user || typeof(req.session.user) !="undefined"){
-     res.render('index');
-  }else{
+var sessionchecker = (req, res, next) => {
+  if (req.session.user || typeof (req.session.user) != "undefined") {
+    res.render('index');
+  } else {
     next();
   }
 };
@@ -24,15 +24,16 @@ var sessionchecker = (req,res,next)=>{
 /* GET home page. */
 router.get('/', sessionchecker, function (req, res) {
 
-   res.redirect('/login');
+  res.redirect('/login');
 });
 
-  
-router.route('/login')
-.get(sessionchecker, (req,res)=>{
-  res.render('login');
-})
-.post(userController.login);
+
+router.route('/login/:login?')
+  .get(sessionchecker, (req, res) => {
+
+    res.render('login', { log: req.params.login });
+  })
+  .post(userController.login);
 
 
 
@@ -43,15 +44,15 @@ router.route('/search')
 router.route('/zone/aire_geo/:id_aire')
   .get(zonesController.getAire);
 
-  router.route('/aire_geo/:id_aire')
+router.route('/aire_geo/:id_aire')
   .get(zonesController.findAireGeo);
-  
+
 router.route('/zone/aire_parcellaire/:id_aire')
   .get(zonesController.getParcellaire);
 
-  router.route('/login/create')
+router.route('/login/create')
   .post(userController.createUser);
-  
+
 
 
 router.get('/getExtendParcellaire/:id_aire', zonesController.getExtend);

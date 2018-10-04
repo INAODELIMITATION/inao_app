@@ -40,7 +40,13 @@
                     <h3>Connectez vous</h3>
                 </div>
                 <div class="ibox-content">
-
+                    <h1><%=log %></h1>
+                    <% if(log == "not") {%>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                           Impossible de se connecter, login ou mot de passe incorrect.
+                        </div>
+                    <%}%>
                     <div class="row">
                         <div class="col-sm-6 b-r">
                             <h3 class="m-t-none m-b">Connexion</h3>

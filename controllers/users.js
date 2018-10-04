@@ -40,31 +40,6 @@ module.exports={
     },
 
     login(req,response){
-        // return  User
-        // .findOne({
-        //    where:{
-        //        login:login
-        //    }
-        // }).then(user=>{
-        //     if(!user){
-        //         console.log("user does not exist");
-        //          //res.redirect('/');
-        //     }else{
-        //         console.log("user exist");
-        //         console.log(user);
-        //         // bcrypt.compare(password, user.get("mdp"), (err,value)=>{
-        //         //     if(value){
-        //         //         req.session.regenerate(()=>{
-        //         //             req.session.user = user.login;
-        //         //              //res.redirect('/');
-        //         //         });
-        //         //     }else{
-        //         //         console.log("password did not match ");
-        //         //          //res.redirect('/');
-        //         //     }
-        //         // });
-        //     }
-        // }) .catch(error => res.status(400).send(error)); 
         return User
         .findOne({
             where:{
@@ -73,14 +48,10 @@ module.exports={
         })
         .then(user=>{
             if(!user){
-                console.log("user does not exist");
+                response.redirect('/login/not');
                
-                response.status(200).send(false);
             }else{
-                console.log("user exist");
-                console.log("mot de passe "+user.mdp);
-
-               
+                
                 bcrypt.compare(req.body.password, user.mdp, (err,res)=>{
                     console.log("ici"+res);
                     if(res){
@@ -91,9 +62,10 @@ module.exports={
                     }else{
                         console.log("password did not match ");
                        
+                        response.redirect('/login/not');
                     }
                 });
-                //return response.status(200).send(user);
+               
             }
            
         })
