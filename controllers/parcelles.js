@@ -48,6 +48,10 @@ module.exports = {
                 },
                 attributes: { exclude: ['geom'] },
                 limit: 50,
+                order: [
+                   
+                    ['numpar', 'ASC'],
+                ]
             })
             .then(parcelles => {
                 if (!parcelles) {

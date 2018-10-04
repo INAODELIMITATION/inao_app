@@ -31,10 +31,14 @@ module.exports = {
         .findAll({
             raw:true,
             where:{
-                lbl_aire : { [Op.iLike]: '%' + req.body.libelle + '%' }
+                lbl_aire : { [Op.iLike]: '%' + req.body.libelle + '%' },
             },
             limit: 30,
             attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('id_aire')), 'id_aire'],'lbl_aire'],
+            order: [
+                   
+                ['lbl_aire', 'ASC'],
+            ]
         })
         .then(lbl_Aires =>{
             if (!lbl_Aires) {

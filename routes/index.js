@@ -14,7 +14,7 @@ const userController = require('../controllers').Users;
 
 
 var sessionchecker = (req, res, next) => {
-  if (req.session.user || typeof (req.session.user) != "undefined") {
+  if (req.session.user && req.cookies.user_sid) {
     res.render('index');
   } else {
     next();

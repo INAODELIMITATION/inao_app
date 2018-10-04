@@ -20,8 +20,12 @@ module.exports = {
                 where: {
                     nom_com: { [Op.iLike]: '%' + req.body.commune + '%' }
                 },
-                limit: 50,
+                limit: 15,
                 attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('nom_com')), 'commune'],'code_insee'],
+                order: [
+                   
+                    ['nom_com', 'ASC'],
+                ]
             })
             .then(communes => {
                 if (!communes) {
@@ -44,6 +48,7 @@ module.exports = {
                     code_insee: req.params.insee,
                 },
                 attributes: ['nom_com', 'code_insee','geom'],
+                
             })
             .then(commune => {
                 if (!commune) {
