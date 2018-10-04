@@ -50,7 +50,7 @@ router.route('/aire_geo/:id_aire')
 router.route('/zone/aire_parcellaire/:id_aire')
   .get(zonesController.getParcellaire);
 
-router.route('/login/create')
+router.route('/login/create/user')
   .post(userController.createUser);
 
 
