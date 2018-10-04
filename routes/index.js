@@ -7,9 +7,15 @@ const lbl_AireController = require('../controllers').lbl_Aires;
 const zonesController    = require('../controllers').Zones;
 const userController     = require('../controllers').Users;
 
+
+
+
+// https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
+
+
 var sessionchecker = (req,res,next)=>{
   if(req.session.user || typeof(req.session.user) !="undefined"){
-     res.render('index',{title:'sig-inao'});
+     res.render('index');
   }else{
     next();
   }
@@ -19,30 +25,17 @@ var sessionchecker = (req,res,next)=>{
 router.get('/', sessionchecker, function (req, res) {
 
    res.redirect('/login');
-
-
-  // sess = req.session;
-  // console.log("ici");
-  // //sess.user="bonjour";
-  // if (typeof (sess.user) == 'undefined') {
-  //  res.render('login',{title:'sig-inao'});
-  // }
-  // //res.locals.aire = sess.aire;
-  // else{
-  //   res.render('index', { title: 'sig-inao', layerSess: sess.aire });
-  // }
-  
-  
-  //next();
 });
 
-router.get('/dashboard',(req,res)=>{
-  res.render('index');
-});
-  // https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
-
+  
 router.route('/login')
+.get(sessionchecker, (req,res)=>{
+  res.render('login');
+})
 .post(userController.login);
+
+
+
 
 router.route('/search')
   .post(lbl_AireController.findLibelle);

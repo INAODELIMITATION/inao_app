@@ -93,7 +93,7 @@ module.exports={
                        
                     }
                 });
-                return response.status(200).send(user);
+                //return response.status(200).send(user);
             }
            
         })
