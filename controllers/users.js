@@ -6,7 +6,24 @@
 const User = require('../models').user;
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt-nodejs');
+const Op = Sequelize.Op;
+var env = process.env.NODE_ENV || 'development';
+var config = require(__dirname + '/../config/config.json')[env];
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var sess;
+
+
+function setTimeconnect(user){
+    return sequelize
+    .query("UPDATE app.user SET last_connection = CURRENT_TIMESTAMP WHERE login = $login;",{
+        
+        bind:{
+            login: user.login
+        }
+    }).spread((results,metadata)=>{
+        console.log("number rows" +metadata);
+    }).catch(error => response.status(400).send(error));
+}
 
 module.exports={
 
@@ -57,7 +74,9 @@ module.exports={
                     if(res){
                         req.session.regenerate(()=>{
                             req.session.user = user.login;
+                            setTimeconnect(user);
                             response.redirect('/');
+
                         });
                     }else{
                         console.log("password did not match ");

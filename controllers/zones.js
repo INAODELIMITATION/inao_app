@@ -41,7 +41,6 @@ module.exports = {
     getAire(req, res) {
         console.log(req.params.id_aire);
         return sequelize
-            // .query("SELECT ST_XMIN(ST_EXTENT(aire_geo.geom)), ST_YMIN(ST_EXTENT(aire_geo.geom)), ST_XMAX(ST_EXTENT(aire_geo.geom)), ST_YMAX(ST_EXTENT(aire_geo.geom)) from  metier_inao.aire_geo where denomination = $denom;",
             .query("SELECT v_lst_zone.id_aire, v_lst_zone.lbl_aire, ST_AsGeoJSON(v_lst_zone.geom) as geom from  metier_inao.v_lst_zone where id_aire = $id_aire AND type_zone=$type_zone LIMIT 1;",
                 {
                     bind: { 
