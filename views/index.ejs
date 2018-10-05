@@ -3,61 +3,82 @@
 <% include partials/head %>
 
 
-    <div class="container-fluid carte">
-        <!--wrapper wrapper-content-->
-        <div id="map" class="row" >
-
-
-        </div>
-
+<div class="container-fluid carte">
+    <!--wrapper wrapper-content-->
+    <div id="map" class="row">
 
 
     </div>
-    <% include partials/foot %>
 
-        <script>
 
-        </script>
 
-        <div class="col-sm-3" id="popup" style="display: none;">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Autre recherche</h5>
-                    <div class="ibox-tools">
-                        <a class="" id="hideAutreRecherche">
-                            <i class="fa fa-times "></i>
-                        </a>
-                    </div>
-                </div>
+</div>
+<% include partials/foot %>
 
-                <div class="ibox-content">
-                    <form class="form-horizontal" id="advancedSearch">
-                        <div class="form-group">
-                            <label class="col-sm-3">
-                                <i class="fa fa-search fa-2x"></i>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="searchChooser">
-                                    <option value="empty" selected="selected"></option>
-                                    <option value="commune">commune</option>
-                                    <option value="parcelle">parcelle</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                    <div id="formloader">
+<script>
 
-                    </div>
-                    <div class="tailleur" id="resultat" style="display: none;" >
-                        <div class="table-responsive full-height-scroll" >
-                            <table class="table table-striped table-hover" >
-                                <tbody id="resultatable">
 
-                                </tbody>
-                            </table>
-                        </div>
 
-                    </div>
-                </div>
+</script>
+
+<div class="col-sm-3" id="popup" style="display: none;">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Autre recherche</h5>
+            <div class="ibox-tools">
+                <a class="" id="hideAutreRecherche">
+                    <i class="fa fa-times "></i>
+                </a>
             </div>
         </div>
+
+        <div class="ibox-content">
+            <form class="form-horizontal" id="advancedSearch">
+                <div class="form-group">
+                    <label class="col-sm-3">
+                        <i class="fa fa-search fa-2x"></i>
+                    </label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="searchChooser">
+                            <option value="empty" selected="selected"></option>
+                            <option value="commune">commune</option>
+                            <option value="parcelle">parcelle</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div id="formloader">
+
+            </div>
+            <div class="tailleur" id="resultat" style="display: none;">
+                <div class="table-responsive full-height-scroll">
+                    <table class="table table-striped table-hover">
+                        <tbody id="resultatable">
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="listappel" class="col-sm-3" style="display:none">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Appellations disponibles sur cette zone</h5>
+            <div class="ibox-tools">
+                <a class="" id="hideAutreRecherche">
+                    <i class="fa fa-times "></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="ibox-content">
+            <ul id="listContent">
+
+            </ul>
+        </div>
+    </div>
+</div>

@@ -21,7 +21,6 @@ function setTimeconnect(user){
             login: user.login
         }
     }).spread((results,metadata)=>{
-        console.log("number rows" +metadata);
     }).catch(error => response.status(400).send(error));
 }
 
@@ -70,7 +69,6 @@ module.exports={
             }else{
                 
                 bcrypt.compare(req.body.password, user.mdp, (err,res)=>{
-                    console.log("ici"+res);
                     if(res){
                         req.session.regenerate(()=>{
                             req.session.user = user.login;

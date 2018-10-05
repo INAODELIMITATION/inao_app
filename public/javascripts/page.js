@@ -21,6 +21,26 @@ $(document).ready(function () {
    }
    
    
+map.on('click', function(evt){
+
+    $("#listContent").empty();
+    $("#listappel").hide();
+    let coord = map.getCoordinateFromPixel(evt.pixel);
+    $.ajax({
+        url:"listAppel/"+coord[0]+"/"+coord[1],
+        dataType: "json",
+        type:"GET",
+        success: (data)=>{
+            console.log(data);
+            data.forEach(element=>{
+                $("#listContent").append(
+                    '<li><a>'+element.lbl_aire+'</a></li>'
+                );
+            });
+            $("#listappel").show();
+        }
+    });
+});
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });

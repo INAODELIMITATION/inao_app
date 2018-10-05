@@ -108,6 +108,28 @@ module.exports = {
            
         })
         .catch(error => res.status(400).send(error));
+    },
+
+    listAppellationOncoord(req,res){
+        return sequelize
+        .query("SELECT DISTINCT vlst.lbl_aire,  vlst.id_aire"+
+       " FROM metier_inao.v_lst_lbl_aire vlst"+
+       " LEFT JOIN metier_inao.v_lst_zone vzone USING(id_aire)"+
+        "WHERE ST_INTERSECTS(ST_GEOMFROMTEXT('POINT("+req.params.x+" "+ req.params.y+")',2154),vzone.geom);",{
+
+            // bind:{
+            //    X: req.params.x,
+            //    Y:req.params.y 
+            // },
+             type: Sequelize.QueryTypes.SELECT
+        })
+        .then(list_appel=>{
+            if(!list_appel){
+                return res.status(404).send('aucune appellation');
+            }else{
+                return res.status(200).send(list_appel);
+            }
+        }).catch(error=>res.status(400).send(error));
     }
 
 };

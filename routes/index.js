@@ -68,4 +68,8 @@ router.route('/parcelles')
 
 router.route('/parcelles/:id')
   .get(parcellesController.getParcelle);
+
+
+router.route('/listAppel/:x/:y')
+  .get(zonesController.listAppellationOncoord);
 module.exports = router;
