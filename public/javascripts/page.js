@@ -19,7 +19,9 @@ $(document).ready(function () {
    } catch (error) {
        fail();
    }
-   
+   $("#closerlist").on('click',()=>{
+    $("#lisappl").toggle();
+});
    
 map.on('click', function(evt){
 
@@ -44,6 +46,7 @@ map.on('click', function(evt){
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });
+   
     $("#hideAutreRecherche").on('click', () => {
         $("#popup").css("display", "none");
     });
