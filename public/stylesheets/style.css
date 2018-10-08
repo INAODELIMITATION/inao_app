@@ -581,7 +581,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .body-small .top-navigation .wrapper.wrapper-content {
     padding: 40px 0 40px 0;
 }
-.navbar-toggle {
+.navbar-toggle  {
     background-color: #1ab394;
     color: #fff;
     padding: 6px 12px;
@@ -7416,7 +7416,7 @@ body.landing-page {
         display: block;
         float: none;
     }
-    .landing-page .navbar .navbar-header .navbar-toggle {
+    .landing-page .navbar .navbar-header .navbar-toggle  {
         background-color: #ffffff;
         padding: 9px 10px;
         border: none;
@@ -7560,7 +7560,7 @@ body.rtls.mini-navbar.fixed-sidebar .footer.fixed,
 body.body-small.mini-navbar .footer.fixed {
     margin: 0 0 0 0;
 }
-body.rtls.top-navigation .navbar-toggle {
+body.rtls.top-navigation .navbar-toggle  {
     float: right;
     margin-left: 15px;
     margin-right: 15px;
@@ -8588,7 +8588,7 @@ body.md-skin {
         right: -260px; /*ICI -260*/
     }
      .searchMobile{
-        display: block!important;
+        width: 80%;
         padding-top: 2vh;
 
     }

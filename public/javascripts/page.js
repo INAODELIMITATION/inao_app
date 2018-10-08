@@ -25,6 +25,8 @@ $(document).ready(function () {
         $("#popup").toggle();
     });
 
+   
+
     $("#hideAutreRecherche").on('click', () => {
         $("#popup").css("display", "none");
     });
