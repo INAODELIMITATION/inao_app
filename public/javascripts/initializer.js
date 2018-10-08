@@ -33,44 +33,46 @@ var sourceL = new ol.source.VectorTile({
     tilePixelRatio: 1,
     format: new ol.format.MVT(),
     tileGrid: ol.tilegrid.createXYZ({
-        extent: extent, 
+        extent: extent,
         resolutions: resolutions,
         origin: ol.extent.getTopLeft(projectionExtent),
 
     }),
-  
+
     url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aireParcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
     crossOrigin: 'anonymous',
 });
-var view = new ol.View({ 
+var view = new ol.View({
     projection: "EPSG:2154",
     center: [489353.59, 6587552.20], //coord en 2154
-    minZoom:1.5,
+    minZoom: 1.5,
     //maxZoom: 14,
     zoom: zoom
 });
 /**
  * Déclaration de la carte ici, ol::Map
  */
-var map = new ol.Map({  
+var map = new ol.Map({
     target: 'map',
     renderer: 'canvas', //canvas,WebGL,DOM
-    view:view
+    view: view
 });
 
+var
+    vectorSource = new ol.source.Vector(),
+    vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        opacity: 1,
+    });
+map.addLayer(vectorLayer);
 
-// let layerMVT = new ol.layer.VectorTile({
-//     opacity:0.8,
-//     source:sourceL,
-//     //name:"couchegenerale",
-   
-//     style: (feature => {
-//         if (feature.get("id_aire")) {
-//             return styleColorFill("red");
-//         } else {
-//             return new ol.style.Style({});
-//         }
-//     }),
-// });
-// layerMVT.setVisible(false);
-// map.addLayer(layerMVT);
+var iconStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        opacity: 1,
+        // src: '//openlayers.org/en/v3.8.2/examples/data/icon.png'
+        src:'/images/marker.png'
+    })
+});

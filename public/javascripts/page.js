@@ -8,45 +8,53 @@ window.addEventListener('beforeunload', (event) => {
 
 
 $(document).ready(function () {
-   try {
-    Gp.Services.getConfig({
-        serverUrl: "/javascripts/autoconf/local.json", //local
-        // serverUrl: "/GPautoconf/autoconf.json", //server
-        callbackSuffix: "",
-        onSuccess: initialisation,
-        onFailure: fail,
+    try {
+        Gp.Services.getConfig({
+            serverUrl: "/javascripts/autoconf/local.json", //local
+            // serverUrl: "/GPautoconf/autoconf.json", //server
+            callbackSuffix: "",
+            onSuccess: initialisation,
+            onFailure: fail,
+        });
+    } catch (error) {
+        fail();
+    }
+    $("#closerlist").on('click', () => {
+        vectorSource.clear();
+        $("#listappel").hide();
     });
-   } catch (error) {
-       fail();
-   }
-   $("#closerlist").on('click',()=>{
-    $("#listappel").hide();
-});
-   
-map.on('click', function(evt){
 
-    $("#listContent").empty();
-    $("#listappel").hide();
-    let coord = map.getCoordinateFromPixel(evt.pixel);
-    $.ajax({
-        url:"listAppel/"+coord[0]+"/"+coord[1],
-        dataType: "json",
-        type:"GET",
-        success: (data)=>{
-            console.log(data);
-            data.forEach(element=>{
-                $("#listContent").append(
-                    '<li><a>'+element.lbl_aire+'</a></li>'
-                );
-            });
-            $("#listappel").show();
-        }
+    map.on('click', function (evt) {
+        vectorSource.clear();
+        $("#listContent").empty();
+        $("#listappel").hide();
+        let coord = map.getCoordinateFromPixel(evt.pixel);
+       
+
+        let feature = new ol.Feature(
+            new ol.geom.Point(evt.coordinate)
+        );
+        feature.setStyle(iconStyle);
+        vectorSource.addFeature(feature);
+        $.ajax({
+            url: "listAppel/" + coord[0] + "/" + coord[1],
+            dataType: "json",
+            type: "GET",
+            success: (data) => {
+                data.forEach(element => {
+                    $("#listContent").append(
+                        '<li><a>' + element.lbl_aire + '</a></li>'
+                    );
+                });
+                $("#listappel").show();
+            }
+        });
+      
     });
-});
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });
-   
+
     $("#hideAutreRecherche").on('click', () => {
         $("#popup").css("display", "none");
     });
@@ -67,7 +75,7 @@ map.on('click', function(evt){
 
                     result($.map(data, function (item) {
                         libelle[item.lbl_aire.trim()] = item.id_aire;
-                        
+
                         return item.lbl_aire.trim();
                     }));
                 }
@@ -75,13 +83,13 @@ map.on('click', function(evt){
         },
 
         updater: function (item) {
-           
+
             let data = {
                 id_aire: libelle[item],
                 lbl_aire: item,
                 type: "appellation"
             };
-           
+
             try {
                 LayerCreator(data);
                 storageAdder(data);
