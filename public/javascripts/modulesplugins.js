@@ -758,9 +758,18 @@ function makeAppelList(coordinate){
         success: (data) => {
             data.forEach(element => {
                 $("#listContent").append(
-                    '<li><a>' + element.lbl_aire + '</a></li>'
+                    '<li><a id="appel'+element.id_aire+'">' + element.lbl_aire + '</a></li>'
                 );
+                $("#appel"+element.id_aire).on('click',()=>{
+                    try {
+                        LayerCreator(element);
+                        storageAdder(element);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                });
             });
+           
             $("#listappel").show();
         }
     });

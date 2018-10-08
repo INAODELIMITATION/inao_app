@@ -106,44 +106,43 @@ $(document).ready(function () {
     });
 });
 
-
-function disableInteraction(){
-    $("#popup").on('mouseover', function () {
-    map.getInteractions().forEach(function (interaction) {
-        if (interaction instanceof ol.interaction.DragPan) {
-            map.removeInteraction(interaction);
-        }
-        if (interaction instanceof ol.interaction.DoubleClickZoom) {
-            map.removeInteraction(interaction);
-        }
-        if (interaction instanceof ol.interaction.MouseWheelZoom ) {
-            map.removeInteraction(interaction);
-        }
-    }, this);
-});
-   
-   
-
-}
-function enableInteractions(){
- // Re-enable dragging when user's cursor leaves the element
- $("#popup").on('mouseout', function () {
-    map.getInteractions().forEach(function (interaction) {
-        if (interaction instanceof ol.interaction.DragPan) {
-            map.addInteraction(interaction);
-        }
-        if (interaction instanceof ol.interaction.DoubleClickZoom) {
-            map.addInteraction(interaction);
-        }
-        if (interaction instanceof ol.interaction.MouseWheelZoom ) {
-            map.addInteraction(interaction);
-        }
-    }, this);
-   
-});
-}
-
 function enableDisableInteract(){
-    disableInteraction();
-    enableInteractions();
+    
+    var dragPan, zoomInteraction,mousezoom;
+    
+    map.getInteractions().forEach(function (interaction) {
+        if (interaction instanceof ol.interaction.DragPan) {
+            dragPan = interaction;
+        }
+        if (interaction instanceof ol.interaction.DoubleClickZoom) {
+            zoomInteraction = interaction;
+        }
+        if (interaction instanceof ol.interaction.MouseWheelZoom ) {
+            mousezoom = interaction;
+        }
+    }, this);
+   
+    $("#popup").on('mouseover', function () {
+
+        if (dragPan) {
+            map.removeInteraction(dragPan);
+
+        }
+        if (zoomInteraction) {
+            map.removeInteraction(zoomInteraction);
+        }
+        if (mousezoom) {
+            map.removeInteraction(mousezoom);
+        }
+
+    });
+
+    // Re-enable dragging when user's cursor leaves the element
+    $("#popup").on('mouseout', function () {
+        map.addInteraction(dragPan);
+        map.addInteraction(zoomInteraction);
+        map.addInteraction(mousezoom);
+    });
+
+
 }
