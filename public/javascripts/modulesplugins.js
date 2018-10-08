@@ -8,10 +8,10 @@
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
    
-    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", false);
         setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS",0.7,"orthoPhotos",false);
@@ -247,7 +247,7 @@ function LayerCreator(data) {
     createAppelationRow(data);
     aire_geoCreator(data.id_aire, color.hex1);
     aire_parcellaireCreator(data.id_aire, color);
-    successMessage("ajout termnié avec succès", "ajout de la couche " + data.lbl_aire);
+    successMessage("ajout termnié avec succès", "ajout de la couche "+data.lbl_aire);
 }
 
 

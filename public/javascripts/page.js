@@ -9,8 +9,8 @@ $(document).ready(function () {
    
     try {
         Gp.Services.getConfig({
-            serverUrl: "/javascripts/autoconf/local.json", //local
-            // serverUrl: "/GPautoconf/autoconf.json", //server
+            // serverUrl: "/javascripts/autoconf/local.json", //local
+            serverUrl: "/GPautoconf/autoconf.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,
