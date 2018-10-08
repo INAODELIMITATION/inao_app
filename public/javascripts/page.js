@@ -5,9 +5,8 @@ window.addEventListener('beforeunload', (event) => {
     event.returnValue = `Are you sure you want to leave?`;
 });
 
-
-
 $(document).ready(function () {
+   
     try {
         Gp.Services.getConfig({
             serverUrl: "/javascripts/autoconf/local.json", //local
@@ -19,38 +18,9 @@ $(document).ready(function () {
     } catch (error) {
         fail();
     }
-    $("#closerlist").on('click', () => {
-        vectorSource.clear();
-        $("#listappel").hide();
-    });
-
-    map.on('click', function (evt) {
-        vectorSource.clear();
-        $("#listContent").empty();
-        $("#listappel").hide();
-        let coord = map.getCoordinateFromPixel(evt.pixel);
-       
-
-        let feature = new ol.Feature(
-            new ol.geom.Point(evt.coordinate)
-        );
-        feature.setStyle(iconStyle);
-        vectorSource.addFeature(feature);
-        $.ajax({
-            url: "listAppel/" + coord[0] + "/" + coord[1],
-            dataType: "json",
-            type: "GET",
-            success: (data) => {
-                data.forEach(element => {
-                    $("#listContent").append(
-                        '<li><a>' + element.lbl_aire + '</a></li>'
-                    );
-                });
-                $("#listappel").show();
-            }
-        });
-      
-    });
+   
+    closeList();
+    mapOnClick();
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });
@@ -100,40 +70,10 @@ $(document).ready(function () {
             libelle = [];
         }
     });
-
-
-    var dragPan, zoomInteraction;
-    map.getInteractions().forEach(function (interaction) {
-        if (interaction instanceof ol.interaction.DragPan) {
-            dragPan = interaction;
-        }
-    }, this);
-    map.getInteractions().forEach(function (interaction) {
-        if (interaction instanceof ol.interaction.DoubleClickZoom) {
-            zoomInteraction = interaction;
-        }
-    }, this);
     $("#popup").appendTo(
         $('.ol-overlaycontainer')
     );
-    $("#popup").on('mouseover', function () {
-
-        if (dragPan) {
-            map.removeInteraction(dragPan);
-
-        }
-        if (zoomInteraction) {
-            map.removeInteraction(zoomInteraction);
-        }
-
-    });
-
-    // Re-enable dragging when user's cursor leaves the element
-    $("#popup").on('mouseout', function () {
-        map.addInteraction(dragPan);
-        map.addInteraction(zoomInteraction);
-    });
-
+    enableDisableInteract();
 
     /*icic*/
     $("#searchChooser").change(function () {
@@ -166,3 +106,44 @@ $(document).ready(function () {
     });
 });
 
+
+function disableInteraction(){
+    $("#popup").on('mouseover', function () {
+    map.getInteractions().forEach(function (interaction) {
+        if (interaction instanceof ol.interaction.DragPan) {
+            map.removeInteraction(interaction);
+        }
+        if (interaction instanceof ol.interaction.DoubleClickZoom) {
+            map.removeInteraction(interaction);
+        }
+        if (interaction instanceof ol.interaction.MouseWheelZoom ) {
+            map.removeInteraction(interaction);
+        }
+    }, this);
+});
+   
+   
+
+}
+function enableInteractions(){
+ // Re-enable dragging when user's cursor leaves the element
+ $("#popup").on('mouseout', function () {
+    map.getInteractions().forEach(function (interaction) {
+        if (interaction instanceof ol.interaction.DragPan) {
+            map.addInteraction(interaction);
+        }
+        if (interaction instanceof ol.interaction.DoubleClickZoom) {
+            map.addInteraction(interaction);
+        }
+        if (interaction instanceof ol.interaction.MouseWheelZoom ) {
+            map.addInteraction(interaction);
+        }
+    }, this);
+   
+});
+}
+
+function enableDisableInteract(){
+    disableInteraction();
+    enableInteractions();
+}

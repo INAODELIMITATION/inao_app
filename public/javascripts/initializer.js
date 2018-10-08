@@ -68,11 +68,19 @@ map.addLayer(vectorLayer);
 
 var iconStyle = new ol.style.Style({
     image: new ol.style.Icon({
-        anchor: [0.5, 46],
+        anchor: [0.5, 32],
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
         opacity: 1,
-        // src: '//openlayers.org/en/v3.8.2/examples/data/icon.png'
         src:'/images/marker.png'
     })
 });
+
+function addMarker(coordinate){
+    vectorSource.clear();
+    let feature = new ol.Feature(
+        new ol.geom.Point(coordinate)
+    );
+    feature.setStyle(iconStyle);
+    vectorSource.addFeature(feature);
+}

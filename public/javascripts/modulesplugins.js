@@ -747,3 +747,37 @@ function makepositionTable(tab){
     });
     return data; 
 }
+
+function makeAppelList(coordinate){
+    $("#listContent").empty();
+        $("#listappel").hide();
+    $.ajax({
+        url: "listAppel/" + coordinate[0] + "/" + coordinate[1],
+        dataType: "json",
+        type: "GET",
+        success: (data) => {
+            data.forEach(element => {
+                $("#listContent").append(
+                    '<li><a>' + element.lbl_aire + '</a></li>'
+                );
+            });
+            $("#listappel").show();
+        }
+    });
+}
+
+function closeList(){
+    $("#closerlist").on('click', () => {
+        vectorSource.clear();
+        $("#listappel").hide();
+    });
+}
+
+function mapOnClick(){
+    map.on('click', function (evt) {
+        addMarker(evt.coordinate);
+        makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+    });
+
+}
+
