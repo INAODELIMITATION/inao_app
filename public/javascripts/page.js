@@ -10,8 +10,8 @@ window.addEventListener('beforeunload', (event) => {
 $(document).ready(function () {
    try {
     Gp.Services.getConfig({
-        // serverUrl: "/javascripts/autoconf/local.json", //local
-        serverUrl: "/GPautoconf/autoconf.json", //server
+        serverUrl: "/javascripts/autoconf/local.json", //local
+        // serverUrl: "/GPautoconf/autoconf.json", //server
         callbackSuffix: "",
         onSuccess: initialisation,
         onFailure: fail,
@@ -20,7 +20,7 @@ $(document).ready(function () {
        fail();
    }
    $("#closerlist").on('click',()=>{
-    $("#lisappl").toggle();
+    $("#listappel").hide();
 });
    
 map.on('click', function(evt){
