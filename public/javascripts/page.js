@@ -20,7 +20,11 @@ $(document).ready(function () {
     }
    
     closeList();
-    mapOnClick();
+
+    if(!$("#popup").is(":hover")){
+        mapOnClick();
+    }
+   
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });
@@ -111,7 +115,7 @@ $(document).ready(function () {
 function enableDisableInteract(){
     
     var dragPan, zoomInteraction,mousezoom;
-    
+  
     map.getInteractions().forEach(function (interaction) {
         if (interaction instanceof ol.interaction.DragPan) {
             dragPan = interaction;
@@ -122,6 +126,7 @@ function enableDisableInteract(){
         if (interaction instanceof ol.interaction.MouseWheelZoom ) {
             mousezoom = interaction;
         }
+      
     }, this);
    
     $("#popup").on('mouseover', function () {
@@ -136,6 +141,11 @@ function enableDisableInteract(){
         if (mousezoom) {
             map.removeInteraction(mousezoom);
         }
+       
+        
+      
+      
+       
 
     });
 
@@ -144,6 +154,8 @@ function enableDisableInteract(){
         map.addInteraction(dragPan);
         map.addInteraction(zoomInteraction);
         map.addInteraction(mousezoom);
+       
+       
     });
 
 

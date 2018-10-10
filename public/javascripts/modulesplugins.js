@@ -13,7 +13,9 @@ function initialisation() {
    
     setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
-        setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", true);
+        createOSM("opensmap","OpenstreetMap",false,0.7);
+        setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
+        createOSM("osmap","OpenstreetMap",false,0.7);
         setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS",0.7,"orthoPhotos",false);
         setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93",0.7,"SCAN 25 Topographique",false);
     } catch (error) {
@@ -26,6 +28,21 @@ function initialisation() {
     
 
 }
+
+
+
+function createOSM(name,libelle,visibility,opacity){
+
+    map.addLayer(new ol.layer.Tile({
+        name:name,
+      source: new ol.source.OSM(),
+      opacity:opacity,
+      visible:visibility
+    }));
+    appendIgnparams(name, libelle,visibility);
+    
+}
+
 
 
 /**
@@ -54,6 +71,7 @@ function checkformat(name) {
         default: { return "image/jpeg"; break; }
     }
 }
+
 
 /**
  * Fonction qui initialise une couche de l'IGN
@@ -762,6 +780,7 @@ function mapOnClick(){
         addMarker(evt.coordinate);
         makeAppelList(map.getCoordinateFromPixel(evt.pixel));
     });
+   
 
 }
 

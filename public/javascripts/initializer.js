@@ -84,3 +84,4 @@ function addMarker(coordinate){
     feature.setStyle(iconStyle);
     vectorSource.addFeature(feature);
 }
+
