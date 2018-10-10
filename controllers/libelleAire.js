@@ -1,6 +1,8 @@
 /**
- * @author JEAN ROGER NIGOUMI GUIALA
- * @description controlleur pour les libelle aire
+ * @file libelleAire Controlleur pour le modele libelleaire
+ * @author Guiala Jean Roger
+ * @version 1.0.0
+ * Dans ce fichier nous mettrons toutes les fonctions pour recupérer/modifier les valeurs de notre modèle
  */
 
 const lbl_Aire = require('../models').v_lst_lbl_aire;
@@ -9,7 +11,7 @@ const Op = Sequelize.Op;
 var env = process.env.NODE_ENV || 'development';
 var config = require(__dirname + '/../config/config.json')[env];
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
-var sess;
+
 
 /**
  * Fonction qui initialise l'objet de la couche chargé en session

@@ -1,8 +1,8 @@
 /**
- *@author Guiala Jean Roger
- *@module Plugin toutes les fonctions d'interaction et de création de vue
+ * @file Plugin toutes les fonctions métier
+ * @author Guiala Jean Roger
+ * @version 1.0.0
  */
-
 
 /**
  * Fonction d'initialisation de notre carte lors du lancement de l'application
@@ -790,3 +790,13 @@ function mapOnClick(){
 
 }
 
+function getlien(id_aire,callback){
+    $.ajax({
+        url:"/siqo/lien/"+id_aire,
+        dataType:"json",
+        type:"GET",
+        success :(lien)=>{
+            callback(lien);
+        }
+    });
+}

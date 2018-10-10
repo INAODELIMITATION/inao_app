@@ -6,7 +6,7 @@ const communesController = require('../controllers').communes; //controleur des 
 const lbl_AireController = require('../controllers').lbl_Aires;
 const zonesController = require('../controllers').Zones;
 const userController = require('../controllers').Users;
-
+const lienSiqoController = require('../controllers').LienSiqos;
 
 
 
@@ -72,4 +72,8 @@ router.route('/parcelles/:id')
 
 router.route('/listAppel/:x/:y')
   .get(zonesController.listAppellationOncoord);
+
+
+router.route('/siqo/lien/:id_aire')
+.get(lienSiqoController.getLien);
 module.exports = router;

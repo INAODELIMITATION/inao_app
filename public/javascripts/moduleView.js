@@ -14,7 +14,7 @@ function createAppelationRow(data) {
     $("#couches").prepend(
         '<li class="success-element" id="couche' + data.id_aire + '">' +
         '<h3 class="text-center">' + data.lbl_aire +
-        ' <a href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info" data-toggle="modal" data-target="#myModal6" >' +
+        ' <a id="lien'+data.id_aire+'" href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info"  >' +
         ' <i class="fa fa-1x fa-info"> </i>' +
         ' </a>' +
         '</h3>' +
@@ -30,6 +30,19 @@ function createAppelationRow(data) {
         '</div>' +
         ' </li>'
     );
+    $("#lien"+data.id_aire).on('click',()=>{
+        getlien(data.id_aire, lien=>{
+            console.log("a jour");
+            let win = window.open(""+lien.lien_reglement+"");
+            if (win) {
+                //Browser has allowed it to be opened
+                win.focus();
+            } else {
+                //Browser has blocked it
+                alert('Autorisez les popup our ce site');
+            }
+        });
+    });
 }
 
 /**
