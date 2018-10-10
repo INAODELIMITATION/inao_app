@@ -13,7 +13,7 @@ function initialisation() {
    
     setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
-        setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", false);
+        setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.8, "couche Administrative", true);
         setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS",0.7,"orthoPhotos",false);
         setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93",0.7,"SCAN 25 Topographique",false);
     } catch (error) {
@@ -75,32 +75,7 @@ function setIgnLayer(name, opacity, libelle, visibility) {
         })
 
     );
-    appendIgnparams(name, libelle);
-}
-
-/**
- * Fonction qui initialise une couche de l'IGN
- * @param {String} name 
- */
-function setBrgmLayer(name,libelle,visibility,opacity) {
-   // format = checkformat(name);
-    map.addLayer(
-        new ol.layer.Tile({
-            name:name,
-            source: new ol.source.TileWMS({
-                url: 'https://geoservices.brgm.fr/geologie',
-                params: {
-                    LAYERS: 'SCAN_D_GEOL50', 
-                    TRANSPARENT:true
-                },
-                projection:'EPSG:2154' 
-            }),
-            // visible: visibility,
-            // opacity: opacity
-        })
-
-    );
-    appendIgnparams(name, libelle);
+    appendIgnparams(name, libelle,visibility);
 }
 
 function changeOpacity(name, opacity) {
@@ -111,16 +86,16 @@ function changeOpacity(name, opacity) {
 }
 
 
-function appendIgnparams(name, libelle) {
+function appendIgnparams(name, libelle,visibility) {
     let little = name.substring(0, 4);
     let inp;
-    if (little == "CADA") {
+    if (visibility == true) {
         inp = ' <input type="checkbox" checked  name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     } else {
         inp = ' <input type="checkbox"    name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     }
   
-    appendIgn(libelle,little,inp,name);
+    appendIgn(libelle,little,inp,name,visibility);
    
 }
 

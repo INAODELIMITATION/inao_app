@@ -485,7 +485,7 @@ function enableOpacityChangeIgn(little, name) {
 
 }
 
-function appendIgn(libelle, little, inp, name) {
+function appendIgn(libelle, little, inp, name,visibility) {
     $("#coucheIGN").append(
         ' <div class=" setings-item">' +
         ' <span>' +
@@ -510,7 +510,7 @@ function appendIgn(libelle, little, inp, name) {
         '</div>' +
         '   </div>'
     );
-    if (little != "CADA") {
+    if (visibility == false) {
         $("#slider" + little).prop('disabled', true);
     }
     enableswitcherIgn(little, name);
