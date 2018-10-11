@@ -8,14 +8,14 @@
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
    
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
-        createOSM("opensmap","OpenstreetMap",false,0.7);
+        
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
-        createOSM("osmap","OpenstreetMap",false,0.7);
+        createOSM("opensmap","OpenstreetMap",false,0.7);
         setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS",0.7,"orthoPhotos",false);
         setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93",0.7,"SCAN 25 Topographique",false);
     } catch (error) {
@@ -777,8 +777,13 @@ function closeList(){
 
 function mapOnClick(){
     map.on('click', function (evt) {
-        addMarker(evt.coordinate);
-        makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+        if(!$("#popup").is(":hover")){
+            addMarker(evt.coordinate);
+            makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+        }else{
+            console.log('nothing');
+        }
+       
     });
    
 
