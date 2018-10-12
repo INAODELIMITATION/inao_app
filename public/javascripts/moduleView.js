@@ -50,7 +50,7 @@ function createAppelationRow(data) {
  * @param {String} typeAire //aire geographique ou parcellaire
  */
 function rowInexistant(typeAire) {
-    return "<span><strong>" + typeAire + ":&nbsp; </strong><span class='badge badge-danger'> Inexistante</span><br><br>";
+    return "<span><strong>" + typeAire + ":&nbsp; </strong><span class='badge badge-danger'> Absente</span><br><br>";
 }
 
 /**

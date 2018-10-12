@@ -1,4 +1,6 @@
 var express = require('express');
+const  fs      = require('fs');
+const  csv = require('csv-parser');
 var router = express.Router();
 var sess;
 const parcellesController = require('../controllers').parcelles; // controleur des parcelles
@@ -76,4 +78,17 @@ router.route('/listAppel/:x/:y')
 
 router.route('/siqo/lien/:id_aire')
 .get(lienSiqoController.getLien);
+
+
+router.get('/csv',(req,res)=>{
+ const results = [];
+
+ fs.createReadStream('test.csv')
+ .pipe(csv({separator:','}))
+ .on('data',results.push)
+ .on('end',()=>{
+  console.log(results);
+  res.status(200).send(results);
+ });
+});
 module.exports = router;

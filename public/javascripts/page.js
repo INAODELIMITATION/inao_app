@@ -9,8 +9,8 @@ $(document).ready(function () {
    
     try {
         Gp.Services.getConfig({
-            serverUrl: "/javascripts/autoconf/local.json", //local
-            // serverUrl: "/GPautoconf/autoconf.json", //server
+            // serverUrl: "/javascripts/autoconf/local.json", //local
+            serverUrl: "/GPautoconf/autoconf.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,
@@ -48,15 +48,16 @@ $(document).ready(function () {
                 dataType: "json",
                 type: "POST",
                 success: function (data) {
-
+                    console.log(data);
                     result($.map(data, function (item) {
                         libelle[item.lbl_aire.trim()] = item.id_aire;
-
                         return item.lbl_aire.trim();
                     }));
+
                 }
             });
         },
+        matcher: function () { return true; },
 
         updater: function (item) {
 
