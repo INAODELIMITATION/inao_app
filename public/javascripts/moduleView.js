@@ -520,3 +520,5 @@ function appendIgn(libelle, little, inp, name,visibility) {
     enableswitcherIgn(little, name);
     enableOpacityChangeIgn(little, name);
 }
+
+

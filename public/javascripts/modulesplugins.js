@@ -792,13 +792,16 @@ function closeList() {
 
 function mapOnClick() {
     map.on('click', function (evt) {
+        if(!$("#mesureur").is(":hover")){
+
+      
         if (!$("#popup").is(":hover")) {
             addMarker(evt.coordinate);
             makeAppelList(map.getCoordinateFromPixel(evt.pixel));
         } else {
             console.log('nothing');
         }
-
+    }
     });
 
 
@@ -814,3 +817,4 @@ function getlien(id_aire, callback) {
         }
     });
 }
+

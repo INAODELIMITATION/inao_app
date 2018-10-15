@@ -55,7 +55,7 @@ var view = new ol.View({
 var map = new ol.Map({
     target: 'map',
     renderer: 'canvas', //canvas,WebGL,DOM
-    view: view
+    view: view,
 });
 
 var
@@ -72,11 +72,11 @@ var iconStyle = new ol.style.Style({
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
         opacity: 1,
-        src:'/images/marker.png'
+        src: '/images/marker.png'
     })
 });
 
-function addMarker(coordinate){
+function addMarker(coordinate) {
     vectorSource.clear();
     let feature = new ol.Feature(
         new ol.geom.Point(coordinate)
@@ -85,3 +85,219 @@ function addMarker(coordinate){
     vectorSource.addFeature(feature);
 }
 
+var mesure_Source = new ol.source.Vector();
+
+var vector_mesure = new ol.layer.VectorLayer({
+    source: mesure_Source,
+    style: new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgba(255,255,2555,0.2)'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#ffcc33',
+            width: 2
+        }),
+        image: new ol.style.CircleStyle({
+            radius: 7,
+            fill: new ol.style.Fill({
+                colo: '#ffcc33'
+            })
+        })
+    })
+});
+
+/**
+     * Currently drawn feature.
+     * @type {module:ol/Feature~Feature}
+     */
+var sketch;
+
+/**
+    * The help tooltip element.
+    * @type {Element}
+    */
+var helpTooltipElement;
+
+/**
+ * Overlay to show the help messages.
+ * @type {module:ol/Overlay}
+ */
+var helpTooltip;
+
+
+/**
+ * The measure tooltip element.
+ * @type {Element}
+ */
+var measureTooltipElement;
+
+/**
+    * Overlay to show the measurement.
+    * @type {module:ol/Overlay}
+    */
+var measureTooltip;
+
+/**
+      * Message to show when the user is drawing a polygon.
+      * @type {string}
+      */
+var continuePolygonMsg = 'Click to continue drawing the polygon';
+
+
+/**
+      * Handle pointer move.
+      * @param {module:ol/MapBrowserEvent~MapBrowserEvent} evt The event.
+      */
+var pointerMoveHandler = function (evt) {
+    if (evt.dragging) {
+        return;
+    }
+    /** @type {string} */
+    var helpMsg = 'Click to start drawing';
+
+    if (sketch) {
+        var geom = (sketch.getGeometry());
+        if (geom instanceof ol.geom.Polygon) {
+            helpMsg = continuePolygonMsg;
+        }
+    }
+
+    helpTooltipElement.innerHTML = helpMsg;
+    helpTooltip.setPosition(evt.coordinate);
+
+    helpTooltipElement.classList.remove('hidden');
+};
+
+map.addLayer(vector_mesure);
+map.on('pointermove', pointerMoveHandler);
+
+map.getViewport().addEventListener('mouseout', function () {
+    helpTooltipElement.classList.add('hidden');
+});
+
+//var typeSelect = document.getElementById('type'); //area
+
+var draw; // global so we can remove it later
+
+/**
+     * Format area output.
+     * @param {module:ol/geom/Polygon~Polygon} polygon The polygon.
+     * @return {string} Formatted area.
+     */
+var formatArea = function (polygon) {
+    var area = getArea(polygon);
+    var output;
+    if (area > 10000) {
+        output = (Math.round(area / 1000000 * 100) / 100) +
+            ' ' + 'km<sup>2</sup>';
+    } else {
+        output = (Math.round(area * 100) / 100) +
+            ' ' + 'm<sup>2</sup>';
+    }
+    return output;
+};
+
+function addInteraction() {
+    var type = 'area';
+    draw = new ol.interaction.Draw({
+        source: mesure_Source,
+        type: type,
+        style: new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 255, 255, 0.2)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(0, 0, 0, 0.5)',
+                lineDash: [10, 10],
+                width: 2
+            }),
+            image: new ol.style.CircleStyle({
+                radius: 5,
+                stroke: new ol.style.Stroke({
+                    color: 'rgba(0, 0, 0, 0.7)'
+                }),
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.2)'
+                })
+            })
+        })
+    });
+    map.addInteraction(draw);
+
+    createMeasureTooltip();
+    createHelpTooltip();
+
+    var listener;
+    draw.on('drawstart',
+        function (evt) {
+            // set sketch
+            sketch = evt.feature;
+
+            /** @type {module:ol/coordinate~Coordinate|undefined} */
+            var tooltipCoord = evt.coordinate;
+
+            listener = sketch.getGeometry().on('change', function (evt) {
+                var geom = evt.target;
+                var output;
+                if (geom instanceof ol.geom.Polygon) {
+                    output = formatArea(geom);
+                    tooltipCoord = geom.getInteriorPoint().getCoordinates();
+                }
+                measureTooltipElement.innerHTML = output;
+                measureTooltip.setPosition(tooltipCoord);
+            });
+        }, this);
+
+    draw.on('drawend',
+        function () {
+            measureTooltipElement.className = 'tooltip tooltip-static';
+            measureTooltip.setOffset([0, -7]);
+            // unset sketch
+            sketch = null;
+            // unset tooltip so that a new one can be created
+            measureTooltipElement = null;
+            createMeasureTooltip();
+            ol.Observable.unByKey(listener);
+        }, this);
+}
+
+/**
+   * Creates a new help tooltip
+   */
+function createHelpTooltip() {
+    if (helpTooltipElement) {
+        helpTooltipElement.parentNode.removeChild(helpTooltipElement);
+    }
+    helpTooltipElement = document.createElement('div');
+    helpTooltipElement.className = 'tooltip hidden';
+    helpTooltip = new ol.Overlay.Overlay({
+        element: helpTooltipElement,
+        offset: [15, 0],
+        positioning: 'center-left'
+    });
+    map.addOverlay(helpTooltip);
+}
+
+/**
+     * Creates a new measure tooltip
+     */
+function createMeasureTooltip() {
+    if (measureTooltipElement) {
+        measureTooltipElement.parentNode.removeChild(measureTooltipElement);
+    }
+    measureTooltipElement = document.createElement('div');
+    measureTooltipElement.className = 'tooltip tooltip-measure';
+    measureTooltip = new ol.Overlay.Overlay({
+        element: measureTooltipElement,
+        offset: [0, -15],
+        positioning: 'bottom-center'
+    });
+    map.addOverlay(measureTooltip);
+}
+
+
+
+  $("#mesureur").on('click',()=>{
+    map.removeInteraction(draw);
+    addInteraction();
+  });

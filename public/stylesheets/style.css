@@ -8697,17 +8697,7 @@ body.md-skin {
     z-index: 999999;
     display: block;
 }
-/* .carte{
-    margin: 0 !important;
-    padding: 0!important;
-    border: 0 !important;
-} */
 
-/* 
-#map{
-
-
-} */
 
 
 .rondeur{
@@ -8728,4 +8718,66 @@ body.md-skin {
     max-width: 100%;
     max-height: 100%;
   }
- 
+  .ol-control button{
+    
+    border-radius: 50% !important;
+    width: 40px!important;
+    height: 40px!important;
+    border-radius: 25px!important;
+    font-size: 18px!important;
+  
+}
+.ol-control button:hover, #mesure button:hover{
+    transform: scale(1.5);
+}
+#mesure{
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 1em;
+    top: .5em;
+    left: .0em;
+    z-index: 99999;
+    display: block; 
+}
+
+#mesure button{
+  border-radius: 50% !important;
+  width: 40px!important;
+  height: 40px!important;
+  border-radius: 25px!important;
+  font-size: 18px!important;
+
+}
+
+.tooltip {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    opacity: 0.7;
+    white-space: nowrap;
+  }
+  .tooltip-measure {
+    opacity: 1;
+    font-weight: bold;
+  }
+  .tooltip-static {
+    background-color: #ffcc33;
+    color: black;
+    border: 1px solid white;
+  }
+  .tooltip-measure:before,
+  .tooltip-static:before {
+    border-top: 6px solid rgba(0, 0, 0, 0.5);
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    margin-left: -7px;
+    left: 50%;
+  }
+  .tooltip-static:before {
+    border-top-color: #ffcc33;
+  }   

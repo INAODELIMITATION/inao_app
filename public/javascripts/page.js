@@ -80,6 +80,8 @@ $(document).ready(function () {
     $("#popup").appendTo(
         $('.ol-overlaycontainer')
     );
+   
+    $("#mesure").appendTo( $('.ol-overlaycontainer'));
     enableDisableInteract();
 
     /*icic*/
