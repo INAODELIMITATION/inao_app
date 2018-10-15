@@ -20,7 +20,7 @@ $(document).ready(function () {
     }
    
     closeList();
-
+  
   
         mapOnClick();
    

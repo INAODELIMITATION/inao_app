@@ -66,8 +66,12 @@ function airegeoRow(id_aire) {
         ' <a href="#" id="cpgeo' + id_aire + '" class="painter btn btn-xs btn-success" >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-
+        // ' <a href="#"  class=" btn btn-xs btn-primary" id="geoExtend'+id_aire+'">' +
+        // ' <i class="fa fa-1x fa-map-marker"></i>' +
+        // ' </a>' +
         '</span><br><br>';
+
+   
     return a;
 }
 

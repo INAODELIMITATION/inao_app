@@ -3677,6 +3677,10 @@ ol.unstyled {
     font-size: 160px !important;
     color: #e5e6e7;
 }
+.big-iconLogin{
+    font-size: 160px !important;
+    color: #737C7F;
+}
 /* FOOTER */
 .footer {
     background: none repeat scroll 0 0 white;
@@ -4033,6 +4037,9 @@ table.table-mail tr td {
 .gray-bg,
 .bg-muted {
     background-color: #f3f3f4;
+}
+.bg-login{
+    background-color: #737C7F;
 }
 .white-bg {
     background-color: #ffffff;
@@ -8683,9 +8690,10 @@ body.md-skin {
 
 #listappel{
     position: absolute;
-    margin-top: 10%;
-    top: .10em;
-    right: .3em;
+    margin-top: 4%;
+    margin-left: 25%;
+    top: .5em;
+    left: .0em;
     z-index: 999999;
     display: block;
 }
@@ -8720,4 +8728,4 @@ body.md-skin {
     max-width: 100%;
     max-height: 100%;
   }
-  
+ 

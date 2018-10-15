@@ -10,37 +10,37 @@
 function initialisation() {
     // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
-   
+
     setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
-        
+
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
-        createOSM("opensmap","OpenstreetMap",false,0.7);
-        setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS",0.7,"orthoPhotos",false);
-        setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93",0.7,"SCAN 25 Topographique",false);
+        createOSM("opensmap", "OpenstreetMap", false, 0.7);
+        setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS", 0.7, "orthoPhotos", false);
+        setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93", 0.7, "SCAN 25 Topographique", false);
     } catch (error) {
         console.log(error);
     }
 
     LoadLayers();
-   
+
     map.getView().fit(extent, map.getSize());
-    
+
 
 }
 
 
 
-function createOSM(name,libelle,visibility,opacity){
+function createOSM(name, libelle, visibility, opacity) {
 
     map.addLayer(new ol.layer.Tile({
-        name:name,
-      source: new ol.source.OSM(),
-      opacity:opacity,
-      visible:visibility
+        name: name,
+        source: new ol.source.OSM(),
+        opacity: opacity,
+        visible: visibility
     }));
-    appendIgnparams(name, libelle,visibility);
-    
+    appendIgnparams(name, libelle, visibility);
+
 }
 
 
@@ -67,7 +67,7 @@ function checkformat(name) {
         case "CADASTRALPARCELS.PARCELS.L93": { return "image/png"; break; }
         case "CADASTRALPARCELS.PARCELS": { return "image/png"; break; }
         case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png"; break; }
-        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93" : {return "image/png"; break}
+        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": { return "image/png"; break }
         default: { return "image/jpeg"; break; }
     }
 }
@@ -93,7 +93,7 @@ function setIgnLayer(name, opacity, libelle, visibility) {
         })
 
     );
-    appendIgnparams(name, libelle,visibility);
+    appendIgnparams(name, libelle, visibility);
 }
 
 function changeOpacity(name, opacity) {
@@ -104,7 +104,7 @@ function changeOpacity(name, opacity) {
 }
 
 
-function appendIgnparams(name, libelle,visibility) {
+function appendIgnparams(name, libelle, visibility) {
     let little = name.substring(0, 4);
     let inp;
     if (visibility == true) {
@@ -112,9 +112,9 @@ function appendIgnparams(name, libelle,visibility) {
     } else {
         inp = ' <input type="checkbox"    name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     }
-  
-    appendIgn(libelle,little,inp,name,visibility);
-   
+
+    appendIgn(libelle, little, inp, name, visibility);
+
 }
 
 
@@ -141,12 +141,12 @@ function removeDuplicates(arr, key) {
  */
 function LoadLayers() {
     try {
-        let layersData = JSON.parse(window.localStorage.getItem("layers"));  
+        let layersData = JSON.parse(window.localStorage.getItem("layers"));
         if (!layersData) {
             layersData = [];
         } else {
             layersData.reverse();
-            layersData.forEach((item,i) => {
+            layersData.forEach((item, i) => {
                 if (item.type == "appellation") {
                     LayerCreator(item);
                 }
@@ -157,12 +157,12 @@ function LoadLayers() {
                     makeCommune(item.id);
                 }
             });
-        } 
+        }
     } catch (error) {
-        
+
     }
-  
- 
+
+
 
 }
 
@@ -214,9 +214,9 @@ function storageAdder(data) {
         layersData.push(data);
         window.localStorage.setItem("layers", JSON.stringify(layersData));
     } catch (error) {
-        
+
     }
-   
+
 
 }
 
@@ -240,7 +240,7 @@ function LayerCreator(data) {
     createAppelationRow(data);
     aire_geoCreator(data.id_aire, color.hex1);
     aire_parcellaireCreator(data.id_aire, color);
-    successMessage("ajout termnié avec succès", "ajout de la couche "+data.lbl_aire);
+    successMessage("ajout termnié avec succès", "ajout de la couche " + data.lbl_aire);
 }
 
 
@@ -253,6 +253,15 @@ function aire_geoCreator(id_aire, color) {
                 '' + rowInexistant("Aire Geographique")
             );
         } else {
+            $("#geoextend"+id_aire).on('click',()=>{
+                try{
+                    let extent = getLayer("geo"+id_aire).getSource().getExtent();
+                    map.getView().fit(extent, map.getSize());
+                    map.updateSize(); 
+                }catch(e){
+                    console.log(e);
+                }
+            });
             makeLayerTypeByCoord(aire_geo[0].geom, color, "geo", aire_geo[0].id_aire);
             airegeoParams(id_aire, color);
 
@@ -686,7 +695,7 @@ function changeIndexAireGeo(element) {
  *change les positions de la liste des couches
  * @param {Array Object} tableau  Tableau contenant les élements qui change de position ainsi que leur position
  */
-function changePositions(tableau){
+function changePositions(tableau) {
     tableau.forEach(element => {
         if (element.type == "appellation") {
             changeIndexParcellaire(element);
@@ -711,7 +720,7 @@ function makeID(tableauID) {
         tab.push(element);
     });
     tab = tab.reverse();
-    let tablePositions = makepositionTable(tab); 
+    let tablePositions = makepositionTable(tab);
     return tablePositions;
 }
 
@@ -719,7 +728,7 @@ function makeID(tableauID) {
  * crée le tableau des positions
  * @param {*} tab 
  */
-function makepositionTable(tab){
+function makepositionTable(tab) {
     let data = [];
     tab.forEach((element, i) => {
         if (element.startsWith("couche")) {
@@ -738,22 +747,27 @@ function makepositionTable(tab){
         }
 
     });
-    return data; 
+    return data;
 }
 
-function makeAppelList(coordinate){
+function makeAppelList(coordinate) {
+  
     $("#listContent").empty();
-        $("#listappel").hide();
+    $("#listappel").hide();
+   
+    
     $.ajax({
         url: "listAppel/" + coordinate[0] + "/" + coordinate[1],
         dataType: "json",
         type: "GET",
         success: (data) => {
+           
             data.forEach(element => {
                 $("#listContent").append(
-                    '<li><a id="appel'+element.id_aire+'">' + element.lbl_aire + '</a></li>'
+                    '<li><a id="appel' + element.id_aire + '">' + element.lbl_aire + '</a></li>'
+                  
                 );
-                $("#appel"+element.id_aire).on('click',()=>{
+                $("#appel" + element.id_aire).on('click', () => {
                     try {
                         LayerCreator(element);
                         storageAdder(element);
@@ -762,39 +776,40 @@ function makeAppelList(coordinate){
                     }
                 });
             });
-           
+            
+
             $("#listappel").show();
         }
     });
 }
 
-function closeList(){
+function closeList() {
     $("#closerlist").on('click', () => {
         vectorSource.clear();
         $("#listappel").hide();
     });
 }
 
-function mapOnClick(){
+function mapOnClick() {
     map.on('click', function (evt) {
-        if(!$("#popup").is(":hover")){
+        if (!$("#popup").is(":hover")) {
             addMarker(evt.coordinate);
             makeAppelList(map.getCoordinateFromPixel(evt.pixel));
-        }else{
+        } else {
             console.log('nothing');
         }
-       
+
     });
-   
+
 
 }
 
-function getlien(id_aire,callback){
+function getlien(id_aire, callback) {
     $.ajax({
-        url:"/siqo/lien/"+id_aire,
-        dataType:"json",
-        type:"GET",
-        success :(lien)=>{
+        url: "/siqo/lien/" + id_aire,
+        dataType: "json",
+        type: "GET",
+        success: (lien) => {
             callback(lien);
         }
     });
