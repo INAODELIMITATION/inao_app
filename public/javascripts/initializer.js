@@ -87,7 +87,7 @@ function addMarker(coordinate) {
 
 var mesure_Source = new ol.source.Vector();
 
-var vector_mesure = new ol.layer.VectorLayer({
+var vector_mesure = new ol.layer.Vector({
     source: mesure_Source,
     style: new ol.style.Style({
         fill: new ol.style.Fill({
@@ -97,7 +97,7 @@ var vector_mesure = new ol.layer.VectorLayer({
             color: '#ffcc33',
             width: 2
         }),
-        image: new ol.style.CircleStyle({
+        image: new ol.style.Circle({
             radius: 7,
             fill: new ol.style.Fill({
                 colo: '#ffcc33'
@@ -160,12 +160,13 @@ var pointerMoveHandler = function (evt) {
         if (geom instanceof ol.geom.Polygon) {
             helpMsg = continuePolygonMsg;
         }
+        helpTooltipElement.innerHTML = helpMsg;
+        helpTooltip.setPosition(evt.coordinate);
+    
+        helpTooltipElement.classList.remove('hidden');
     }
 
-    helpTooltipElement.innerHTML = helpMsg;
-    helpTooltip.setPosition(evt.coordinate);
-
-    helpTooltipElement.classList.remove('hidden');
+   
 };
 
 map.addLayer(vector_mesure);
@@ -211,7 +212,7 @@ function addInteraction() {
                 lineDash: [10, 10],
                 width: 2
             }),
-            image: new ol.style.CircleStyle({
+            image: new ol.style.Circle({
                 radius: 5,
                 stroke: new ol.style.Stroke({
                     color: 'rgba(0, 0, 0, 0.7)'

@@ -4,7 +4,8 @@
   "description": "application de visualisation cartographique des AOC viticoles",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "docs": "esdoc -c esdoc.json"
   },
   "keywords": [],
   "author": "Jean Roger NIGOUMI GUIALA",
@@ -15,6 +16,8 @@
     "csv-parser": "^2.0.0",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
+    "esdoc": "^1.1.0",
+    "esdoc-standard-plugin": "^1.0.0",
     "express": "~4.16.0",
     "express-minify": "^1.0.0",
     "express-session": "^1.15.6",

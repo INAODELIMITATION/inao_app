@@ -1,0 +1,27 @@
+{
+  "source": ".",
+  "destination": "./doc",
+  "includes": ["\\.js$"],
+  "excludes": ["(node_modules|bower_components)"],
+  "plugins": [
+    {
+      "name": "esdoc-standard-plugin",
+      "option": {
+        "lint": {"enable": true},
+        "coverage": {"enable": true},
+        "accessor": {"access": ["public", "protected", "private"], "autoPrivate": true},
+        "undocumentIdentifier": {"enable": true},
+        "unexportedIdentifier": {"enable": false},
+        "typeInference": {"enable": true},
+        "brand": {
+          "logo": "./public/images/Configuration_inao_logo.png",
+          "title": "SIG-INAO.FR",
+          "description": "guide",
+          "repository": "https://github.com/foo/bar",
+          "site": "http://www.sig-inao.fr",
+          "author": "https://twitter.com/jrking365",
+          "image": "./public/images/Configuration_inao_logo.png"
+        }
+      }
+    }] 
+}
