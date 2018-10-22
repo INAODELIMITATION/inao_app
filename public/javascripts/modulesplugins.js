@@ -64,11 +64,11 @@ function fail() {
  */
 function checkformat(name) {
     switch (name) {
-        case "CADASTRALPARCELS.PARCELS.L93": { return "image/png"; break; }
-        case "CADASTRALPARCELS.PARCELS": { return "image/png"; break; }
-        case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png"; break; }
-        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": { return "image/png"; break }
-        default: { return "image/jpeg"; break; }
+        case "CADASTRALPARCELS.PARCELS.L93": { return "image/png";  }
+        case "CADASTRALPARCELS.PARCELS": { return "image/png";  }
+        case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png";  }
+        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": { return "image/png";  }
+        default: { return "image/jpeg";  }
     }
 }
 
@@ -319,7 +319,7 @@ function getAireParcellaire(id_aire, callback) {
         type: 'GET',
         dataType: "json",
         success: function (data) {
-            callback(data)
+            callback(data);
         }
     });
 }
@@ -791,19 +791,27 @@ function closeList() {
 }
 
 function mapOnClick() {
-    map.on('click', function (evt) {
-        if(!$("#mesureur").is(":hover")){
+  
+    // map.on('click', function (evt) {
+    //     $('.contextMenu').hide();
+    //     if(!$("#mesureur").is(":hover")){
 
       
-        if (!$("#popup").is(":hover")) {
-            addMarker(evt.coordinate);
-            makeAppelList(map.getCoordinateFromPixel(evt.pixel));
-        } else {
-            console.log('nothing');
-        }
-    }
-    });
+    //     if (!$("#popup").is(":hover")) {
+    //         addMarker(evt.coordinate);
+    //         makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+    //     } else {
+    //         console.log('nothing');
+    //     }
+    // }
+    // });
 
+    singleclicker = map.on('singleclick', function (evt) {
+        
+        addMarker(evt.coordinate);
+    makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+    });
+    
 
 }
 

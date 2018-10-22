@@ -1,12 +1,13 @@
 // "use strict";
 
 var clicked = 0;
+var singleclicker;
 window.addEventListener('beforeunload', (event) => {
     event.returnValue = `Are you sure you want to leave?`;
 });
 
 $(document).ready(function () {
-   
+
     try {
         Gp.Services.getConfig({
             serverUrl: "/javascripts/autoconf/local.json", //local
@@ -18,18 +19,42 @@ $(document).ready(function () {
     } catch (error) {
         fail();
     }
-   
+
     closeList();
-  
-  
-        mapOnClick();
+
+
+    singleclicker = map.on('singleclick', function (evt) {
+        
+        addMarker(evt.coordinate);
+    makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+    });
    
-   
+    
+///ICICICICICIIC
+var compteur = false;
+$("#mesureur").on('click',()=>{
+  console.log("clicked");
+  console.log(draw);
+    map.removeInteraction(draw);
+    if(!compteur){
+        map.removeInteraction(draw);
+        addInteraction();
+        
+        $("#popup").css("display", "none");
+       
+    }
+    else{
+        map.removeInteraction(draw);
+      
+        
+    }
+    compteur = !compteur;
+});
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
     });
 
-   
+
 
     $("#hideAutreRecherche").on('click', () => {
         $("#popup").css("display", "none");
@@ -80,8 +105,8 @@ $(document).ready(function () {
     $("#popup").appendTo(
         $('.ol-overlaycontainer')
     );
-   
-    $("#mesure").appendTo( $('.ol-overlaycontainer'));
+
+    $("#mesure").appendTo($('.ol-overlaycontainer'));
     enableDisableInteract();
 
     /*icic*/
@@ -115,9 +140,10 @@ $(document).ready(function () {
     });
 });
 
-function enableDisableInteract(){
-    
-    var dragPan, zoomInteraction,mousezoom;
+function enableDisableInteract() {
+
+    var dragPan, zoomInteraction, mousezoom;
+  
   
     map.getInteractions().forEach(function (interaction) {
         if (interaction instanceof ol.interaction.DragPan) {
@@ -126,13 +152,14 @@ function enableDisableInteract(){
         if (interaction instanceof ol.interaction.DoubleClickZoom) {
             zoomInteraction = interaction;
         }
-        if (interaction instanceof ol.interaction.MouseWheelZoom ) {
+        if (interaction instanceof ol.interaction.MouseWheelZoom) {
             mousezoom = interaction;
         }
-      
+
+
     }, this);
-   
-    $("#popup").on('mouseover', function () {
+
+    $("#popup,#mesureur").on('mouseover', function () {
 
         if (dragPan) {
             map.removeInteraction(dragPan);
@@ -145,20 +172,28 @@ function enableDisableInteract(){
             map.removeInteraction(mousezoom);
         }
        
-        
+        if(singleclicker){
+            ol.Observable.unByKey(singleclicker);
+        }
       
-      
-       
+
+
+
 
     });
 
     // Re-enable dragging when user's cursor leaves the element
-    $("#popup").on('mouseout', function () {
+    $("#popup,#mesureur").on('mouseout', function () {
         map.addInteraction(dragPan);
         map.addInteraction(zoomInteraction);
         map.addInteraction(mousezoom);
-       
-       
+      
+        singleclicker = map.on('singleclick', function (evt) {
+
+            addMarker(evt.coordinate);
+            makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+        });
+      
     });
 
 

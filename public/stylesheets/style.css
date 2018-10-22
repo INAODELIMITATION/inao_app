@@ -8748,8 +8748,28 @@ body.md-skin {
   font-size: 18px!important;
 
 }
+.contextMenu {
+    cursor: pointer;
+ 
+    position: absolute;
+    border: solid 1px black;
+   
+}
+.contextMenu .menuItem {
+    padding: 5px;
+}
+.contextMenu .menuItem:hover {
+    background-color: #ccc;
+}
 
-.tooltip {
+.menuSeparator {
+    border-bottom: solid 1px black;	
+}
+
+
+/** style pour la mesure **/
+
+tooltip {
     position: relative;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 4px;
@@ -8780,4 +8800,4 @@ body.md-skin {
   }
   .tooltip-static:before {
     border-top-color: #ffcc33;
-  }   
+  }
