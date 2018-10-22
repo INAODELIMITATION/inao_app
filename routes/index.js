@@ -9,7 +9,7 @@ const lbl_AireController = require('../controllers').lbl_Aires; //controleur des
 const zonesController = require('../controllers').Zones; //controlleur pour les zones
 const userController = require('../controllers').Users; //controlleur pour les utilisateurs
 const lienSiqoController = require('../controllers').LienSiqos; // controleur pour le lien siqo
-const requestController = require('../controllers').Requests; //controleur pour les requetes des utilisateurs
+const requestController = require('../controllers').Requests; //controleur pour les requetes des utilisaters
 
 
 
@@ -23,6 +23,16 @@ var sessionchecker = (req, res, next) => {
     next();
   }
 };
+
+var checklogin = (req,res, next)=>{
+  if(!req.session.user && !req.cookies.user_id){
+   
+     res.redirect('/login');
+  }else{
+    next();
+  }
+};
+
 
 /* GET home page. */
 router.get('/', sessionchecker, function (req, res) {
@@ -42,35 +52,35 @@ router.route('/login/:login?')
 
 
 router.route('/search')
-  .post(lbl_AireController.findLibelle);
+  .post(checklogin,lbl_AireController.findLibelle);
 
 router.route('/zone/aire_geo/:id_aire')
-  .get(zonesController.getAire);
+  .get(checklogin,zonesController.getAire);
 
 router.route('/aire_geo/:id_aire')
-  .get(zonesController.findAireGeo);
+  .get(checklogin,zonesController.findAireGeo);
 
 router.route('/zone/aire_parcellaire/:id_aire')
-  .get(zonesController.getParcellaire);
+  .get(checklogin,zonesController.getParcellaire);
 
 router.route('/login/create/user')
   .post(userController.createUser);
 
 
 
-router.get('/getExtendParcellaire/:id_aire', zonesController.getExtend);
+router.get('/getExtendParcellaire/:id_aire',checklogin, zonesController.getExtend);
 
 router.route('/communes')
-  .post(communesController.fetchCommunes);
+  .post(checklogin,communesController.fetchCommunes);
 
 router.route('/communes/:insee')
-  .get(communesController.getCommune);
+  .get(checklogin,communesController.getCommune);
 
 router.route('/parcelles')
-  .post(parcellesController.fetchParcelles);
+  .post(checklogin,parcellesController.fetchParcelles);
 
 router.route('/parcelles/:id')
-  .get(parcellesController.getParcelle);
+  .get(checklogin,parcellesController.getParcelle);
 
 
 router.route('/listAppel/:x/:y')
@@ -78,7 +88,7 @@ router.route('/listAppel/:x/:y')
 
 
 router.route('/siqo/lien/:id_aire')
-.get(lienSiqoController.getLien);
+.get(checklogin,lienSiqoController.getLien);
 
 
 router.get('/csv',(req,res)=>{
