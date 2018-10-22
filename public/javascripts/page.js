@@ -90,10 +90,11 @@ $("#mesureur").on('click',()=>{
                 lbl_aire: item,
                 type: "appellation"
             };
-
+            addRequest(data.id_aire);
             try {
                 LayerCreator(data);
                 storageAdder(data);
+               
             } catch (error) {
                 console.log(error);
             }

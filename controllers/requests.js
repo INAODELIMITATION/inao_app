@@ -15,20 +15,31 @@ module.exports = {
 
     createRequest(req,res){
         console.log("debut fonction ajout requete");
-        let request = new Request({
-            id_aire:req.params.id_aire,
-            date:new Date().toISOString().slice(0,10),
-            id_user : req.session.user.id,
+        // let request = new Request({
+        //     id_aire:req.params.id_aire,
+        //     date:new Date().toISOString().slice(0,10),
+        //     id_user : req.session.user.id,
             
-        });
-        request.save(error => {
-            if (error) {
-                res.send(error);
-            } else {
-                res.status(200).send({ message: "crée avec succès" });
-            }
+        // });
+        // request.save(error => {
+        //     if (error) {
+        //         res.send(error);
+        //     } else {
+        //         res.status(200).send({ message: "crée avec succès" });
+        //     }
 
-        });
+        // });
+        Request
+        .build({ id_aire:req.params.id_aire,date:new Date().toISOString().slice(0,10), id_user : req.session.user.id})
+        .save()
+        .then(request=>{
+            if(!request){
+                return res.status(400).send({message:"erreur"});
+            }
+            else{
+                return res.status(200).send({message: "enregistré avec succees"});
+            }
+        }).catch(error=>res.status(400).send(error));
     },
 
 };

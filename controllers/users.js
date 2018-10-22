@@ -46,9 +46,9 @@ module.exports = {
             });
             user.save(error => {
                 if (error) {
-                    res.send(error);
+                    return res.send(error);
                 } else {
-                    res.status(200).send({ message: "crée avec succès" });
+                    return res.status(200).send({ message: "crée avec succès" });
                 }
 
             });
