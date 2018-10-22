@@ -1,6 +1,7 @@
 var express = require('express');
 const  fs      = require('fs');
-const  csv = require('csv-parser');
+// const  csv = require('csv-parser');
+const csv=require("csvtojson");
 var router = express.Router();
 var sess;
 const parcellesController = require('../controllers').parcelles; // controleur des parcelles
@@ -93,15 +94,25 @@ router.route('/siqo/lien/:id_aire')
 router.route('/request/:id_aire')
 .get(checklogin,requestController.createRequest);
 
+router.get('/csv/upload',(req,res)=>{
+  res.render("upload");
+});
 router.get('/csv',(req,res)=>{
- const results = [];
-
- fs.createReadStream('test.csv')
- .pipe(csv({separator:','}))
- .on('data',results.push)
- .on('end',()=>{
-  console.log(results);
-  res.status(200).send(results);
- });
+ const csvFilepath = 'data.csv';
+ csv()
+.fromFile(csvFilepath)
+.then((jsonObj)=>{
+    console.log(jsonObj);
+    return res.status(200).send(jsonObj);
+    /**
+     * [
+     * 	{a:"1", b:"2", c:"3"},
+     * 	{a:"4", b:"5". c:"6"}
+     * ]
+     */ 
+});
+ 
+// Async / await usage
+//const jsonArray=await csv().fromFile(csvFilePath);
 });
 module.exports = router;
