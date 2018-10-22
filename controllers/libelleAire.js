@@ -28,30 +28,6 @@ module.exports = {
      * @param {*} res 
      */
     findLibelle(req, res) {
-
-        // return lbl_Aire
-        // .findAll({
-        //     raw:true,
-        //     where:{
-        //         lbl_aire : { [Op.iLike]: '%' + req.body.libelle + '%' },
-        //     },
-        //     limit: 30,
-        //     attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('id_aire')), 'id_aire'],'lbl_aire'],
-        //     order: [
-
-        //         ['lbl_aire', 'ASC'],
-        //     ]
-        // })
-        // .then(lbl_Aires =>{
-        //     if (!lbl_Aires) {
-        //         return res.status(404).send({
-        //             message: 'denomination pas trouvé',
-        //         });
-        //     }
-
-        //     return res.status(200).send(JSON.stringify(lbl_Aires));
-        // })
-        // .catch(error => res.status(400).send(error));
         console.log("debut");
         return sequelize
             .query("SELECT *" +
