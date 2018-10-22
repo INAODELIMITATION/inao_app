@@ -3,7 +3,7 @@
  * @description controlleur pour les aire géographique
  */
 
-const Parcelle = require('../models').parcelle;
+const Parcelle = require('../models').t_parcelle;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 var env = process.env.NODE_ENV || 'development';
@@ -42,7 +42,7 @@ module.exports = {
                             insee: req.body.insee,
                             section: { [Op.iLike]: '%' + changeUndefined(req.body.section) + '%' }
                         },
-                        sequelize.where(sequelize.cast(sequelize.col('parcelle.numpar'), 'varchar'),
+                        sequelize.where(sequelize.cast(sequelize.col('t_parcelle.numpar'), 'varchar'),
                             { [Op.iLike]: '%' + changeUndefined(req.body.numpar) + '%' }),
                     ],
                 },

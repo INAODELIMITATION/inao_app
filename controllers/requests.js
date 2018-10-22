@@ -3,7 +3,7 @@
  * @description controlleur pour les requetes d'un utilisateur
  */
 
-const Request = require('../models').request;
+const Request = require('../models').t_request;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 var env = process.env.NODE_ENV || 'development';

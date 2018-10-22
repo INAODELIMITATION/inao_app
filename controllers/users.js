@@ -3,7 +3,7 @@
  * @description controlleur pour les les utilisateurs 
  */
 
-const User = require('../models').user;
+const User = require('../models').t_user;
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt-nodejs');
 const Op = Sequelize.Op;
@@ -15,7 +15,7 @@ var sess;
 
 function setTimeconnect(user) {
     return sequelize
-        .query("UPDATE app.user SET last_connection = CURRENT_TIMESTAMP WHERE login = $login;", {
+        .query("UPDATE metier_inao.t_user SET last_connection = CURRENT_TIMESTAMP WHERE login = $login;", {
 
             bind: {
                 login: user.login

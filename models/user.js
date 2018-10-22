@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('user', {
+  var User = sequelize.define('t_user', {
     login: DataTypes.STRING,
     mdp: DataTypes.STRING,
     last_connection: DataTypes.DATE
@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   {
     timestamps: false, //n'ajoute pas les attributs createdAt et updatedAt
     freezeTableName: true, // n'ajoute pas de s au nom de la table
-    schema:'app',
+    schema:'metier_inao',
   });
   User.associate = function(models) {
     // associations can be defined here
