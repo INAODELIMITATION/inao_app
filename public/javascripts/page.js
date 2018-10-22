@@ -73,7 +73,6 @@ $("#mesureur").on('click',()=>{
                 dataType: "json",
                 type: "POST",
                 success: function (data) {
-                    console.log(data);
                     result($.map(data, function (item) {
                         libelle[item.lbl_aire.trim()] = item.id_aire;
                         return item.lbl_aire.trim();

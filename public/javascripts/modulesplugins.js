@@ -213,6 +213,7 @@ function storageAdder(data) {
         }
         layersData.push(data);
         window.localStorage.setItem("layers", JSON.stringify(layersData));
+       
     } catch (error) {
 
     }
@@ -240,6 +241,11 @@ function LayerCreator(data) {
     createAppelationRow(data);
     aire_geoCreator(data.id_aire, color.hex1);
     aire_parcellaireCreator(data.id_aire, color);
+   try {
+    addRequest(data.id_aire);
+   } catch (error) {
+       console.log(error);
+   }
     successMessage("ajout termnié avec succès", "ajout de la couche " + data.lbl_aire);
 }
 
@@ -323,7 +329,17 @@ function getAireParcellaire(id_aire, callback) {
         }
     });
 }
-
+function addRequest(id_aire){
+    console.log("debut");
+    $.ajax({
+        url: "/request/" + id_aire,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+          console.log("ajout requete");
+        }
+    });
+}
 
 /**
  * 

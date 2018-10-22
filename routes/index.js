@@ -90,6 +90,8 @@ router.route('/listAppel/:x/:y')
 router.route('/siqo/lien/:id_aire')
 .get(checklogin,lienSiqoController.getLien);
 
+router.route('/request/:id_aire')
+.get(checklogin,requestController.createRequest);
 
 router.get('/csv',(req,res)=>{
  const results = [];

@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Request = sequelize.define('request', {
     id_aire: DataTypes.INTEGER,
-    date: DataTypes.DATE,
+    date: DataTypes.DATEONLY,
     id_user: DataTypes.INTEGER
   }, 
   {
