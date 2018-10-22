@@ -5,10 +5,11 @@ var router = express.Router();
 var sess;
 const parcellesController = require('../controllers').parcelles; // controleur des parcelles
 const communesController = require('../controllers').communes; //controleur des communes
-const lbl_AireController = require('../controllers').lbl_Aires;
-const zonesController = require('../controllers').Zones;
-const userController = require('../controllers').Users;
-const lienSiqoController = require('../controllers').LienSiqos;
+const lbl_AireController = require('../controllers').lbl_Aires; //controleur des libelles aire
+const zonesController = require('../controllers').Zones; //controlleur pour les zones
+const userController = require('../controllers').Users; //controlleur pour les utilisateurs
+const lienSiqoController = require('../controllers').LienSiqos; // controleur pour le lien siqo
+const requestController = require('../controllers').Requests; //controleur pour les requetes des utilisateurs
 
 
 
