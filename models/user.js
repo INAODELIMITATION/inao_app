@@ -1,3 +1,8 @@
+/**
+ * @file modele pour la table t_user
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @version 1.0.0
+ */
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var User = sequelize.define('t_user', {

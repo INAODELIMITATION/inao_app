@@ -1,6 +1,7 @@
 /**
+ * @file controlleur pour les parcelles
  * @author JEAN ROGER NIGOUMI GUIALA
- * @description controlleur pour les aire géographique
+ * @version 1.0.0
  */
 
 const Parcelle = require('../models').t_parcelle;
@@ -27,8 +28,9 @@ module.exports = {
     },
 
     /**
-     * Fonction qui recupère une liste de parcelle, connaissant déja l'INSEE et en fonction 
-     * de la section et du numéro de parcelle, vide ou rempli 
+     * @method fetchParcelles
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @description Fonction qui recupère une liste de parcelle, connaissant déja l'INSEE et en fonction de la section et du numéro de parcelle, vide ou rempli 
      * @param {*} req 
      * @param {*} res 
      */
@@ -63,6 +65,13 @@ module.exports = {
             })
             .catch(error => res.status(400).send(error));
     },
+
+    /**
+     * @method getParcelle
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @param {*} req 
+     * @param {*} res 
+     */
     getParcelle(req,res){
         return Parcelle
         .findOne({

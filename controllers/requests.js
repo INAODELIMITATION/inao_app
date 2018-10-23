@@ -1,6 +1,8 @@
 /**
+ * @file controlleur pour les requetes
  * @author JEAN ROGER NIGOUMI GUIALA
  * @description controlleur pour les requetes d'un utilisateur
+ * @version 1.0.0
  */
 
 const Request = require('../models').t_request;
@@ -13,6 +15,12 @@ var sess;
 
 module.exports = {
 
+    /**
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @description crée la requete faite par l'utilisateur
+     * @param {*} req 
+     * @param {*} res 
+     */
     createRequest(req,res){
         console.log("debut fonction ajout requete");
         Request

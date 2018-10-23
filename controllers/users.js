@@ -1,6 +1,7 @@
 /**
- * @author JEAN ROGER NIGOUMI GUIALA
- * @description controlleur pour les les utilisateurs 
+ * @file controlleur pour les utilisateurs
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ *@version 1.0.0
  */
 
 const User = require('../models').t_user;
@@ -12,7 +13,12 @@ var config = require(__dirname + '/../config/config.json')[env];
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 var sess;
 
-
+/**
+ * @function setTimeconnect
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description met a jour l'heure de connection
+ * @param {User} user 
+ */
 function setTimeconnect(user) {
     return sequelize
         .query("UPDATE metier_inao.t_user SET last_connection = CURRENT_TIMESTAMP WHERE login = $login;", {
@@ -26,6 +32,7 @@ function setTimeconnect(user) {
 
 module.exports = {
 
+    
     makeHash(req, res) {
         let password = req.params.password;
         bcrypt.hash(password, null, null, (err, hash) => {
@@ -35,6 +42,13 @@ module.exports = {
         });
     },
 
+    /**
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @method createUser
+     * @description crée un utilisateur avec le mot de passe hashé
+     * @param {*} req 
+     * @param {*} res 
+     */
     createUser(req, res) {
 
         bcrypt.hash(req.body.password, null, null, (err, hash) => {
@@ -55,6 +69,13 @@ module.exports = {
         });
     },
 
+    /**
+     * @method login
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @description pour la connexion
+     * @param {*} req 
+     * @param {*} response 
+     */
     login(req, response) {
         return User
             .findOne({

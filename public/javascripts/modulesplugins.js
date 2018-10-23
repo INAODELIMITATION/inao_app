@@ -34,7 +34,7 @@ function initialisation() {
 
 
 /**
- *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function createOSM
  * @description crée la couche OSM
  * @param {String} name 

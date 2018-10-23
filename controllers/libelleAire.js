@@ -2,7 +2,7 @@
  * @file libelleAire Controlleur pour le modele libelleaire
  * @author Guiala Jean Roger
  * @version 1.0.0
- * Dans ce fichier nous mettrons toutes les fonctions pour recupérer/modifier les valeurs de notre modèle
+ * @description Dans ce fichier nous mettrons toutes les fonctions pour recupérer/modifier les valeurs de notre modèle
  */
 
 const lbl_Aire = require('../models').v_lst_lbl_aire;
@@ -13,17 +13,13 @@ var config = require(__dirname + '/../config/config.json')[env];
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 
-/**
- * Fonction qui initialise l'objet de la couche chargé en session
- * @param {String} type 
- * @param {String} valeur 
- * @param {Number} id_denom 
- */
 
 module.exports = {
 
     /**
-     * ensemble des denomination qui correspondent a ce qui a été rentré par l'utilisateur
+     * @method findLibelle
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @description ensemble des denomination qui correspondent a ce qui a été rentré par l'utilisateur
      * @param {*} req 
      * @param {*} res 
      */

@@ -1,3 +1,9 @@
+/**
+ * @file fichier de lancement de l'application événement)
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @version 1.0.0
+ */
+
 // "use strict";
 
 var clicked = 0;

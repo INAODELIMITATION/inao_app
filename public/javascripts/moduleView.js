@@ -2,12 +2,14 @@
  * @file View toutes les fonctions d'interaction et de création de vue
  * @author Guiala Jean Roger
  * @version 1.0.0
- * Dans ce fichier nous mettrons toutes les intéractions avec notre vue, création de block etc...
+ * @description Dans ce fichier nous mettrons toutes les intéractions avec notre vue, création de block etc...
  */
 
 
 /**
- * crée une ligne pour les parametre d'une appellation chargée
+ * @function createAppelationRow
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description crée une ligne pour les parametre d'une appellation chargée
  * @param {*} data 
  */
 function createAppelationRow(data) {
@@ -46,7 +48,9 @@ function createAppelationRow(data) {
 }
 
 /**
- * Notifie que le type d'aire recherché n'existe pas
+ * @function rowInexistant
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Notifie que le type d'aire recherché n'existe pas
  * @param {String} typeAire //aire geographique ou parcellaire
  */
 function rowInexistant(typeAire) {
@@ -54,7 +58,9 @@ function rowInexistant(typeAire) {
 }
 
 /**
- * crée une ligne pour les parametres de la couche aire geographique
+ * @function airegeoRow
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description crée une ligne pour les parametres de la couche aire geographique
  * @param {number} id_aire 
  */
 function airegeoRow(id_aire) {
@@ -76,7 +82,9 @@ function airegeoRow(id_aire) {
 }
 
 /**
- * crée une ligne pour les parametres de la couche aire parcellaires
+ * @function airePaRow
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description crée une ligne pour les parametres de la couche aire parcellaires
  * @param {number} id_aire 
  */
 function airePaRow(id_aire) {
@@ -97,7 +105,9 @@ function airePaRow(id_aire) {
 }
 
 /**
- * Initialise les parametres de la couche aire parcellaire
+ * @function aireParcParams
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Initialise les parametres de la couche aire parcellaire
  * @param {Object} data la zone cherchée
  * @param {Object} color la couleur (rgba, hex)
  */
@@ -115,7 +125,9 @@ function aireParcParams(data, color) {
 }
 
 /**
- *  Initialise les parametres de la couche aire géographique
+ * @function airegeoParams
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Initialise les parametres de la couche aire géographique
  * @param {number} id_aire l'id de la zone
  * @param {string} color la couleur 
  */
@@ -132,7 +144,9 @@ function airegeoParams(id_aire, color) {
 }
 
 /**
- * Modifie la visibilité d'une couche
+ * @function layerVisibilitySwitcher
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Modifie la visibilité d'une couche
  * @param {number} id 
  * @param {string} fa 
  * @param {string} precede 
@@ -153,6 +167,12 @@ function layerVisibilitySwitcher(id, fa, precede) {
     }
 }
 
+/**
+ * @function ignLayerswitcher
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description affiche ou masque une couche ign
+ * @param {String} name 
+ */
 function ignLayerswitcher(name) {
 
     let little = name.substring(0, 4);
@@ -174,7 +194,9 @@ function ignLayerswitcher(name) {
 }
 
 /**
- * supprime une appellation chargée (aire geo et aire parcellaire )
+ * @function deleteAppelationRow
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description supprime une appellation chargée (aire geo et aire parcellaire )
  * @param {number} id_aire 
  */
 function deleteAppelationRow(id_aire) {
@@ -198,7 +220,9 @@ function clickSidebar() {
 
 
 /**
- * Fonction qui permet de déclarer la liste des couches et les rendres triable (modification ordre)
+ * @function list
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Fonction qui permet de déclarer la liste des couches et les rendres triable (modification ordre)
  */
 function list() {
     $("#couches").sortable({
@@ -214,7 +238,9 @@ function list() {
 
 
 /**
- * Fonction qui au clique affiche un modal contenant les infos sur l'aire
+ *@function modalInfo
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Fonction qui au clique affiche un modal contenant les infos sur l'aire
  */
 function modalInfo(aire_geo) {
 
@@ -246,7 +272,12 @@ function modalInfo(aire_geo) {
 }
 
 
-/**Pour la recherche avancée */
+/**
+ * @function advanceForm
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Pour la recherche avancée
+ * 
+*/
 function advanceForm() {
     const formulaire =
         '<form onsubmit="return false;" class="form-horizontal" name="advanceForm" id="parcelle" >' +
@@ -289,7 +320,9 @@ function advanceForm() {
 
 
 /**
- * Affiche le formulaire en fonction de l'élément choisi
+ * @function formLoader
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Affiche le formulaire en fonction de l'élément choisi
  * @param {String} option 
  */
 function formLoader(option) {
@@ -302,7 +335,9 @@ function formLoader(option) {
 }
 
 /**
- *Effectue la recherche soit pour les communes, soit pour les parcelles
+ * @function Resarch
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ *@description Effectue la recherche soit pour les communes, soit pour les parcelles
  * @param {String} option 
  * @param {JSON} item 
  */
@@ -325,7 +360,9 @@ function Resarch(option, item) {
 }
 
 /**
- * Efface tous les champs pour recommencer la recherche
+ * @function resetCommuneForm
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ *@description  Efface tous les champs pour recommencer la recherche
  */
 function resetCommuneForm() {
     $(".resultPar").empty();
@@ -338,7 +375,9 @@ function resetCommuneForm() {
 }
 
 /**
- * efface tous les champs pour recommencer la recherche sur les parcelles
+ * @function resetParcelleForm
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description efface tous les champs pour recommencer la recherche sur les parcelles
  */
 function resetParcelleForm() {
     $("#paramParcelle").show();
@@ -352,7 +391,9 @@ function resetParcelleForm() {
 
 
 /**
- * Initialize la section
+ * @function setSection
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Initialize la section
  * @param {Object} item 
  */
 function setSection(item) {
@@ -365,7 +406,9 @@ function setSection(item) {
 }
 
 /**
- * reinitialise les champs resultats
+ * @function resetParcelleForm
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description reinitialise les champs resultats
  */
 function resetParcelleSearch() {
     $("#resultatable").empty();
@@ -375,7 +418,9 @@ function resetParcelleSearch() {
 }
 
 /**
- * Affiche ou non le message d'erreur pour qu'un champ soit rempli
+ * @function errorParcelleSearch
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Affiche ou non le message d'erreur pour qu'un champ soit rempli
  */
 function errorParcelleSearch(option) {
     if (option == "yes") {
@@ -388,7 +433,12 @@ function errorParcelleSearch(option) {
 
 }
 
-
+/**
+ * @function appendParcelle
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description ajoute la parcelle menu couche
+ * @param {Object} parcelle 
+ */
 function appendParcelle(parcelle) {
     $("#resultatable").append(
         '<tr class="resultPar">' +
@@ -399,7 +449,9 @@ function appendParcelle(parcelle) {
 }
 
 /**
- * gère la recherche sur les parcelles
+ * @function searchParcelle
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description gère la recherche sur les parcelles
  */
 function searchParcelle() {
     $("#parcelleSearcher").on('click', () => {
