@@ -57,12 +57,12 @@
                                 <br>
                             </div>
                         </form>
-                        <form action="#" class="dropzone">
-                            <div class="form-group" id="dropzoneForm">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple />
-                                </div>
+                        <form action="#" class="dropzone" id="dropzoneForm" method="post" enctype="multipart/form-data">
+
+                            <div class="fallback">
+                                <input name="file" type="file" accept=".csv" multiple/>
                             </div>
+
 
                         </form>
 
@@ -95,12 +95,20 @@
 
 
     <script>
+
         Dropzone.options.dropzoneForm = {
+            url:'/csv/upload',
             paramName: "file", // The name that will be used to transfer the file
             maxFilesize: 10, // MB
-            dictDefaultMessage: "<strong>glisser déposer le fichier csv ou cliquer pour le choisir"
+            dictDefaultMessage: "<strong>glisser déposer le fichier csv ou cliquer pour le choisir",
+            acceptedFiles: '.csv',
+            init:function(){
+                this.on("addedfile",(file)=>{
+                    console.log('new file', file.name);
+                });
+            }
         };
-
+       
 
     </script>
 </body>

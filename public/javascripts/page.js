@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 
-// "use strict";
+
 
 var clicked = 0;
 var singleclicker;
@@ -16,8 +16,8 @@ $(document).ready(function () {
 
     try {
         Gp.Services.getConfig({
-            serverUrl: "/javascripts/autoconf/local.json", //local
-            // serverUrl: "/GPautoconf/autoconf.json", //server
+            // serverUrl: "/javascripts/autoconf/local.json", //local
+            serverUrl: "/GPautoconf/autoconf.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,

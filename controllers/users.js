@@ -5,6 +5,7 @@
  */
 
 const User = require('../models').t_user;
+const csv = require("csvtojson");
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt-nodejs');
 const Op = Sequelize.Op;
@@ -32,7 +33,7 @@ function setTimeconnect(user) {
 
 module.exports = {
 
-    
+
     makeHash(req, res) {
         let password = req.params.password;
         bcrypt.hash(password, null, null, (err, hash) => {
@@ -111,5 +112,27 @@ module.exports = {
 
             })
             .catch(error => response.status(400).send(error));
+    },
+
+    createListUser(req, res) {
+        if(req.file.listuser.path){
+            console.log("il y a quelque chose");
+        }
+        console.log(req.file);
+        return res.status(200).send(req.body);
+    //     const csvFilepath = req.files.listuser.path;
+    //     csv()
+    //         .fromFile(csvFilepath)
+    //         .then((jsonObj) => {
+    //             console.log(jsonObj);
+    //             return res.status(200).send(jsonObj);
+    //             /**
+    //              * [
+    //              * 	{a:"1", b:"2", c:"3"},
+    //              * 	{a:"4", b:"5". c:"6"}
+    //              * ]
+    //              */
+    //         });
+    // }
     }
 };

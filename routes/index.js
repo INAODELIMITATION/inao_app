@@ -4,6 +4,8 @@ const  fs      = require('fs');
 const csv=require("csvtojson");
 var router = express.Router();
 var sess;
+var multer = require('multer');
+var upload = multer( { dest: './tmp/' } );
 const parcellesController = require('../controllers').parcelles; // controleur des parcelles
 const communesController = require('../controllers').communes; //controleur des communes
 const lbl_AireController = require('../controllers').lbl_Aires; //controleur des libelles aire
@@ -94,9 +96,29 @@ router.route('/siqo/lien/:id_aire')
 router.route('/request/:id_aire')
 .get(checklogin,requestController.createRequest);
 
-router.get('/csv/upload',(req,res)=>{
+
+router.route('/csv/upload')
+.get((req,res)=>{
   res.render("upload");
+})
+.post(upload.single('file'), function(req, res) {
+  
+  const csvFilepath = req.file.path;
+ csv()
+.fromFile(csvFilepath)
+.then((jsonObj)=>{
+    console.log(jsonObj);
+    return res.status(200).send(jsonObj);
+    /**
+     * [
+     * 	{a:"1", b:"2", c:"3"},
+     * 	{a:"4", b:"5". c:"6"}
+     * ]
+     */ 
 });
+   // return res.status( 200 ).send( req.file );
+  
+  });
 router.get('/csv',(req,res)=>{
  const csvFilepath = 'data.csv';
  csv()

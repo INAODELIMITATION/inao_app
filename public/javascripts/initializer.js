@@ -7,6 +7,9 @@
  * chargement des variables générale et des fonctions qui vont etre utilisé par d'autres pages JS
  */
 
+// proj4.defs("EPSG:2154","+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+// ol.proj.proj4.register(proj4);
+
 var extent = [-378305.8099675195, 6008151.219241469, 1320649.5712336518, 7235612.7247730335];
 var projection = new ol.proj.Projection({
     code: 'EPSG:2154',
@@ -25,7 +28,7 @@ var matrixIds = new Array(variable);
 var maxResolution = ol.extent.getWidth(projectionExtent) / 256; //recupérationd des résolutions
 for (var i = 0; i < variable; ++i) {
     matrixIds[i] = 'EPSG:2154:' + i;
-    resolutions[i] = (maxResolution) / Math.pow(2, i);
+    resolutions[i] = parseFloat((maxResolution) / Math.pow(2, i));
     //alert(resolutions[i]);
 }
 //setup source couche qui va etre utilisé pour toute les aire parcellaires
