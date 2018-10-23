@@ -1,17 +1,20 @@
 /**
  * @file Plugin toutes les fonctions métier
- * @author Guiala Jean Roger
+ * @copyright INAO 2018
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @version 1.0.0
  */
 
 /**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function initialisation
  * Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
 
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
 
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
@@ -30,7 +33,15 @@ function initialisation() {
 }
 
 
-
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function createOSM
+ * @description crée la couche OSM
+ * @param {String} name 
+ * @param {String} libelle 
+ * @param {Boolean} visibility 
+ * @param {float} opacity 
+ */
 function createOSM(name, libelle, visibility, opacity) {
 
     map.addLayer(new ol.layer.Tile({
@@ -46,7 +57,8 @@ function createOSM(name, libelle, visibility, opacity) {
 
 
 /**
- * en cas d'echec du chargement 
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function fail en cas d'echec du chargement 
  */
 function fail() {
     swal({
@@ -59,22 +71,24 @@ function fail() {
 
 
 /**
- * En fonction du format, initialise la carte IGN
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function checkformat En fonction du format, initialise la carte IGN
  * @param {String} name 
  */
 function checkformat(name) {
     switch (name) {
-        case "CADASTRALPARCELS.PARCELS.L93": { return "image/png";  }
-        case "CADASTRALPARCELS.PARCELS": { return "image/png";  }
-        case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png";  }
-        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": { return "image/png";  }
-        default: { return "image/jpeg";  }
+        case "CADASTRALPARCELS.PARCELS.L93": { return "image/png"; }
+        case "CADASTRALPARCELS.PARCELS": { return "image/png"; }
+        case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png"; }
+        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": { return "image/png"; }
+        default: { return "image/jpeg"; }
     }
 }
 
 
 /**
- * Fonction qui initialise une couche de l'IGN
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function setIgnLayer Fonction qui initialise une couche de l'IGN
  * @param {String} name 
  */
 function setIgnLayer(name, opacity, libelle, visibility) {
@@ -96,6 +110,13 @@ function setIgnLayer(name, opacity, libelle, visibility) {
     appendIgnparams(name, libelle, visibility);
 }
 
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function changeOpacity
+ * @description change l'opacité d'une couche
+ * @param {String} name 
+ * @param {Float} opacity 
+ */
 function changeOpacity(name, opacity) {
     let lay = getLayer(name);
     if (lay) {
@@ -104,6 +125,14 @@ function changeOpacity(name, opacity) {
 }
 
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function appendIgnparams
+ * @description ajoute dans le volet de droite la visibilité
+ * @param {String} name 
+ * @param {String} libelle 
+ * @param {Boolean} visibility 
+ */
 function appendIgnparams(name, libelle, visibility) {
     let little = name.substring(0, 4);
     let inp;
@@ -120,7 +149,9 @@ function appendIgnparams(name, libelle, visibility) {
 
 
 /**
- * fonction qui retire les doublons dans un tableau d'objet
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function removeDuplicates
+ * @description fonction qui retire les doublons dans un tableau d'objet
  */
 function removeDuplicates(arr, key) {
     if (!(arr instanceof Array) || key && typeof key !== 'string') {
@@ -137,7 +168,9 @@ function removeDuplicates(arr, key) {
 
 
 /**
- * Charge la carte de base et affiche les couches en session si il y en a 
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function LoadLayers
+ * @description Charge la carte de base et affiche les couches en session si il y en a 
  */
 function LoadLayers() {
     try {
@@ -170,7 +203,9 @@ function LoadLayers() {
 
 
 /**
- * Fonction qui affiche un message une fois que la carte a chargé pour la premiere fois.
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function successMessage
+ * @description Fonction qui affiche un message une fois que la carte a chargé pour la premiere fois.
  * @param {libelle} string titre du message
  * @param {valeur} string contenu du message
  */
@@ -191,7 +226,9 @@ function successMessage(libelle, valeur) {
 
 
 /**
- * vérifie si on a cliqué ou pas sur la barre de menu
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function sidebarClicked
+ * @description vérifie si on a cliqué ou pas sur la barre de menu
  * @param {number} checker 
  */
 function sidebarClicked() {
@@ -205,6 +242,12 @@ function sidebarClicked() {
     }
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function storageAdder
+ * @description ajoute en cache une couche chargée
+ * @param {JSON} data 
+ */
 function storageAdder(data) {
     try {
         let layersData = JSON.parse(window.localStorage.getItem("layers"));
@@ -213,7 +256,7 @@ function storageAdder(data) {
         }
         layersData.push(data);
         window.localStorage.setItem("layers", JSON.stringify(layersData));
-       
+
     } catch (error) {
 
     }
@@ -221,6 +264,12 @@ function storageAdder(data) {
 
 }
 
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function storagedeleterAppel
+ * @description supprime en cahce une appellation
+ * @param {int} id_aire 
+ */
 function storagedeleterAppel(id_aire) {
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
     if (layersData) {
@@ -228,6 +277,12 @@ function storagedeleterAppel(id_aire) {
         window.localStorage.setItem("layers", JSON.stringify(filtered));
     }
 }
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function storagedeleterOther
+ * @description supprime en cache une parcelle ou une commune
+ * @param {int} id 
+ */
 function storagedeleterOther(id) {
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
     if (layersData) {
@@ -236,6 +291,12 @@ function storagedeleterOther(id) {
     }
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function LayerCreator
+ * @description crée une couche d'appellation (aire géo et/ou aire parcellaire)
+ * @param {Array} data 
+ */
 function LayerCreator(data) {
     let color = RandomcolorHexRgba();
     createAppelationRow(data);
@@ -246,7 +307,13 @@ function LayerCreator(data) {
 
 
 
-
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function aire_geoCreator
+ * @description crée une aire géographique
+ * @param {int} id_aire 
+ * @param {String} color 
+ */
 function aire_geoCreator(id_aire, color) {
     getAire_geo(id_aire, aire_geo => {
         if (aire_geo == false) {
@@ -254,12 +321,12 @@ function aire_geoCreator(id_aire, color) {
                 '' + rowInexistant("Aire Geographique")
             );
         } else {
-            $("#geoextend"+id_aire).on('click',()=>{
-                try{
-                    let extent = getLayer("geo"+id_aire).getSource().getExtent();
+            $("#geoextend" + id_aire).on('click', () => {
+                try {
+                    let extent = getLayer("geo" + id_aire).getSource().getExtent();
                     map.getView().fit(extent, map.getSize());
-                    map.updateSize(); 
-                }catch(e){
+                    map.updateSize();
+                } catch (e) {
                     console.log(e);
                 }
             });
@@ -271,7 +338,9 @@ function aire_geoCreator(id_aire, color) {
 }
 
 /**
- * crée une couche de vectorTile
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function tileLayerCreator
+ * @description crée une couche de vectorTile
  * @param {*} data 
  * @param {*} color 
  */
@@ -301,6 +370,13 @@ function tileLayerCreator(data, color) {
     }
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function aire_parcellaireCreator
+ * @description crée une aire parcellaire
+ * @param {int} id_aire 
+ * @param {String} color 
+ */
 function aire_parcellaireCreator(id_aire, color) {
     getAireParcellaire(id_aire, aire => {
         if (aire == false) {
@@ -314,6 +390,13 @@ function aire_parcellaireCreator(id_aire, color) {
         }
     });
 }
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function getAireParcellaire
+ * @description recupere une aire parcellaire si elle existe
+ * @param {int} id_aire 
+ * @param {callback} callback 
+ */
 function getAireParcellaire(id_aire, callback) {
     $.ajax({
         url: "/zone/aire_parcellaire/" + id_aire,
@@ -324,20 +407,29 @@ function getAireParcellaire(id_aire, callback) {
         }
     });
 }
-function addRequest(id_aire){
+
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function addRequest
+ * @description ajoute dans la table request la requete de l'utilisateur
+ * @param {int} id_aire 
+ */
+function addRequest(id_aire) {
     console.log("debut");
     $.ajax({
         url: "/request/" + id_aire,
         type: 'GET',
         dataType: "json",
         success: function (data) {
-          console.log("ajout requete");
+            console.log("ajout requete");
         }
     });
 }
 
 /**
- * 
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function getextent
+ * @description recupére l'extend d'une aire parcellaire
  * @param {string} valeur ce qui est recherché, dénomination ou appellation 
  * 
  */
@@ -356,6 +448,13 @@ function getextent(id_aire) {
 
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function getAire_geo
+ * @description recupere l'aire géo si elle existe
+ * @param {int} id_aire 
+ * @param {callback} callback 
+ */
 function getAire_geo(id_aire, callback) {
     $.ajax({
         url: "/zone/aire_geo/" + id_aire,
@@ -368,6 +467,13 @@ function getAire_geo(id_aire, callback) {
     });
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function airegeoExist
+ * @description vérifie si l'aire géographique existe
+ * @param {int} id_aire 
+ * @param {callback} callback 
+ */
 function airegeoExist(id_aire, callback) {
     $.ajax({
         url: "/aire_geo/" + id_aire,
@@ -383,7 +489,9 @@ function airegeoExist(id_aire, callback) {
 
 
 /**
- * Retourne la couche vectorielle en fonction de son nom
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function getLayer
+ * @description Retourne la couche vectorielle en fonction de son nom
  * @param {String} name 
  */
 function getLayer(name) {
@@ -399,7 +507,9 @@ function getLayer(name) {
 }
 
 /**
- * Nom de la couche
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description Nom de la couche
+ * @function layerRemover
  * @param {String} nom 
  */
 function layerRemover(nom) {
@@ -409,14 +519,17 @@ function layerRemover(nom) {
             map.removeLayer(layer);
         }
         map.updateSize();
-        successMessage("Couche retiré avec succès", "Suppression de la couche ");
+
+        toastr.error('Couche retiré avec succès', 'Suppression de la couche');
     } catch (error) {
         console.log(error);
     }
 }
 
 /**
- * 
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function tileLayerColorChanger
+ * @description change la couleur d'une couche (MVT)
  * @param {number} id_aire id aire
  * @param {string} name libelle 
  * @param {string} color 
@@ -436,7 +549,9 @@ function tileLayerColorChanger(id_aire, name, color) {
     }
 }
 /**
- * Change la couleur de l'aire géographique
+ * @description Change la couleur de l'aire géographique
+ *  @author Jean Roger NIGOUMI Guiala
+ * @function changeAireColor
  * @param {*} layerName 
  * @param {*} code 
  */
@@ -458,7 +573,8 @@ function changeAireColor(layerName, code) {
 
 
 /**
- * 
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function makeLayerTypeByCoord
  * @param {*} coord 
  * @param {*} couleur 
  * @param {*} type 
@@ -486,8 +602,9 @@ function makeLayerTypeByCoord(coord, couleur, type, id) {
 
 
 /**
- * supprime une aire geographique ou une aire parcellaire en fonction du type
- * @author Jean Roger NIGOUMI Guiala
+ * @description supprime une aire geographique ou une aire parcellaire en fonction du type
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function deleteAire
  * @param  {number} id_aire
  * @param  {string} type
  */
@@ -511,11 +628,13 @@ function deleteAire(id_aire, type) {
 }
 
 
-/*
- * recupère la parcelle
+/** 
+ * 
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function fetchCommune recupère la parcelle
  * @param {*} denomination 
  * @param {*} callback 
- */
+ **/
 function fetchCommune(insee, callback) {
     $.ajax({
         url: "/communes/" + insee,
@@ -531,11 +650,12 @@ function fetchCommune(insee, callback) {
 
 
 
-/*
- * recupère la parcelle
+/** 
+ * @function fetchParcelle recupère la parcelle
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @param {*} denomination 
  * @param {*} callback 
- */
+ **/
 function fetchParcelle(id, callback) {
     $.ajax({
         url: "/parcelles/" + id,
@@ -550,9 +670,9 @@ function fetchParcelle(id, callback) {
 
 
 
-/**
- * retourne la liste des parcelles en fonction de la recherche
- */
+/** @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function retourne la liste des parcelles en fonction de la recherche
+ **/
 function AjaxParcelle() {
     $.ajax({
         url: "/parcelles",
@@ -575,7 +695,11 @@ function AjaxParcelle() {
     });
 }
 
-
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function makeCommune
+ * @param {string} insee 
+ */
 function makeCommune(insee) {
     fetchCommune(insee, commune => {
         makeLayerTypeByCoord(commune.geom, "yellow", "com", commune.code_insee);
@@ -583,6 +707,11 @@ function makeCommune(insee) {
     });
 }
 
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function loadCommune
+ * @param {string} insee 
+ */
 function loadCommune(insee) {
     makeCommune(insee);
     let data = {
@@ -592,6 +721,11 @@ function loadCommune(insee) {
     storageAdder(data);
 }
 
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function zoomExtentVectorLayer
+ * @param {String} name 
+ */
 function zoomExtentVectorLayer(name) {
     try {
         let couche = getLayer(name);
@@ -605,6 +739,12 @@ function zoomExtentVectorLayer(name) {
     }
 
 }
+
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function makeParcelle
+ * @param {integer} id 
+ */
 function makeParcelle(id) {
     fetchParcelle(id, parcelle => {
         makeLayerTypeByCoord(parcelle.geom, "yellow", "par", parcelle.id);
@@ -613,7 +753,11 @@ function makeParcelle(id) {
     });
 }
 
-
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function loadParcelle
+ * @param {number} id 
+ */
 function loadParcelle(id) {
     makeParcelle(id);
     let data = {
@@ -629,7 +773,8 @@ function loadParcelle(id) {
 
 
 /**
- * change la position d'une couche en fonction du nom de la couche et la position
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function changeIndexLayer change la position d'une couche en fonction du nom de la couche et la position
  * @param {String} nom 
  * @param {number} position 
  */
@@ -643,7 +788,8 @@ function changeIndexLayer(nom, position) {
 }
 
 /**
- * change la position d'une couche commune
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function changeIndexCommune change la position d'une couche commune
  * @param {Object} layersData couches en cache
  * @param {Object} element element qui change de position
  */
@@ -662,7 +808,8 @@ function changeIndexCommune(layersData, element) {
 }
 
 /**
- * change la position d'une couche parcelle
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function changeIndexParcelle change la position d'une couche parcelle
  * @param {array Object} layersData couches en cache
  * @param {*} element element qui change de position
  */
@@ -678,7 +825,8 @@ function changeIndexParcelle(layersData, element) {
 }
 
 /**
- * change la position d'une couche d'aire parcellaire
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function changeIndexParcellaire change la position d'une couche d'aire parcellaire
  * @param {Object} element element qui change de position
  */
 function changeIndexParcellaire(element) {
@@ -691,7 +839,8 @@ function changeIndexParcellaire(element) {
 }
 
 /**
- * change la position d'une couche d'aire geographique
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function changeIndexAireGeo change la position d'une couche d'aire geographique
  * @param {Object} element  element qui change de position
  */
 function changeIndexAireGeo(element) {
@@ -703,7 +852,8 @@ function changeIndexAireGeo(element) {
     });
 }
 /**
- *change les positions de la liste des couches
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ *@function changePositions change les positions de la liste des couches
  * @param {Array Object} tableau  Tableau contenant les élements qui change de position ainsi que leur position
  */
 function changePositions(tableau) {
@@ -722,7 +872,8 @@ function changePositions(tableau) {
     });
 }
 /**
- * constitue un tableau des elements et positions en fonctions des id des couches
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function makeID constitue un tableau des elements et positions en fonctions des id des couches
  * @param {Array} tableauID 
  */
 function makeID(tableauID) {
@@ -736,7 +887,9 @@ function makeID(tableauID) {
 }
 
 /**
- * crée le tableau des positions
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function makepositionTable
+ * @description crée le tableau des positions
  * @param {*} tab 
  */
 function makepositionTable(tab) {
@@ -761,22 +914,29 @@ function makepositionTable(tab) {
     return data;
 }
 
+
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function makeAppelList
+ * @description liste des appellations à un endroit
+ * @param {Array} coordinate 
+ */
 function makeAppelList(coordinate) {
-  
+
     $("#listContent").empty();
     $("#listappel").hide();
-   
-    
+
+
     $.ajax({
         url: "listAppel/" + coordinate[0] + "/" + coordinate[1],
         dataType: "json",
         type: "GET",
         success: (data) => {
-           
+
             data.forEach(element => {
                 $("#listContent").append(
                     '<li><a id="appel' + element.id_aire + '">' + element.lbl_aire + '</a></li>'
-                  
+
                 );
                 $("#appel" + element.id_aire).on('click', () => {
                     try {
@@ -787,13 +947,18 @@ function makeAppelList(coordinate) {
                     }
                 });
             });
-            
+
 
             $("#listappel").show();
         }
     });
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function closeList
+ * @description ferme la liste des appellations à un endroit
+ */
 function closeList() {
     $("#closerlist").on('click', () => {
         vectorSource.clear();
@@ -802,12 +967,12 @@ function closeList() {
 }
 
 function mapOnClick() {
-  
+
     // map.on('click', function (evt) {
     //     $('.contextMenu').hide();
     //     if(!$("#mesureur").is(":hover")){
 
-      
+
     //     if (!$("#popup").is(":hover")) {
     //         addMarker(evt.coordinate);
     //         makeAppelList(map.getCoordinateFromPixel(evt.pixel));
@@ -818,14 +983,21 @@ function mapOnClick() {
     // });
 
     singleclicker = map.on('singleclick', function (evt) {
-        
+
         addMarker(evt.coordinate);
-    makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+        makeAppelList(map.getCoordinateFromPixel(evt.pixel));
     });
-    
+
 
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function getlien
+ * @description recupere le lien vers la description d'une appellation
+ * @param {int} id_aire 
+ * @param {callback} callback 
+ */
 function getlien(id_aire, callback) {
     $.ajax({
         url: "/siqo/lien/" + id_aire,

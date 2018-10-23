@@ -112,7 +112,8 @@
 <script src="/javascripts/inspinia.js"></script>
 <script src="/javascripts/plugins/pace/pace.min.js"></script>
 <!-- Toastr script -->
-<script src="/javascripts/plugins/toastr.min.js" type="text/javascript"></script>
+<!-- <script src="/javascripts/plugins/toastr.min.js" type="text/javascript"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha256-3blsJd4Hli/7wCQ+bmgXfOdK7p/ZUMtPXY08jmxSSgk=" crossorigin="anonymous"></script>
 
 <script src="/javascripts/plugins/typeahead.js"></script>
 
@@ -140,7 +141,13 @@
 <!--JS PAGE-->
 <script src="/javascripts/page.js"></script>
 
- 
+<script type="text/javascript">
+    $(function() {
+        toastr.warning('Bienvenue sur <b>sig-inao.fr !</b>', 'Plateforme de visualisation des aires de Production');
+   });
+</script>
+
+
 
 </body>
 
