@@ -8,7 +8,7 @@
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function initialisation
- * Fonction d'initialisation de notre carte lors du lancement de l'application
+ * @description Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
     // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
@@ -37,10 +37,10 @@ function initialisation() {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function createOSM
  * @description crée la couche OSM
- * @param {String} name 
- * @param {String} libelle 
- * @param {Boolean} visibility 
- * @param {float} opacity 
+ * @param {String} name nom de la couche
+ * @param {String} libelle nom qui s'affiche a l'écran
+ * @param {Boolean} visibility visibilité prend la valeur true ou false
+ * @param {float} opacity opacité entre 0 et 1
  */
 function createOSM(name, libelle, visibility, opacity) {
 
@@ -73,7 +73,7 @@ function fail() {
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function checkformat En fonction du format, initialise la carte IGN
- * @param {String} name 
+ * @param {String} name nom de la couche 
  */
 function checkformat(name) {
     switch (name) {
@@ -89,7 +89,10 @@ function checkformat(name) {
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function setIgnLayer Fonction qui initialise une couche de l'IGN
- * @param {String} name 
+ * @param {string} name  nom de la couche
+ * @param {Float} opacity Opacité, valeur entre 0 et 1
+ * @param {string} libelle nom de la couche affiché à l'écran
+ * @param {Boolean} visibility visibilité
  */
 function setIgnLayer(name, opacity, libelle, visibility) {
     format = checkformat(name);
@@ -114,8 +117,8 @@ function setIgnLayer(name, opacity, libelle, visibility) {
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function changeOpacity
  * @description change l'opacité d'une couche
- * @param {String} name 
- * @param {Float} opacity 
+ * @param {String} name nom de la couche
+ * @param {Float} opacity Opacité, valeur entre 0 et 1
  */
 function changeOpacity(name, opacity) {
     let lay = getLayer(name);
@@ -129,11 +132,12 @@ function changeOpacity(name, opacity) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function appendIgnparams
  * @description ajoute dans le volet de droite la visibilité
- * @param {String} name 
- * @param {String} libelle 
- * @param {Boolean} visibility 
+ * @param {String} name nom de la couche
+ * @param {String} libelle nom de la couche qui s'affiche à l'écran
+ * @param {Boolean} visibility visibilité de la couche prend les valeurs {true} ou false
  */
 function appendIgnparams(name, libelle, visibility) {
+    /**le nom réduit de la couche utilisé comme id du champ */
     let little = name.substring(0, 4);
     let inp;
     if (visibility == true) {
@@ -142,6 +146,12 @@ function appendIgnparams(name, libelle, visibility) {
         inp = ' <input type="checkbox"    name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
     }
 
+    /**
+     * @description crée une ligne contenant les parametres de la couche
+     * @param {string} little nom de la couche réduit
+     * @param {string} inp ligne contenant le visibility switcher
+     *
+     */
     appendIgn(libelle, little, inp, name, visibility);
 
 }
@@ -174,23 +184,29 @@ function removeDuplicates(arr, key) {
  */
 function LoadLayers() {
     try {
+        /**liste des couches chargées en local sur le navigateur */
         let layersData = JSON.parse(window.localStorage.getItem("layers"));
+
         if (!layersData) {
             layersData = [];
         } else {
             layersData.reverse();
             layersData.forEach((item, i) => {
                 if (item.type == "appellation") {
+                    /**si c'est une appellation, alors on appelle la fonction qui crée l'appellation */
                     LayerCreator(item);
                 }
                 if (item.type == "parcelle") {
+                     /**si c'est une parcelle, alors on appelle la fonction qui crée la parcelle */
                     makeParcelle(item.id);
                 }
                 if (item.type == "commune") {
+                     /**si c'est une commune, alors on appelle la fonction qui crée la commune */
                     makeCommune(item.id);
                 }
             });
         }
+        /** en cas d'erreur */
     } catch (error) {
 
     }
@@ -229,7 +245,7 @@ function successMessage(libelle, valeur) {
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function sidebarClicked
  * @description vérifie si on a cliqué ou pas sur la barre de menu
- * @param {number} checker 
+ *
  */
 function sidebarClicked() {
     if (this.clicked == 0) {
@@ -246,10 +262,11 @@ function sidebarClicked() {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function storageAdder
  * @description ajoute en cache une couche chargée
- * @param {JSON} data 
+ * @param {JSON} data  couche a achouté
  */
 function storageAdder(data) {
     try {
+          /**liste des couches chargées en local sur le navigateur */
         let layersData = JSON.parse(window.localStorage.getItem("layers"));
         if (!layersData) {
             layersData = [];
@@ -268,9 +285,10 @@ function storageAdder(data) {
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function storagedeleterAppel
  * @description supprime en cahce une appellation
- * @param {int} id_aire 
+ * @param {int} id_aire identifiant de la zone
  */
 function storagedeleterAppel(id_aire) {
+      /**liste des couches chargées en local sur le navigateur */
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
     if (layersData) {
         let filtered = layersData.filter(layer => layer.id_aire != id_aire);
@@ -281,7 +299,7 @@ function storagedeleterAppel(id_aire) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function storagedeleterOther
  * @description supprime en cache une parcelle ou une commune
- * @param {int} id 
+ * @param {int} id id dela commune ou la parcelle
  */
 function storagedeleterOther(id) {
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
@@ -295,7 +313,7 @@ function storagedeleterOther(id) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function LayerCreator
  * @description crée une couche d'appellation (aire géo et/ou aire parcellaire)
- * @param {Array} data 
+ * @param {Array} data id nom et type de la couche
  */
 function LayerCreator(data) {
     let color = RandomcolorHexRgba();
@@ -311,8 +329,8 @@ function LayerCreator(data) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function aire_geoCreator
  * @description crée une aire géographique
- * @param {int} id_aire 
- * @param {String} color 
+ * @param {int} id_aire id de la zone 
+ * @param {String} color couleur en hexadécimal
  */
 function aire_geoCreator(id_aire, color) {
     getAire_geo(id_aire, aire_geo => {
@@ -330,7 +348,9 @@ function aire_geoCreator(id_aire, color) {
                     console.log(e);
                 }
             });
+            /**création de l'aire géographique */
             makeLayerTypeByCoord(aire_geo[0].geom, color, "geo", aire_geo[0].id_aire);
+            /**Paramétres couleur et visibilité */
             airegeoParams(id_aire, color);
 
         }
@@ -341,8 +361,8 @@ function aire_geoCreator(id_aire, color) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function tileLayerCreator
  * @description crée une couche de vectorTile
- * @param {*} data 
- * @param {*} color 
+ * @param {*} data parametre de la couche 
+ * @param {*} color couleur
  */
 function tileLayerCreator(data, color) {
     let name = "airePar" + data.id_aire;
@@ -374,8 +394,8 @@ function tileLayerCreator(data, color) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function aire_parcellaireCreator
  * @description crée une aire parcellaire
- * @param {int} id_aire 
- * @param {String} color 
+ * @param {int} id_aire id de la zone
+ * @param {String} color couleur
  */
 function aire_parcellaireCreator(id_aire, color) {
     getAireParcellaire(id_aire, aire => {
@@ -394,8 +414,8 @@ function aire_parcellaireCreator(id_aire, color) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function getAireParcellaire
  * @description recupere une aire parcellaire si elle existe
- * @param {int} id_aire 
- * @param {callback} callback 
+ * @param {int} id_aire id de la zone
+ * @param {callback} callback callback pour exécuter une fonction par la suite lors de l'appel
  */
 function getAireParcellaire(id_aire, callback) {
     $.ajax({
@@ -412,7 +432,7 @@ function getAireParcellaire(id_aire, callback) {
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function addRequest
  * @description ajoute dans la table request la requete de l'utilisateur
- * @param {int} id_aire 
+ * @param {int} id_aire id de la zone
  */
 function addRequest(id_aire) {
     console.log("debut");
@@ -430,7 +450,7 @@ function addRequest(id_aire) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function getextent
  * @description recupére l'extend d'une aire parcellaire
- * @param {string} valeur ce qui est recherché, dénomination ou appellation 
+ * @param {int} id_aire id de la zone qui est recherché
  * 
  */
 function getextent(id_aire) {
@@ -452,8 +472,8 @@ function getextent(id_aire) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function getAire_geo
  * @description recupere l'aire géo si elle existe
- * @param {int} id_aire 
- * @param {callback} callback 
+ * @param {int} id_aire id de la zone
+ * @param {callback} callback callback pour exécuter une opération lors de l'appel de la fonction par la suite
  */
 function getAire_geo(id_aire, callback) {
     $.ajax({
@@ -471,8 +491,8 @@ function getAire_geo(id_aire, callback) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function airegeoExist
  * @description vérifie si l'aire géographique existe
- * @param {int} id_aire 
- * @param {callback} callback 
+ * @param {int} id_aire id de la zone
+ * @param {callback} callback callback pour exécuter une opération lors de l'appel de la fonction par la suite
  */
 function airegeoExist(id_aire, callback) {
     $.ajax({
@@ -492,7 +512,7 @@ function airegeoExist(id_aire, callback) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function getLayer
  * @description Retourne la couche vectorielle en fonction de son nom
- * @param {String} name 
+ * @param {String} name nom de la couche
  */
 function getLayer(name) {
     let couche;
@@ -508,12 +528,13 @@ function getLayer(name) {
 
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @description Nom de la couche
+ * @description retire une couche une fois qu'on a son nom
  * @function layerRemover
- * @param {String} nom 
+ * @param {String} nom nom de la couche
  */
 function layerRemover(nom) {
     try {
+        /**récupération de la couche à partir de son nom */
         let layer = getLayer(nom);
         if (layer != undefined) {
             map.removeLayer(layer);
@@ -532,7 +553,7 @@ function layerRemover(nom) {
  * @description change la couleur d'une couche (MVT)
  * @param {number} id_aire id aire
  * @param {string} name libelle 
- * @param {string} color 
+ * @param {string} color couleur que prendra la couche
  */
 function tileLayerColorChanger(id_aire, name, color) {
     let layer = getLayer(name);
@@ -552,8 +573,8 @@ function tileLayerColorChanger(id_aire, name, color) {
  * @description Change la couleur de l'aire géographique
  *  @author Jean Roger NIGOUMI Guiala
  * @function changeAireColor
- * @param {*} layerName 
- * @param {*} code 
+ * @param {string} layerName nom de la couche
+ * @param {string} code couleur en hexadécimal
  */
 function changeAireColor(layerName, code) {
 
@@ -574,13 +595,14 @@ function changeAireColor(layerName, code) {
 
 /**
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function makeLayerTypeByCoord
- * @param {*} coord 
- * @param {*} couleur 
- * @param {*} type 
- * @param {*} nom 
+ * @function makeLayerTypeByCoord crée une couche à partir de données GEOJSON
+ * @param {GeoJSON} coord coordonnée de la couche
+ * @param {string} couleur couleur que prendra la couche
+ * @param {string} type type de couche
+ * @param {int} id id de la couche
  */
 function makeLayerTypeByCoord(coord, couleur, type, id) {
+    /**création du nom de la couche en concaténant le type et l'id */
     let name = String(type + '' + id);
     try {
         map.addLayer(new ol.layer.Vector({
@@ -602,11 +624,11 @@ function makeLayerTypeByCoord(coord, couleur, type, id) {
 
 
 /**
+ * @function deleteAire
  * @description supprime une aire geographique ou une aire parcellaire en fonction du type
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function deleteAire
- * @param  {number} id_aire
- * @param  {string} type
+ * @param  {number} id_aire id de la zone
+ * @param  {string} type type de couche
  */
 function deleteAire(id_aire, type) {
     if (type == "geo") {
@@ -632,8 +654,8 @@ function deleteAire(id_aire, type) {
  * 
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function fetchCommune recupère la parcelle
- * @param {*} denomination 
- * @param {*} callback 
+ * @param {string} insee insee de la commune
+ * @param {callback} callback  callback pour éxécuter des actions lors de l'appel de la fonction
  **/
 function fetchCommune(insee, callback) {
     $.ajax({
@@ -653,8 +675,8 @@ function fetchCommune(insee, callback) {
 /** 
  * @function fetchParcelle recupère la parcelle
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @param {*} denomination 
- * @param {*} callback 
+ * @param {int} id id de la parcelle
+ * @param {callback} callback callback pour éxécuter des actions lors de l'appel de la fonction
  **/
 function fetchParcelle(id, callback) {
     $.ajax({
@@ -697,20 +719,22 @@ function AjaxParcelle() {
 
 /**
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function makeCommune
- * @param {string} insee 
+ * @function makeCommune fonction qui crée une commune a partir de son insee
+ * @param {string} insee insee de la commune
  */
 function makeCommune(insee) {
+    /**on récupére la commune et callback pour appeller la fonction qui crée la commune */
     fetchCommune(insee, commune => {
         makeLayerTypeByCoord(commune.geom, "yellow", "com", commune.code_insee);
+        /**on crée la ligne pour la commune */
         SearchRow(commune, "commune");
     });
 }
 
 /**
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function loadCommune
- * @param {string} insee 
+ * @function loadCommune charge la commune
+ * @param {string} insee insee de la commune
  */
 function loadCommune(insee) {
     makeCommune(insee);
@@ -723,8 +747,8 @@ function loadCommune(insee) {
 
 /**
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function zoomExtentVectorLayer
- * @param {String} name 
+ * @function zoomExtentVectorLayer zoom sur l'etendu du couche vectorielle
+ * @param {String} name nom de la couche
  */
 function zoomExtentVectorLayer(name) {
     try {
@@ -742,8 +766,8 @@ function zoomExtentVectorLayer(name) {
 
 /**
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function makeParcelle
- * @param {integer} id 
+ * @function makeParcelle crée une parcelle
+ * @param {integer} id id de la parcelle
  */
 function makeParcelle(id) {
     fetchParcelle(id, parcelle => {
@@ -755,8 +779,8 @@ function makeParcelle(id) {
 
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function loadParcelle
- * @param {number} id 
+ * @function loadParcelle charge la parcelle
+ * @param {number} id id de la parcele
  */
 function loadParcelle(id) {
     makeParcelle(id);
@@ -775,8 +799,8 @@ function loadParcelle(id) {
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function changeIndexLayer change la position d'une couche en fonction du nom de la couche et la position
- * @param {String} nom 
- * @param {number} position 
+ * @param {String} nom nom de la couche
+ * @param {number} position position à prendre par la couche
  */
 function changeIndexLayer(nom, position) {
     try {
@@ -810,8 +834,8 @@ function changeIndexCommune(layersData, element) {
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function changeIndexParcelle change la position d'une couche parcelle
- * @param {array Object} layersData couches en cache
- * @param {*} element element qui change de position
+ * @param {JSON} layersData couches en cache
+ * @param {JSON} element element qui change de position
  */
 function changeIndexParcelle(layersData, element) {
     let parce = layersData.filter(layer => layer.type == "parcelle");
@@ -827,7 +851,7 @@ function changeIndexParcelle(layersData, element) {
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function changeIndexParcellaire change la position d'une couche d'aire parcellaire
- * @param {Object} element element qui change de position
+ * @param {JSON} element element qui change de position
  */
 function changeIndexParcellaire(element) {
     getAireParcellaire(element.id_aire, aire => {
@@ -841,7 +865,7 @@ function changeIndexParcellaire(element) {
 /**
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function changeIndexAireGeo change la position d'une couche d'aire geographique
- * @param {Object} element  element qui change de position
+ * @param {JSON} element  element qui change de position
  */
 function changeIndexAireGeo(element) {
     airegeoExist(parseInt(element.id_aire), aire => {
@@ -854,7 +878,7 @@ function changeIndexAireGeo(element) {
 /**
  *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  *@function changePositions change les positions de la liste des couches
- * @param {Array Object} tableau  Tableau contenant les élements qui change de position ainsi que leur position
+ * @param {JSON} tableau  Tableau contenant les élements qui change de position ainsi que leur position
  */
 function changePositions(tableau) {
     tableau.forEach(element => {
@@ -890,7 +914,7 @@ function makeID(tableauID) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function makepositionTable
  * @description crée le tableau des positions
- * @param {*} tab 
+ * @param {Array} tab tableau de couche en session
  */
 function makepositionTable(tab) {
     let data = [];
@@ -919,7 +943,7 @@ function makepositionTable(tab) {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function makeAppelList
  * @description liste des appellations à un endroit
- * @param {Array} coordinate 
+ * @param {Array} coordinate  coordonnée de l'endroit cliqué
  */
 function makeAppelList(coordinate) {
 
@@ -995,8 +1019,8 @@ function mapOnClick() {
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function getlien
  * @description recupere le lien vers la description d'une appellation
- * @param {int} id_aire 
- * @param {callback} callback 
+ * @param {int} id_aire id de la zone
+ * @param {callback} callback callback pour éxécuter des actions lors de l'appel de la fonction
  */
 function getlien(id_aire, callback) {
     $.ajax({
