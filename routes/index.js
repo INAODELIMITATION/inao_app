@@ -33,7 +33,14 @@ var checklogin = (req,res, next)=>{
     next();
   }
 };
-
+var checkloginAdmin = (req,res, next)=>{
+  if(req.session.user.login !== "j.nigoumiguiala@inao.gouv.fr"){
+   
+     res.redirect('/');
+  }else{
+    next();
+  }
+};
 
 /* GET home page. */
 router.get('/', sessionchecker, function (req, res) {
@@ -95,12 +102,15 @@ router.route('/request/:id_aire')
 .get(checklogin,requestController.createRequest);
 
 
-router.route('/csv/upload/:status?')
+router.route('/csv/upload/')
 .get((req,res)=>{
   res.render("upload", {statue:req.params.status});
+});
+router.route('/csv/upload/form')
+.get(checklogin,checkloginAdmin,(req,res)=>{
+  res.render("upload",{statue:"formulaire"});
 })
-.post(upload.single('file'),userController.createListUser);
-
+.post(checklogin,checkloginAdmin,upload.single('file'),userController.createListUser);
 
 router.get('/csv',(req,res)=>{
  const csvFilepath = 'data.csv';

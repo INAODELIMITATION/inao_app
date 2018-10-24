@@ -20,7 +20,7 @@
     <link href="/stylesheets/animate.css" rel="stylesheet">
 
     <link href="/stylesheets/plugins/dropzone/basic.min.css" rel="stylesheet">
-    <link href="/stylesheets/plugins/dropzone/dropzonemin..css" rel="stylesheet">
+    <link href="/stylesheets/plugins/dropzone/dropzone.min.css" rel="stylesheet">
     <link href="/stylesheets/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -37,16 +37,16 @@
                     </div>
                     <div class="ibox-content">
                         <% if(statue == "success") {%>
-                            <div class="alert alert-success alert-dismissable">
-                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                              <h3>les utilisateurs ont été crée avec succes</h3>
-                            </div>
+                        <div class="alert alert-success alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <h3>les utilisateurs ont été crée avec succes</h3>
+                        </div>
                         <%}%>
                         <% if(statue == "failure") {%>
-                            <div class="alert alert-danger alert-dismissable">
-                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                              <h3>Echec de l'upload du fichier, aucun utilisateur crée</h3>
-                            </div>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <h3>Echec de l'upload du fichier, aucun utilisateur crée</h3>
+                        </div>
                         <%}%>
                         <p>
                             <strong>Créer une liste d'utilisateur</strong> Apartir d'un CSV contenant les adresses
@@ -71,7 +71,7 @@
                         <form action="#" class="dropzone" id="dropzoneForm" method="post" enctype="multipart/form-data">
 
                             <div class="fallback">
-                                <input name="file" type="file" accept=".csv" multiple/>
+                                <input name="file" type="file" accept=".csv" />
                             </div>
 
 
@@ -108,18 +108,23 @@
     <script>
 
         Dropzone.options.dropzoneForm = {
-            url:'/csv/upload',
+            maxFiles: 1,
+            url: '/csv/upload',
             paramName: "file", // The name that will be used to transfer the file
             maxFilesize: 10, // MB
             dictDefaultMessage: "<strong>glisser déposer le fichier csv ou cliquer pour le choisir",
             acceptedFiles: '.csv',
-            init:function(){
-                this.on("addedfile",(file)=>{
-                    console.log('new file', file.name);
+            accept: function (file, done) {
+                console.log("uploaded");
+                done();
+            },
+            init: function () {
+                this.on("maxfilesexceeded", function (file) {
+                    alert("No more files please!");
                 });
             }
         };
-       
+        
 
     </script>
 </body>

@@ -57,6 +57,44 @@ function createUser(login, mdp) {
 
 module.exports = {
 
+
+    checkAdmin(req, res) {
+        if (req.body.login !== "j.nigoumiguiala@inao.gouv.fr") {
+
+        } else {
+            User
+                .findOne({
+                    where: {
+                        login: req.body.login
+                    },
+                })
+                .then(user => {
+                    if (!user) {
+
+                    } else {
+                        bcrypt.compare(req.body.password, user.mdp, (err, res) => {
+                            if (res) {
+                                req.session.regenerate(() => {
+                                    req.session.user = {
+                                        login: user.login,
+                                        id: user.id
+                                    };
+                                    setTimeconnect(user);
+                                    response.redirect('/csv/upload/form');
+
+                                });
+                            } else {
+                                console.log("password did not match ");
+
+                                response.redirect('/login/not');
+                            }
+                        });
+                    }
+                })
+        }
+    },
+
+
     /**
      * @method login
      * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
