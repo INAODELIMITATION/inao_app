@@ -57,10 +57,10 @@ function createUser(login, mdp) {
     });
 }
 
-function makeHash(login, password, callback) {
+function makeHash(password, callback) {
 
     bcrypt.hash(password, null, null, (err, hash) => {
-        
+
         callback(hash);
 
     });
@@ -124,24 +124,44 @@ module.exports = {
         csv()
             .fromFile(csvFilepath)
             .then((userList) => {
-               
-                if (userList.length < 1) {
+
+                if (userList.length >1) {
                     console.log("on rentre");
                 }
-                let tabuser = [];
-                userList.forEach(user => {
-                    makeHash(user.login,user.mdp, cripte=>{
-                        tabuser.push(
-                            {
-                                login:user.login,
-                                mdp:cripte
-                            }
-                        );
-                        console.log(tabuser);
+                try {
+                    userList.forEach(Fuser => {
+                        User
+                            .findOne({
+                                where: {
+                                    login: Fuser.login
+                                },
+                            }).then(user => {
+                                if (!user) {
+                                    makeHash(Fuser.mdp, cripte => {
+                                        User
+                                            .build({ login: Fuser.login, mdp: cripte })
+                                            .save()
+                                            .then(user => {
+                                                if (!user) {
+                                                    console.log("erreur");
+                                                }
+                                                else {
+                                                    console.log("success");
+                                                }
+                                            }).catch(error => res.status(400).send(error));
+
+                                    });
+
+                                } else {
+                                    console.log("skip");
+                                }
+                            }).catch(error => response.status(400).send(error));
                     });
-                  
-                });
-               
+                    res.status(200).send({ message: "success" });
+                } catch (error) {
+                    res.status(400).send(error);
+                }
+
 
             });
 
