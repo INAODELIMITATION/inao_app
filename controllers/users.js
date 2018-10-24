@@ -30,32 +30,6 @@ function setTimeconnect(user) {
         }).spread((results, metadata) => {
         }).catch(error => response.status(400).send(error));
 }
-/**
-    * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
-    * @method createUser
-    * @description crée un utilisateur avec le mot de passe hashé
-    * @param {*} req 
-    * @param {*} res 
-    */
-function createUser(login, mdp) {
-
-    bcrypt.hash(mdp, null, null, (err, hash) => {
-        let d = new Date();
-        let user = new User({
-            login: login,
-            mdp: hash,
-        });
-
-        user.save(error => {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("succes");
-            }
-
-        });
-    });
-}
 
 function makeHash(password, callback) {
 
@@ -67,11 +41,21 @@ function makeHash(password, callback) {
 
 }
 
+function createUser(login, mdp) {
+    User
+        .build({ login: login, mdp: mdp })
+        .save()
+        .then(user => {
+            if (!user) {
+                console.log("erreur");
+            }
+            else {
+                console.log("success");
+            }
+        }).catch(error => res.status(400).send(error));
+}
+
 module.exports = {
-
-
-
-
 
     /**
      * @method login
@@ -118,51 +102,35 @@ module.exports = {
     },
 
     createListUser(req, res) {
-
-
         const csvFilepath = req.file.path;
         csv()
             .fromFile(csvFilepath)
             .then((userList) => {
 
-                if (userList.length >1) {
-                    console.log("on rentre");
+                if (userList.length > 1) {
+                    try {
+                        userList.forEach(Fuser => {
+                            User
+                                .findOne({
+                                    where: {
+                                        login: Fuser.login
+                                    },
+                                }).then(user => {
+                                    if (!user) {
+                                        makeHash(Fuser.mdp, cripte => {
+                                            createUser(Fuser.login, cripte);
+                                        });
+
+                                    } else {
+                                        console.log("skip");
+                                    }
+                                }).catch(error => response.status(400).send(error));
+                        });
+                        res.status(200).send({ message: "success" });
+                    } catch (error) {
+                        res.status(400).send(error);
+                    }
                 }
-                try {
-                    userList.forEach(Fuser => {
-                        User
-                            .findOne({
-                                where: {
-                                    login: Fuser.login
-                                },
-                            }).then(user => {
-                                if (!user) {
-                                    makeHash(Fuser.mdp, cripte => {
-                                        User
-                                            .build({ login: Fuser.login, mdp: cripte })
-                                            .save()
-                                            .then(user => {
-                                                if (!user) {
-                                                    console.log("erreur");
-                                                }
-                                                else {
-                                                    console.log("success");
-                                                }
-                                            }).catch(error => res.status(400).send(error));
-
-                                    });
-
-                                } else {
-                                    console.log("skip");
-                                }
-                            }).catch(error => response.status(400).send(error));
-                    });
-                    res.status(200).send({ message: "success" });
-                } catch (error) {
-                    res.status(400).send(error);
-                }
-
-
             });
 
 
