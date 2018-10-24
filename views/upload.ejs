@@ -36,7 +36,18 @@
                         <h5>Importer liste utilisateur</h5>
                     </div>
                     <div class="ibox-content">
-
+                        <% if(statue == "success") {%>
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                              <h3>les utilisateurs ont été crée avec succes</h3>
+                            </div>
+                        <%}%>
+                        <% if(statue == "failure") {%>
+                            <div class="alert alert-danger alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                              <h3>Echec de l'upload du fichier, aucun utilisateur crée</h3>
+                            </div>
+                        <%}%>
                         <p>
                             <strong>Créer une liste d'utilisateur</strong> Apartir d'un CSV contenant les adresses
                             email et les noms des utilisateurs

@@ -1,18 +1,16 @@
-var express = require('express');
-const  fs      = require('fs');
-// const  csv = require('csv-parser');
-const csv=require("csvtojson");
-var router = express.Router();
-var sess;
-var multer = require('multer');
-var upload = multer( { dest: './tmp/' } );
+var express     = require('express');
+const  fs       = require('fs');
+const csv       = require("csvtojson");
+var router      = express.Router();
+var multer      = require('multer');
+var upload      = multer({ dest: './tmp/' });
 const parcellesController = require('../controllers').parcelles; // controleur des parcelles
-const communesController = require('../controllers').communes; //controleur des communes
-const lbl_AireController = require('../controllers').lbl_Aires; //controleur des libelles aire
-const zonesController = require('../controllers').Zones; //controlleur pour les zones
-const userController = require('../controllers').Users; //controlleur pour les utilisateurs
-const lienSiqoController = require('../controllers').LienSiqos; // controleur pour le lien siqo
-const requestController = require('../controllers').Requests; //controleur pour les requetes des utilisaters
+const communesController  = require('../controllers').communes; //controleur des communes
+const lbl_AireController  = require('../controllers').lbl_Aires; //controleur des libelles aire
+const zonesController     = require('../controllers').Zones; //controlleur pour les zones
+const userController      = require('../controllers').Users; //controlleur pour les utilisateurs
+const lienSiqoController  = require('../controllers').LienSiqos; // controleur pour le lien siqo
+const requestController   = require('../controllers').Requests; //controleur pour les requetes des utilisaters
 
 
 
@@ -66,8 +64,8 @@ router.route('/aire_geo/:id_aire')
 router.route('/zone/aire_parcellaire/:id_aire')
   .get(checklogin,zonesController.getParcellaire);
 
-router.route('/login/create/user')
-  .post(userController.createUser);
+// router.route('/login/create/user')
+//   .post(userController.createUser);
 
 
 
@@ -97,28 +95,13 @@ router.route('/request/:id_aire')
 .get(checklogin,requestController.createRequest);
 
 
-router.route('/csv/upload')
+router.route('/csv/upload/:status?')
 .get((req,res)=>{
-  res.render("upload");
+  res.render("upload", {statue:req.params.status});
 })
-.post(upload.single('file'), function(req, res) {
-  
-  const csvFilepath = req.file.path;
- csv()
-.fromFile(csvFilepath)
-.then((jsonObj)=>{
-    console.log(jsonObj);
-    return res.status(200).send(jsonObj);
-    /**
-     * [
-     * 	{a:"1", b:"2", c:"3"},
-     * 	{a:"4", b:"5". c:"6"}
-     * ]
-     */ 
-});
-   // return res.status( 200 ).send( req.file );
-  
-  });
+.post(upload.single('file'),userController.createListUser);
+
+
 router.get('/csv',(req,res)=>{
  const csvFilepath = 'data.csv';
  csv()
@@ -126,15 +109,6 @@ router.get('/csv',(req,res)=>{
 .then((jsonObj)=>{
     console.log(jsonObj);
     return res.status(200).send(jsonObj);
-    /**
-     * [
-     * 	{a:"1", b:"2", c:"3"},
-     * 	{a:"4", b:"5". c:"6"}
-     * ]
-     */ 
 });
- 
-// Async / await usage
-//const jsonArray=await csv().fromFile(csvFilePath);
 });
 module.exports = router;
