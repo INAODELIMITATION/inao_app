@@ -72,38 +72,26 @@ module.exports = {
      * @param {*} response 
      */
     checkAdmin(req, response) {
-        if (req.body.login !== "j.nigoumiguiala@inao.gouv.fr") {
-
+        if (req.body.login === "j.nigoumiguiala@inao.gouv.fr") {
+            User.findOne({
+                where: { login: req.body.login },
+            }).then(user => {
+                if (user) {
+                    bcrypt.compare(req.body.password, user.mdp, (err, res) => {
+                        if (res) {
+                            req.session.regenerate(() => {
+                                req.session.user = { login: user.login, id: user.id };
+                                setTimeconnect(user);
+                                response.redirect('/csv/upload/form');
+                            });
+                        } else {
+                            response.redirect('/login/not');
+                        }
+                    });
+                }
+            }).catch(error => response.status(400).send(error));
         } else {
-            User
-                .findOne({
-                    where: {
-                        login: req.body.login
-                    },
-                })
-                .then(user => {
-                    if (!user) {
-
-                    } else {
-                        bcrypt.compare(req.body.password, user.mdp, (err, res) => {
-                            if (res) {
-                                req.session.regenerate(() => {
-                                    req.session.user = {
-                                        login: user.login,
-                                        id: user.id
-                                    };
-                                    setTimeconnect(user);
-                                    response.redirect('/csv/upload/form');
-
-                                });
-                            } else {
-                                console.log("password did not match ");
-
-                                response.redirect('/login/not');
-                            }
-                        });
-                    }
-                })
+            response.redirect('/login');
         }
     },
 
@@ -116,18 +104,12 @@ module.exports = {
      * @param {*} response 
      */
     login(req, response) {
-        return User
-            .findOne({
-                where: {
-                    login: req.body.login
-                },
-            })
-            .then(user => {
+        return User.findOne({
+                where: {login: req.body.login},
+            }).then(user => {
                 if (!user) {
                     response.redirect('/login/not');
-
                 } else {
-
                     bcrypt.compare(req.body.password, user.mdp, (err, res) => {
                         if (res) {
                             req.session.regenerate(() => {
@@ -140,16 +122,11 @@ module.exports = {
 
                             });
                         } else {
-                            console.log("password did not match ");
-
                             response.redirect('/login/not');
                         }
                     });
-
                 }
-
-            })
-            .catch(error => response.status(400).send(error));
+            }).catch(error => response.status(400).send(error));
     },
 
 
@@ -165,34 +142,25 @@ module.exports = {
         csv()
             .fromFile(csvFilepath)
             .then((userList) => {
-
                 if (userList.length > 1) {
                     try {
                         userList.forEach(Fuser => {
-                            User
-                                .findOne({
-                                    where: {
-                                        login: Fuser.login
-                                    },
-                                }).then(user => {
-                                    if (!user) {
-                                        makeHash(Fuser.mdp, cripte => {
-                                            createUser(Fuser.login, cripte);
-                                        });
-
-                                    } else {
-                                        console.log("skip");
-                                    }
-                                }).catch(error => response.status(400).send(error));
+                            User.findOne({
+                                where: { login: Fuser.login }
+                            }).then(user => {
+                                if (!user) {
+                                    makeHash(Fuser.mdp, cripte => {
+                                        createUser(Fuser.login, cripte);
+                                    });
+                                } else {
+                                    console.log("skip");
+                                }
+                            }).catch(error => response.status(400).send(error));
                         });
                         res.status(200).send({ message: "success" });
-                    } catch (error) {
-                        res.status(400).send(error);
-                    }
+                    } catch (error) { res.status(400).send(error); }
                 }
             });
-
-
     }
 
 };
