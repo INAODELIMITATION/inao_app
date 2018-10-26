@@ -71,8 +71,6 @@ router.route('/aire_geo/:id_aire')
 router.route('/zone/aire_parcellaire/:id_aire')
   .get(checklogin,zonesController.getParcellaire);
 
-// router.route('/login/create/user')
-//   .post(userController.createUser);
 
 
 
@@ -112,21 +110,4 @@ router.route("/csv/upload/form")
 })
 .post(checkloginAdmin,upload.single('file'),userController.createListUser);
 
-
-// router.route('/csv/upload/form')
-// .get(checklogin,checkloginAdmin,(req,res)=>{
-//   res.render("upload",{statue:"formulaire"});
-// })
-
-/**Mise en place d'une bonne sécurité pour les connexions pour le remplisage du formulaire */
-
-router.get('/csv',(req,res)=>{
- const csvFilepath = 'data.csv';
- csv()
-.fromFile(csvFilepath)
-.then((jsonObj)=>{
-    console.log(jsonObj);
-    return res.status(200).send(jsonObj);
-});
-});
 module.exports = router;

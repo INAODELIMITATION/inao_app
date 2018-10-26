@@ -41,6 +41,13 @@ function makeHash(password, callback) {
 
 }
 
+/**
+ * @function createUser
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description crée un utilisateur en fonction du login et du mot de passe
+ * @param {string} login 
+ * @param {string} mdp 
+ */
 function createUser(login, mdp) {
     User
         .build({ login: login, mdp: mdp })
@@ -57,7 +64,13 @@ function createUser(login, mdp) {
 
 module.exports = {
 
-
+    /**
+     * @method checkAdmin
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @description vérifie que celui qui se connecte a le login admin
+     * @param {*} req 
+     * @param {*} response 
+     */
     checkAdmin(req, response) {
         if (req.body.login !== "j.nigoumiguiala@inao.gouv.fr") {
 
@@ -139,6 +152,14 @@ module.exports = {
             .catch(error => response.status(400).send(error));
     },
 
+
+    /**
+     * @method createListUser
+     * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+     * @description crée les utilisateurs en fonction de la liste
+     * @param {*} req 
+     * @param {*} res 
+     */
     createListUser(req, res) {
         const csvFilepath = req.file.path;
         csv()
