@@ -37,7 +37,7 @@ module.exports = {
                 {
                     bind: {
                         libelle: req.body.libelle,
-                        similaire: 0.20
+                        similaire: 0.15
                     },
                     type: Sequelize.QueryTypes.SELECT
                 })

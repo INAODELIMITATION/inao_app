@@ -139,6 +139,22 @@ function goToCoord(x, y) {
 }
 
 
+function mapOnClick(evt) {
+
+  addMarker(evt.coordinate);
+  makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+}
+
+
+// var singleclicker = map.on('click', function (evt) {
+        
+//   addMarker(evt.coordinate);
+// makeAppelList(map.getCoordinateFromPixel(evt.pixel));
+// });
+
+map.on("singleclick",mapOnClick);
+
+
 /**la fonction de mesure */
 
 
@@ -205,23 +221,17 @@ var measureTooltip;
  * Message to show when the user is drawing a polygon.
  * @type {string}
  */
-var continuePolygonMsg = 'Click to continue drawing the polygon';
+var continuePolygonMsg = 'clicker pour continuer a déssiner le polygone';
 
 
 
-
-
-/**
- * Handle pointer move.
- * @param {ol.MapBrowserEvent} evt
- */
 var pointerMoveHandler = function(evt) {
     
   if (evt.dragging) {
     return;
   }
   /** @type {string} */
-  var helpMsg = 'Click to start drawing';
+  var helpMsg = 'clicker pour commencer à déssiner';
   /** @type {ol.Coordinate|undefined} */
   var tooltipCoord = evt.coordinate;
 
@@ -229,6 +239,7 @@ var pointerMoveHandler = function(evt) {
     var output;
     var geom = (sketch.getGeometry());
     if (geom instanceof ol.geom.Polygon) {
+    
       output = formatArea(/** @type {ol.geom.Polygon} */ (geom));
       helpMsg = continuePolygonMsg;
       tooltipCoord = geom.getInteriorPoint().getCoordinates();
@@ -247,8 +258,15 @@ var pointerMoveHandler = function(evt) {
 
 
 
+
 var draw; // global so we can remove it later
 function addInteraction() {
+  map.un("singleclick",mapOnClick);
+/**
+ * Handle pointer move.
+ * @param {ol.MapBrowserEvent} evt
+ */
+
   var type = "Polygon";
   draw = new ol.interaction.Draw({
     source: source,
@@ -275,17 +293,18 @@ function addInteraction() {
   });
  
 
-  ol.Observable.unByKey(singleclicker);
   createHelpTooltip();
   createMeasureTooltip();
   map.addInteraction(draw);
-  
+  map.un("singleclick",mapOnClick);
   draw.on('drawstart',
       function(evt) {
+        map.un("singleclick",mapOnClick);
         // set sketch
         sketch = evt.feature;
       }, this);
       map.on('pointermove', pointerMoveHandler);
+      map.un("singleclick",mapOnClick);
   draw.on('drawend',
       function(evt) {
         measureTooltipElement.className = 'tooltip tooltip-static';
@@ -296,7 +315,7 @@ function addInteraction() {
         measureTooltipElement = null;
         createMeasureTooltip();
       }, this);
-
+      map.un("singleclick",mapOnClick);
     
 }
 map.addLayer(vector);
@@ -381,5 +400,5 @@ var formatArea = function(polygon) {
   return output;
 };
 
-// addInteraction();
+
 

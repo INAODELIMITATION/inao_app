@@ -8769,7 +8769,7 @@ body.md-skin {
 
 /** style pour la mesure **/
 
-tooltip {
+.tooltip {
     position: relative;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 4px;

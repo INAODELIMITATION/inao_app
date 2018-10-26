@@ -7,7 +7,6 @@
 
 
 var clicked = 0;
-var singleclicker;
 window.addEventListener('beforeunload', (event) => {
     event.returnValue = `Are you sure you want to leave?`;
 });
@@ -16,8 +15,8 @@ $(document).ready(function () {
 
     try {
         Gp.Services.getConfig({
-            // serverUrl: "/javascripts/autoconf/local.json", //local
-            serverUrl: "/GPautoconf/autoconf.json", //server
+            serverUrl: "/javascripts/autoconf/local.json", //local
+            // serverUrl: "/GPautoconf/autoconf.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,
@@ -29,20 +28,13 @@ $(document).ready(function () {
     closeList();
 
 
-    singleclicker = map.on('singleclick', function (evt) {
-        
-        addMarker(evt.coordinate);
-    makeAppelList(map.getCoordinateFromPixel(evt.pixel));
-    });
-   
-    
+       
 ///ICICICICICIIC
 var compteur = false;
 $("#mesureur").on('click',()=>{
-  console.log("clicked");
-  console.log(draw);
     map.removeInteraction(draw);
     if(!compteur){
+       
         map.removeInteraction(draw);
         addInteraction();
         
@@ -178,9 +170,10 @@ function enableDisableInteract() {
             map.removeInteraction(mousezoom);
         }
        
-        if(singleclicker){
-            ol.Observable.unByKey(singleclicker);
-        }
+        // if(singleclicker){
+        //     ol.Observable.unByKey(singleclicker);
+        // }
+        map.un("singleclick",mapOnClick);
       
 
 
@@ -194,11 +187,7 @@ function enableDisableInteract() {
         map.addInteraction(zoomInteraction);
         map.addInteraction(mousezoom);
       
-        singleclicker = map.on('singleclick', function (evt) {
-
-            addMarker(evt.coordinate);
-            makeAppelList(map.getCoordinateFromPixel(evt.pixel));
-        });
+        map.on("singleclick",mapOnClick);
       
     });
 

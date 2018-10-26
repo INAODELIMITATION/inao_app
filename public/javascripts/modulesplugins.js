@@ -11,10 +11,10 @@
  * @description Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
 
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
 
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
@@ -990,30 +990,7 @@ function closeList() {
     });
 }
 
-function mapOnClick() {
 
-    // map.on('click', function (evt) {
-    //     $('.contextMenu').hide();
-    //     if(!$("#mesureur").is(":hover")){
-
-
-    //     if (!$("#popup").is(":hover")) {
-    //         addMarker(evt.coordinate);
-    //         makeAppelList(map.getCoordinateFromPixel(evt.pixel));
-    //     } else {
-    //         console.log('nothing');
-    //     }
-    // }
-    // });
-
-    singleclicker = map.on('singleclick', function (evt) {
-
-        addMarker(evt.coordinate);
-        makeAppelList(map.getCoordinateFromPixel(evt.pixel));
-    });
-
-
-}
 
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
