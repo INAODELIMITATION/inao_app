@@ -58,7 +58,7 @@ function createUser(login, mdp) {
 module.exports = {
 
 
-    checkAdmin(req, res) {
+    checkAdmin(req, response) {
         if (req.body.login !== "j.nigoumiguiala@inao.gouv.fr") {
 
         } else {

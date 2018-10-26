@@ -23,6 +23,9 @@
     <link href="/stylesheets/plugins/dropzone/dropzone.min.css" rel="stylesheet">
     <link href="/stylesheets/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
 
+    <!-- Sweet Alert -->
+    <link href="/stylesheets/plugins/sweetalert.css" rel="stylesheet">
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
 </head>
@@ -36,23 +39,12 @@
                         <h5>Importer liste utilisateur</h5>
                     </div>
                     <div class="ibox-content">
-                        <% if(statue == "success") {%>
-                        <div class="alert alert-success alert-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <h3>les utilisateurs ont été crée avec succes</h3>
-                        </div>
-                        <%}%>
-                        <% if(statue == "failure") {%>
-                        <div class="alert alert-danger alert-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                            <h3>Echec de l'upload du fichier, aucun utilisateur crée</h3>
-                        </div>
-                        <%}%>
                         <p>
                             <strong>Créer une liste d'utilisateur</strong> Apartir d'un CSV contenant les adresses
                             email et les noms des utilisateurs
                         </p>
-                        <form style="display:none">
+                        <% if(statue === "noform") {%>
+                        <form method="post">
                             <div class="form-group">
                                 <label>Email Administrateur</label>
                                 <input type="email" placeholder="Enter email" class="form-control" name="login">
@@ -68,7 +60,9 @@
                                 <br>
                             </div>
                         </form>
-                        <form action="#" class="dropzone" id="dropzoneForm" method="post" enctype="multipart/form-data">
+                        <%}%>
+                        <% if(statue == "form") {%>
+                        <form action="/csv/upload/form" class="dropzone" id="dropzoneForm" method="post" enctype="multipart/form-data">
 
                             <div class="fallback">
                                 <input name="file" type="file" accept=".csv" />
@@ -76,6 +70,10 @@
 
 
                         </form>
+
+                        <%}%>
+
+
 
                     </div>
                 </div>
@@ -104,27 +102,43 @@
     <script src="/javascripts/plugins/dropzone/dropzone.min.js"></script>
 
 
+    <!-- Sweet alert -->
+    <script src="/javascripts/plugins/sweetalert.min.js"></script>
+
 
     <script>
 
         Dropzone.options.dropzoneForm = {
             maxFiles: 1,
-            url: '/csv/upload',
+            url: '/csv/upload/form',
             paramName: "file", // The name that will be used to transfer the file
             maxFilesize: 10, // MB
             dictDefaultMessage: "<strong>glisser déposer le fichier csv ou cliquer pour le choisir",
             acceptedFiles: '.csv',
             accept: function (file, done) {
                 console.log("uploaded");
+                swal({
+                    title: "Utilisateurs ajouté",
+                    text: "Les utilisateurs du csv ont tous été ajouté avec succès",
+                    type: "success",
+                    showConfirmButton: true,
+                },()=>{
+                    window.location.href = '/';
+                });
                 done();
             },
             init: function () {
                 this.on("maxfilesexceeded", function (file) {
-                    alert("No more files please!");
+                    swal({
+                    title: "Erreur",
+                    text: "Un seul fichier à la fois",
+                    type: "danger",
+                    showConfirmButton: true,
+                })
                 });
             }
         };
-        
+
 
     </script>
 </body>

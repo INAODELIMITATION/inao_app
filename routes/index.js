@@ -101,16 +101,24 @@ router.route('/siqo/lien/:id_aire')
 router.route('/request/:id_aire')
 .get(checklogin,requestController.createRequest);
 
-
-router.route('/csv/upload/')
+router.route('/csv/upload')
 .get((req,res)=>{
-  res.render("upload", {statue:req.params.status});
-});
-router.route('/csv/upload/form')
-.get(checklogin,checkloginAdmin,(req,res)=>{
-  res.render("upload",{statue:"formulaire"});
+  res.render("upload", {statue:"noform"});
 })
-.post(checklogin,checkloginAdmin,upload.single('file'),userController.createListUser);
+.post(userController.checkAdmin);
+router.route("/csv/upload/form")
+.get(checklogin,checkloginAdmin,(req,res)=>{
+  res.render("upload", {statue:"form"});
+})
+.post(checkloginAdmin,upload.single('file'),userController.createListUser);
+
+
+// router.route('/csv/upload/form')
+// .get(checklogin,checkloginAdmin,(req,res)=>{
+//   res.render("upload",{statue:"formulaire"});
+// })
+
+/**Mise en place d'une bonne sécurité pour les connexions pour le remplisage du formulaire */
 
 router.get('/csv',(req,res)=>{
  const csvFilepath = 'data.csv';
