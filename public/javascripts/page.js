@@ -43,8 +43,8 @@ $("#mesureur").on('click',()=>{
     }
     else{
         source.clear(); 
-        helpTooltipElement.parentNode.removeChild(helpTooltipElement);
-        measureTooltipElement.parentNode.removeChild(measureTooltipElement);
+        helpTooltipElement.innerHTML="";
+        measureTooltipElement.innerHTML="";
         map.removeInteraction(draw);
       
         
@@ -60,6 +60,7 @@ $("#mesureur").on('click',()=>{
     $("#hideAutreRecherche").on('click', () => {
         $("#popup").css("display", "none");
     });
+    //comment
 
     list();
     let libelle = [];
