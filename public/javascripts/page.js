@@ -42,6 +42,9 @@ $("#mesureur").on('click',()=>{
        
     }
     else{
+        source.clear(); 
+        helpTooltipElement.parentNode.removeChild(helpTooltipElement);
+        measureTooltipElement.parentNode.removeChild(measureTooltipElement);
         map.removeInteraction(draw);
       
         
