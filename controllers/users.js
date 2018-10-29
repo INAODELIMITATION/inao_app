@@ -139,10 +139,12 @@ module.exports = {
      */
     createListUser(req, res) {
         const csvFilepath = req.file.path;
+        console.log(csvFilepath);
         csv()
             .fromFile(csvFilepath)
             .then((userList) => {
-                if (userList.length > 1) {
+                console.log(userList);
+                if (userList.length >= 1) {
                     try {
                         userList.forEach(Fuser => {
                             User.findOne({
