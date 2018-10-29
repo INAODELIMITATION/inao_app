@@ -72,7 +72,7 @@ module.exports = {
      * @param {*} response 
      */
     checkAdmin(req, response) {
-        if (req.body.login === "j.nigoumiguiala@inao.gouv.fr") {
+        if (req.body.login === "m.baussier@inao.gouv.fr") {
             User.findOne({
                 where: { login: req.body.login },
             }).then(user => {
@@ -139,11 +139,9 @@ module.exports = {
      */
     createListUser(req, res) {
         const csvFilepath = req.file.path;
-        console.log(csvFilepath);
         csv()
             .fromFile(csvFilepath)
             .then((userList) => {
-                console.log(userList);
                 if (userList.length >= 1) {
                     try {
                         userList.forEach(Fuser => {
