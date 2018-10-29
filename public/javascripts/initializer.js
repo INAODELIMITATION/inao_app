@@ -163,18 +163,20 @@ var source = new ol.source.Vector();
 
 var vector = new ol.layer.Vector({
   source: source,
+  opacity:1,
+  zindex:100,
   style: new ol.style.Style({
     fill: new ol.style.Fill({
-      color: 'rgba(255, 255, 255, 0.2)'
+      color: 'rgba(255, 165, 0, 0.4)'
     }),
     stroke: new ol.style.Stroke({
-      color: '#ffcc33',
-      width: 2
+      color: '#ffa500',
+      width: 3
     }),
     image: new ol.style.Circle({
       radius: 7,
       fill: new ol.style.Fill({
-        color: '#ffcc33'
+        color: '#ffa500'
       })
     })
   })
@@ -259,10 +261,10 @@ draw = new ol.interaction.Draw({
   type: /** @type {ol.geom.GeometryType} */ (type),
   style: new ol.style.Style({
     fill: new ol.style.Fill({
-      color: 'rgba(255, 255, 255, 0.2)'
+      color: 'rgba(255, 255, 255, 0.4)'
     }),
     stroke: new ol.style.Stroke({
-      color: 'rgba(0, 0, 0, 0.5)',
+      color: 'rgba(0, 0, 0, 1)',
       lineDash: [10, 10],
       width: 2
     }),
@@ -272,7 +274,7 @@ draw = new ol.interaction.Draw({
         color: 'rgba(0, 0, 0, 0.7)'
       }),
       fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.2)'
+        color: 'rgba(255, 255, 255, 0.4)'
       })
     })
   })
@@ -365,11 +367,11 @@ var formatArea = function (polygon) {
   var area;
 
   area = polygon.getArea();
-
+  console.log(Math.round(area));
   var output;
-  if (area > 10000) {
-    output = (Math.round(area / 1000000 * 100) / 100) +
-      ' ' + 'km<sup>2</sup>';
+  if (area > 1000) {
+    output = (Math.round(area / 10000 * 100) / 100) +
+      ' ' + 'ha';
   } else {
     output = (Math.round(area * 100) / 100) +
       ' ' + 'm<sup>2</sup>';
