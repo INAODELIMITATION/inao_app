@@ -378,6 +378,7 @@ var formatArea = function (polygon) {
 };
 
 function supprimeurOnclick(evt) {
+  $("#popup").css("display", "none");
   source.clear();
   vectorSource.clear();
   map.removeInteraction(draw);
