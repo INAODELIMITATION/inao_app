@@ -6,6 +6,29 @@
  */
 
 
+function showMapButtons(){
+    $("#popup").appendTo(
+        $('.ol-overlaycontainer')
+    );
+    $("#mesureur").appendTo(
+        $('.ol-control')
+    );
+    $("#supprimeur").appendTo(
+        $('.ol-control')
+    );
+    $("#mesureur").show();
+    $("#supprimeur").show();
+}
+
+function hidePopup(){
+    $("#AutreRecherche").on('click', () => {
+        $("#popup").toggle();
+    });
+
+    $("#hideAutreRecherche").on('click', () => {
+        $("#popup").css("display", "none");
+    });
+}
 /**
  * @function createAppelationRow
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>

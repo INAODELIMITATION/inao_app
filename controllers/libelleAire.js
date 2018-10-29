@@ -42,7 +42,7 @@ module.exports = {
                     type: Sequelize.QueryTypes.SELECT
                 })
             .then(lbl_Aires => {
-                console.log(lbl_Aires);
+              
                 if (!lbl_Aires) {
                     return res.status(404).send({
                         message: 'denomination pas trouvé',

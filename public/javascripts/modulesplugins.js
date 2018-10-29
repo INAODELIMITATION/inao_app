@@ -7,6 +7,25 @@
 
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function GeoportailConfig
+ * @description configuration du geoportail et lancement application
+ */
+function GeoportailConfig(){
+ try {
+        Gp.Services.getConfig({
+            serverUrl: "/javascripts/autoconf/local.json", //local
+            // serverUrl: "/GPautoconf/autoconf.json", //server
+            callbackSuffix: "",
+            onSuccess: initialisation,
+            onFailure: fail,
+        });
+    } catch (error) {
+        fail();
+    }
+}
+
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function initialisation
  * @description Fonction d'initialisation de notre carte lors du lancement de l'application
  */
@@ -197,11 +216,11 @@ function LoadLayers() {
                     LayerCreator(item);
                 }
                 if (item.type == "parcelle") {
-                     /**si c'est une parcelle, alors on appelle la fonction qui crée la parcelle */
+                    /**si c'est une parcelle, alors on appelle la fonction qui crée la parcelle */
                     makeParcelle(item.id);
                 }
                 if (item.type == "commune") {
-                     /**si c'est une commune, alors on appelle la fonction qui crée la commune */
+                    /**si c'est une commune, alors on appelle la fonction qui crée la commune */
                     makeCommune(item.id);
                 }
             });
@@ -266,7 +285,7 @@ function sidebarClicked() {
  */
 function storageAdder(data) {
     try {
-          /**liste des couches chargées en local sur le navigateur */
+        /**liste des couches chargées en local sur le navigateur */
         let layersData = JSON.parse(window.localStorage.getItem("layers"));
         if (!layersData) {
             layersData = [];
@@ -288,7 +307,7 @@ function storageAdder(data) {
  * @param {int} id_aire identifiant de la zone
  */
 function storagedeleterAppel(id_aire) {
-      /**liste des couches chargées en local sur le navigateur */
+    /**liste des couches chargées en local sur le navigateur */
     let layersData = JSON.parse(window.localStorage.getItem("layers"));
     if (layersData) {
         let filtered = layersData.filter(layer => layer.id_aire != id_aire);
@@ -1010,3 +1029,66 @@ function getlien(id_aire, callback) {
     });
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function ajaxSearch
+ * @description recupère la liste des appellations qui correspondent au terme entré
+ * @param {string} query terme tapé par l'utilisateur
+ * @param {callback} callback 
+ */
+function ajaxSearch(query, callback) {
+    $.ajax({
+        url: "/search",
+        data: 'libelle=' + query,
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+            callback(data);
+
+        }
+    });
+}
+
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function makeappelData
+ * @description crée un objet contenant l'id, le libelle et le type 
+ * @param {JSON} item 
+ * @param {Array} libelle 
+ */
+function makeappelData(item,libelle) {
+    return {
+        id_aire: libelle[item],
+        lbl_aire: item,
+        type: "appellation"
+    };
+}
+
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function createAndSaveAppellation
+ * @description crée la couche appellation et enregistre dans le navigateur
+ * @param {JSON} data 
+ */
+function createAndSaveAppellation(data){
+    try {
+        LayerCreator(data);
+        storageAdder(data);
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+function ajaxCommune(query,callback){
+    $.ajax({
+        url: "/communes/",
+        data: 'commune=' + query,
+        dataType: "json",
+        type: "POST",
+        success:  (data) => {
+            callback(data);
+        }
+    });
+}
