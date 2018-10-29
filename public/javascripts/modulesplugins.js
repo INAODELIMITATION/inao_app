@@ -1034,7 +1034,7 @@ function getlien(id_aire, callback) {
  * @function ajaxSearch
  * @description recupère la liste des appellations qui correspondent au terme entré
  * @param {string} query terme tapé par l'utilisateur
- * @param {callback} callback 
+ * @param {callback} callback fonction qui va gérer le resultat
  */
 function ajaxSearch(query, callback) {
     $.ajax({
@@ -1055,6 +1055,7 @@ function ajaxSearch(query, callback) {
  * @description crée un objet contenant l'id, le libelle et le type 
  * @param {JSON} item 
  * @param {Array} libelle 
+ * @returns {Object} object appellation
  */
 function makeappelData(item,libelle) {
     return {
@@ -1081,6 +1082,13 @@ function createAndSaveAppellation(data){
 
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function ajaxCommune
+ * @description recupère la liste des communes
+ * @param {string} query terme saisi
+ * @param {callback} callback fonction qui gère le resultat
+ */
 function ajaxCommune(query,callback){
     $.ajax({
         url: "/communes/",

@@ -253,6 +253,30 @@ var pointerMoveHandler = function (evt) {
 
 
 
+var type = "Polygon";
+draw = new ol.interaction.Draw({
+  source: source,
+  type: /** @type {ol.geom.GeometryType} */ (type),
+  style: new ol.style.Style({
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 255, 0.2)'
+    }),
+    stroke: new ol.style.Stroke({
+      color: 'rgba(0, 0, 0, 0.5)',
+      lineDash: [10, 10],
+      width: 2
+    }),
+    image: new ol.style.Circle({
+      radius: 5,
+      stroke: new ol.style.Stroke({
+        color: 'rgba(0, 0, 0, 0.7)'
+      }),
+      fill: new ol.style.Fill({
+        color: 'rgba(255, 255, 255, 0.2)'
+      })
+    })
+  })
+});
 
 
 
@@ -265,32 +289,6 @@ function addInteraction() {
    * Handle pointer move.
    * @param {ol.MapBrowserEvent} evt
    */
-
-  var type = "Polygon";
-  draw = new ol.interaction.Draw({
-    source: source,
-    type: /** @type {ol.geom.GeometryType} */ (type),
-    style: new ol.style.Style({
-      fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.2)'
-      }),
-      stroke: new ol.style.Stroke({
-        color: 'rgba(0, 0, 0, 0.5)',
-        lineDash: [10, 10],
-        width: 2
-      }),
-      image: new ol.style.Circle({
-        radius: 5,
-        stroke: new ol.style.Stroke({
-          color: 'rgba(0, 0, 0, 0.7)'
-        }),
-        fill: new ol.style.Fill({
-          color: 'rgba(255, 255, 255, 0.2)'
-        })
-      })
-    })
-  });
-
 
   createHelpTooltip();
   createMeasureTooltip();
@@ -356,26 +354,6 @@ function createMeasureTooltip() {
 }
 
 
-/**
- * format length output
- * @param {ol.geom.LineString} line
- * @return {string}
- */
-var formatLength = function (line) {
-  var length;
-
-  length = Math.round(line.getLength() * 100) / 100;
-
-  var output;
-  if (length > 100) {
-    output = (Math.round(length / 1000 * 100) / 100) +
-      ' ' + 'km';
-  } else {
-    output = (Math.round(length * 100) / 100) +
-      ' ' + 'm';
-  }
-  return output;
-};
 
 
 /**
