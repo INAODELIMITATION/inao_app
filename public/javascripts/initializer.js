@@ -139,7 +139,7 @@ function addMarker(coordinate) {
 //     });
 
 //     map.beforeRender(pan);
-//     map.getView().setCenter(p);
+//     map.getView().setCenter(p);k
 // }
 
 
