@@ -7,8 +7,6 @@
 
 /**déclaration des varibales */
 var express     = require('express');
-const  fs       = require('fs');
-const csv       = require("csvtojson");
 var router      = express.Router();
 var multer      = require('multer');
 var upload      = multer({ dest: './tmp/' });

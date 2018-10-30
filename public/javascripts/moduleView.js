@@ -1,11 +1,17 @@
 /**
  * @file View toutes les fonctions d'interaction et de création de vue
- * @author Guiala Jean Roger
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @version 1.0.0
  * @description Dans ce fichier nous mettrons toutes les intéractions avec notre vue, création de block etc...
+ * @copyright INAO 2018
  */
 
 
+ /**
+  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+  * @function showMapButtons
+  * @description affiche les boutons pour désinner et pour supprimer
+  */
 function showMapButtons(){
     $("#popup").appendTo(
         $('.ol-overlaycontainer')
@@ -20,6 +26,11 @@ function showMapButtons(){
     $("#supprimeur").show();
 }
 
+/**
+ * @function hidePopup
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @description masque la fenetre de recherche avancée (parcelle et commune)
+ */
 function hidePopup(){
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
@@ -29,6 +40,8 @@ function hidePopup(){
         $("#popup").css("display", "none");
     });
 }
+
+
 /**
  * @function createAppelationRow
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
@@ -49,12 +62,22 @@ function createAppelationRow(data) {
         ' <a href="#" type="button" class=" btn btn-xs  btn-rounded btn-info" style="visibility: hidden;" >' +
         ' <i class="fa fa-1x fa-info-circle"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="deleteAppelationRow(\'' + data.id_aire + '\')">' +
+        ' <a href="#" id="coucheDelete'+data.id_aire+'" class="pull-right btn btn-xs   btn-danger" >' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         ' </a>' +
         '</div>' +
         ' </li>'
     );
+    coucheAppellationParams(data);
+}
+
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function coucheAppellationParams
+ * @description parametre jquery pour l'interaction avec les fonctions au click
+ * @param {Object} data 
+ */
+function coucheAppellationParams(data){
     $("#lien"+data.id_aire).on('click',()=>{
         getlien(data.id_aire, lien=>{
             console.log("a jour");
@@ -67,6 +90,9 @@ function createAppelationRow(data) {
                 alert('Autorisez les popup our ce site');
             }
         });
+    });
+    $("#coucheDelete"+data.id_aire).on('click',()=>{
+        deleteAppelationRow(data.id_aire);
     });
 }
 
@@ -89,17 +115,17 @@ function rowInexistant(typeAire) {
 function airegeoRow(id_aire) {
     let a =
         '<span><strong>Aire géographique:&nbsp;</strong>' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + id_aire + '\',\'fageo\',\'geo\')">' +
+        ' <a  href="#" class=" btn btn-xs btn-white" id="visGeo'+id_aire+'" >' +
         ' <i id="fageo' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
         ' <a href="#" id="cpgeo' + id_aire + '" class="painter btn btn-xs btn-success" >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        // ' <a href="#"  class=" btn btn-xs btn-primary" id="geoExtend'+id_aire+'">' +
-        // ' <i class="fa fa-1x fa-map-marker"></i>' +
-        // ' </a>' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" id="geoExtend'+id_aire+'">' +
+        ' <i class="fa fa-1x fa-map-marker"></i>' +
+        ' </a>' +
         '</span><br><br>';
-
+      
    
     return a;
 }
@@ -113,17 +139,17 @@ function airegeoRow(id_aire) {
 function airePaRow(id_aire) {
     let message =
         '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + id_aire + '\',\'fa\',\'airePar\')">' +
+        ' <a  href="#" class=" btn btn-xs btn-white" id="visPar'+id_aire+'">' +
         ' <i id="fa' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
         ' <a href="#" id="cp' + id_aire + '" class="painter btn btn-xs btn-success ">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="getextent(\'' + id_aire + '\')">' +
+        ' <a href="#" id="parExtend'+id_aire+'" class=" btn btn-xs btn-primary">' +
         ' <i class="fa fa-1x fa-map-marker"></i>' +
         ' </a>' +
         '</span>';
-
+        
     return message;
 }
 
@@ -139,6 +165,13 @@ function aireParcParams(data, color) {
     $("#options" + data.id_aire).append(
         '' + airePaRow(data.id_aire)
     );
+    $("#visPar"+data.id_aire).on('click',()=>{
+        layerVisibilitySwitcher(data.id_aire,'fa','airePar');
+    });
+
+    $("#parExtend"+data.id_aire).on('click',()=>{
+        getextent(data.id_aire);
+    });
     $('#cp' + data.id_aire).css({ 'background-color': color.hex1 });
     $('body').css('overflow', 'hidden'); //solution temporaire
     $('#cp' + data.id_aire + '').colorpicker().on('changeColor', function (e) {
@@ -159,11 +192,19 @@ function airegeoParams(id_aire, color) {
         '' + airegeoRow(id_aire)
     );
     let name = "geo" + id_aire;
+    $("#visGeo"+id_aire).on('click',()=>{
+        layerVisibilitySwitcher(id_aire,'fageo','geo');
+    });
+      $("#geoExtend"+id_aire).on('click',()=>{
+            zoomExtentVectorLayer("geo"+id_aire);
+        });
     $('#cpgeo' + id_aire).css({ 'background-color': color });
     $('#cpgeo' + id_aire + '').colorpicker().on('changeColor', function (e) {
         changeAireColor(name, e.color.toString('hex'));
         $('#cpgeo' + id_aire).css({ 'background-color': e.color.toString('hex') });
     });
+   
+
 }
 
 /**
@@ -457,6 +498,7 @@ function errorParcelleSearch(option) {
 }
 
 /**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @function appendParcelle
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @description ajoute la parcelle menu couche
@@ -465,10 +507,13 @@ function errorParcelleSearch(option) {
 function appendParcelle(parcelle) {
     $("#resultatable").append(
         '<tr class="resultPar">' +
-        '<td><a href="#" onclick="loadParcelle(' + parcelle.id + ')">' + parcelle.idu + '</a></td>' +
+        '<td><a href="#" id="loaderPar'+parcelle.id+'">' + parcelle.idu + '</a></td>' +
         '<td> [' + parcelle.insee + '] ' + parcelle.commune + '</td>' +
         '</tr>'
     );
+    $("#loaderPar"+parcelle.id).on('click',()=>{
+        loadParcelle(parcelle.id);
+    });
 }
 
 /**
@@ -491,42 +536,71 @@ function searchParcelle() {
 }
 
 /**
- * 
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function SearchRow
+ * @description crée la ligne pour les parcelles et commune
  * @param {*} data 
  * @param {*} type 
  */
 function SearchRow(data, type) {
     let element = returnElement(data, type);
     let str = type.substring(0, 3);
-    let fa = 'fa' + str;
-    let name = str + '' + element.id;
+   
     $("#couches").append(
         '<li class="warning-element" id="autrecouche' + element.id + '">' +
         '<h3 class="text-center"> ' + element.valeur.replace(/^\w/, c => c.toUpperCase()) + '<small class="badge badge-warning"> ' + type + '</small>' +
         '</h3>' +
         '<div class="agile-detail">' +
-        ' <a  href="#" class=" btn btn-xs btn-white" onclick="layerVisibilitySwitcher(\'' + element.id + '\',\'' + fa + '\',\'' + str + '\')">' +
+        ' <a  href="#" class=" btn btn-xs btn-white" id="visAutre'+element.id+'" >' + 
         ' <i id="fa' + str + element.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
         ' <a href="#" id="cpo' + element.id + '" class="painter btn btn-xs btn-success" >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs   btn-danger" onclick="removerOther(\'' + name + '\',\'' + element.id + '\')">' +
+        ' <a href="#" class="pull-right btn btn-xs btn-danger" id="remAutre'+element.id+'">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" onclick="zoomExtentVectorLayer(\'' + name + '\')">' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" id="zoomAutre'+element.id+'">' +
         ' <i class="fa fa-1x fa-map-marker"></i>' +
         ' </a>' +
         '</div>' +
         ' </li>'
     );
-    $('#cpo' + element.id + '').colorpicker().on('changeColor', function (e) {
+    searchRomParams(element.id,str);
+}
+
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function searchRomParams
+ * @description parametre jquery pour les fonctions d'interaction au click
+ * @param {int} id id de la couche
+ * @param {string} str type reduit a 3 caractere (com pour commune, par pour parcelle)
+ */
+function searchRomParams(id,str){
+    let fa = 'fa' + str;
+    let name = str + '' + id;
+    $('#cpo' + id + '').colorpicker().on('changeColor', function (e) {
         changeAireColor(name, e.color.toString('hex'));
-        $('#cpo' + element.id).css({ 'background-color': e.color.toString('hex') });
+        $('#cpo' + id).css({ 'background-color': e.color.toString('hex') });
+    });
+    $("#visAutre"+id).on('click',()=>{
+        layerVisibilitySwitcher(id, fa,str);
+    });
+    $("#remAutre"+id).on('click',()=>{
+        removerOther(name,id);
+    });
+    $("#zoomAutre"+id).on('click',()=>{
+        zoomExtentVectorLayer(name);
     });
 
 }
 
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function retourne l'element, soit parcelle soit commune
+ * @param {Object} data données de la couche
+ * @param {string} type type de la couche: commune ou parcelle
+ */
 function returnElement(data, type) {
     if (type == "parcelle") {
         return {
@@ -542,19 +616,39 @@ function returnElement(data, type) {
     }
 
 }
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function removerOther
+ * @description retire la couche 
+ * @param {string} name nom de la couche
+ * @param {int} id id de la couche
+ */
 function removerOther(name, id) {
     layerRemover(name);
     storagedeleterOther(id);
     $("#autrecouche" + id).remove();
 }
 
-
+/**
+ *  @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function enableswitcherIgn
+ * @description visibilité de la couche ign
+ * @param {string} little nom réduit de la couche
+ * @param {string} name nom de la couche
+ */
 function enableswitcherIgn(little, name) {
     $("#" + little + "").on('click', () => {
         ignLayerswitcher(name);
     });
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function enableOpacityChangeIgn
+ * @description changement opacité activé ou non
+ * @param {string} little nom réduit de la couche
+ * @param {string} name nom de la couche 
+ */
 function enableOpacityChangeIgn(little, name) {
     $("#slider" + little).on("input change", () => {
         let opacity = parseFloat($("#slider" + little).val());
@@ -564,6 +658,16 @@ function enableOpacityChangeIgn(little, name) {
 
 }
 
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com> 
+ * @function appendIgn
+ * @description crée la couche dans la vue
+ * @param {string} libelle libelle de la couche
+ * @param {string} little nom reduit de la couche
+ * @param {string} inp balise html contenant la regle pour la visibilité
+ * @param {string} name nom de la couche
+ * @param {boolean} visibility visibilité
+ */
 function appendIgn(libelle, little, inp, name,visibility) {
     $("#coucheIGN").append(
         ' <div class=" setings-item">' +
