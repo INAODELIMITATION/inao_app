@@ -96,13 +96,15 @@ function fail() {
  * @param {String} name nom de la couche 
  */
 function checkformat(name) {
+    let format;
     switch (name) {
-        case "CADASTRALPARCELS.PARCELS.L93": { return "image/png"; }
-        case "CADASTRALPARCELS.PARCELS": { return "image/png"; }
-        case "ADMINEXPRESS_COG_CARTO_2017": { return "image/png"; }
-        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": { return "image/png"; }
-        default: { return "image/jpeg"; }
+        case "CADASTRALPARCELS.PARCELS.L93": { format= "image/png"; break;}
+        case "CADASTRALPARCELS.PARCELS": {  format= "image/png"; break;}
+        case "ADMINEXPRESS_COG_CARTO_2017": {  format= "image/png"; break;}
+        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": {  format= "image/png"; break; }
+        default: {  format= "image/jpeg"; }
     }
+    return format;
 }
 
 
