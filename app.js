@@ -8,7 +8,6 @@ var compression = require('compression');
 var minify = require('express-minify');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var bcrypt = require('bcrypt-nodejs');
 var uglifyES = require('uglify-es');
 
 var app = express();
