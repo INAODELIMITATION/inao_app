@@ -1,11 +1,10 @@
 /**
  * @file View toutes les fonctions d'interaction et de création de vue
+ * @copyright INAO 2018
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @version 1.0.0
- * @description Dans ce fichier nous mettrons toutes les intéractions avec notre vue, création de block etc...
- * @copyright INAO 2018
- */
-
+ * @module ModuleView 
+*/
 
  /**
   * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>

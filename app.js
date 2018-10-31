@@ -9,10 +9,14 @@ var minify = require('express-minify');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var bcrypt = require('bcrypt-nodejs');
+var uglifyES = require('uglify-es');
 
 var app = express();
 app.use(compression());
-app.use(minify());
+/**Pour réduire les fichiers  */
+app.use(minify({
+  uglifyJsModule:uglifyES,
+}));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

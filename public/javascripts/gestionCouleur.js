@@ -1,3 +1,12 @@
+/**
+ * @file gestioncouleur toutes les fonctions de gestion des couleurs
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @version 1.0.0
+ * @copyright INAO 2018
+ * @module gestionCouleur 
+ */
+
+
 
 /**
  * fonction permettant de créer un style

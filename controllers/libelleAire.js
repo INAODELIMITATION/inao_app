@@ -2,7 +2,6 @@
  * @file libelleAire Controlleur pour le modele libelleaire
  * @author Guiala Jean Roger
  * @version 1.0.0
- * @description Dans ce fichier nous mettrons toutes les fonctions pour recupérer/modifier les valeurs de notre modèle
  */
 
 const lbl_Aire = require('../models').v_lst_lbl_aire;

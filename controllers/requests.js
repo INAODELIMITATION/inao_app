@@ -1,7 +1,6 @@
 /**
  * @file controlleur pour les requetes
  * @author JEAN ROGER NIGOUMI GUIALA
- * @description controlleur pour les requetes d'un utilisateur
  * @version 1.0.0
  */
 

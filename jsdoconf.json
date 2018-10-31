@@ -1,0 +1,50 @@
+{
+  "plugins": [
+    "plugins/markdown"
+],
+    "recurseDepth": 10,
+    "opts": {
+      "recurse": true,
+      "destination": "./docs/",
+      "encoding": "utf8",
+      "private": true,
+      "template": "./node_modules/ink-docstrap/template"
+    },
+    "source": {
+      "include": ["."],
+      "exclude":[
+        "node_modules",
+        "public/javacripts/ol",
+        "public/javacripts/autoconf",
+        "public/javacripts/plugins",
+        "public/javacripts/bootstrap.min.js",
+        "public/javacripts/GpPluginOpenLayers.js",
+        "public/javacripts/jquery-3.3.1.min.js",
+        "public/javacripts/inspinia.js"
+      ],
+      
+      "includePattern": ".+\\.js(doc|x)?$",
+      "excludePattern": "(^|\\/|\\\\)_"
+    },
+    
+    
+    "tags": {
+      "allowUnknownTags": true,
+      "dictionaries": ["jsdoc", "closure"]
+    },
+    "templates": {
+      "cleverLinks": false,
+      "monospaceLinks": false,
+      "default": {
+          "outputSourceFiles": true
+      },
+      "systemName"      : "GeoInao",
+      "footer"          : "",
+      "copyright"       : "GeoInao",
+      "navType"         : "vertical",
+      "theme"           : "cerulean",
+      "linenums"        : true,
+      "collapseSymbols" : false,
+      "inverseNav"      : true
+    }
+  }

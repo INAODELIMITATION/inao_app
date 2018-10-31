@@ -1,6 +1,6 @@
 /**
+ * @file zone.js
  * @author JEAN ROGER NIGOUMI GUIALA
- * @description controlleur pour les libelle aire
  */
 
 const Zone = require('../models').v_lst_zone;

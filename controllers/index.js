@@ -1,3 +1,6 @@
+/**
+ * @file index.js index des controlleurs
+ */
 const parcelles     = require('./parcelles');
 const communes      = require('./communes');
 const lbl_Aires     = require('./libelleAire');

@@ -2,7 +2,6 @@
  * @file LienSiqo Controlleur pour le modele V_siqo_lien
  * @author Guiala Jean Roger
  * @version 1.0.0
- * Dans ce fichier nous mettrons toutes les fonctions pour recupérer/modifier les valeurs de notre modèle
  */
 
 const lienSiqo = require('../models').v_siqo_lien;

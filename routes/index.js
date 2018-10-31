@@ -1,4 +1,5 @@
 /**
+ * @module route route de l'application
  * @file Fichier des routes de l'application
  * @copyright INAO 2018
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>

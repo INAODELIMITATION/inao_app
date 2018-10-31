@@ -1,6 +1,7 @@
 /**
- * @author GUIALA JEAN ROGER
- * @module Initializer
+ * @file Initializer 
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @module Initializer 
  */
 
 /**
@@ -318,7 +319,7 @@ function addInteraction() {
 
 }
 map.addLayer(vector);
-
+vector.setZIndex(100);
 
 /**
  * Creates a new help tooltip

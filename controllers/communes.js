@@ -1,4 +1,6 @@
 /**
+ * @file Commune.js
+ * @description controlleur des communes
  * @author JEAN ROGER NIGOUMI GUIALA
  * @description controlleur pour les aire géographique
  */
