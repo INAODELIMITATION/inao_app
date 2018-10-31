@@ -14,8 +14,8 @@
 function GeoportailConfig(){
  try {
         Gp.Services.getConfig({
-            serverUrl: "/javascripts/autoconf/local.json", //local
-            // serverUrl: "/GPautoconf/autoconf.json", //server
+            // serverUrl: "/javascripts/autoconf/local.json", //local
+            serverUrl: "/GPautoconf/autoconf.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,
@@ -31,10 +31,10 @@ function GeoportailConfig(){
  * @description Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
 
-    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
 
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);

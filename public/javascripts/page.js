@@ -17,7 +17,7 @@ $(document).ready(() => {
 
     /**config geoportail */
     GeoportailConfig();
-
+    $("#searchChooser").val('empty');
     /**affiche les boutons pour dessiner et supprimer */
     showMapButtons();
     /**fonction pour fermer la liste des appellations */

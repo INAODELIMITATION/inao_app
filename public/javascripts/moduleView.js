@@ -6,12 +6,12 @@
  * @module ModuleView 
 */
 
- /**
-  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
-  * @function showMapButtons
-  * @description affiche les boutons pour désinner et pour supprimer
-  */
-function showMapButtons(){
+/**
+ * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
+ * @function showMapButtons
+ * @description affiche les boutons pour désinner et pour supprimer
+ */
+function showMapButtons() {
     $("#popup").appendTo(
         $('.ol-overlaycontainer')
     );
@@ -30,9 +30,12 @@ function showMapButtons(){
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
  * @description masque la fenetre de recherche avancée (parcelle et commune)
  */
-function hidePopup(){
+function hidePopup() {
     $("#AutreRecherche").on('click', () => {
         $("#popup").toggle();
+
+      
+
     });
 
     $("#hideAutreRecherche").on('click', () => {
@@ -51,7 +54,7 @@ function createAppelationRow(data) {
     $("#couches").prepend(
         '<li class="success-element" id="couche' + data.id_aire + '">' +
         '<h3 class="text-center">' + data.lbl_aire +
-        ' <a id="lien'+data.id_aire+'" href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info"  >' +
+        ' <a id="lien' + data.id_aire + '" href="#" type="button" class=" btn btn-outline btn-xs btn-circle   btn-info"  >' +
         ' <i class="fa fa-1x fa-info"> </i>' +
         ' </a>' +
         '</h3>' +
@@ -61,7 +64,7 @@ function createAppelationRow(data) {
         ' <a href="#" type="button" class=" btn btn-xs  btn-rounded btn-info" style="visibility: hidden;" >' +
         ' <i class="fa fa-1x fa-info-circle"></i>' +
         ' </a>' +
-        ' <a href="#" id="coucheDelete'+data.id_aire+'" class="pull-right btn btn-xs   btn-danger" >' +
+        ' <a href="#" id="coucheDelete' + data.id_aire + '" class="pull-right btn btn-xs   btn-danger" >' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         ' </a>' +
         '</div>' +
@@ -76,11 +79,11 @@ function createAppelationRow(data) {
  * @description parametre jquery pour l'interaction avec les fonctions au click
  * @param {Object} data 
  */
-function coucheAppellationParams(data){
-    $("#lien"+data.id_aire).on('click',()=>{
-        getlien(data.id_aire, lien=>{
+function coucheAppellationParams(data) {
+    $("#lien" + data.id_aire).on('click', () => {
+        getlien(data.id_aire, lien => {
             console.log("a jour");
-            let win = window.open(""+lien.lien_reglement+"");
+            let win = window.open("" + lien.lien_reglement + "");
             if (win) {
                 //Browser has allowed it to be opened
                 win.focus();
@@ -90,7 +93,7 @@ function coucheAppellationParams(data){
             }
         });
     });
-    $("#coucheDelete"+data.id_aire).on('click',()=>{
+    $("#coucheDelete" + data.id_aire).on('click', () => {
         deleteAppelationRow(data.id_aire);
     });
 }
@@ -114,18 +117,18 @@ function rowInexistant(typeAire) {
 function airegeoRow(id_aire) {
     let a =
         '<span><strong>Aire géographique:&nbsp;</strong>' +
-        ' <a  href="#" class=" btn btn-xs btn-white" id="visGeo'+id_aire+'" >' +
+        ' <a  href="#" class=" btn btn-xs btn-white" id="visGeo' + id_aire + '" >' +
         ' <i id="fageo' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
         ' <a href="#" id="cpgeo' + id_aire + '" class="painter btn btn-xs btn-success" >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" id="geoExtend'+id_aire+'">' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" id="geoExtend' + id_aire + '">' +
         ' <i class="fa fa-1x fa-map-marker"></i>' +
         ' </a>' +
         '</span><br><br>';
-      
-   
+
+
     return a;
 }
 
@@ -138,17 +141,17 @@ function airegeoRow(id_aire) {
 function airePaRow(id_aire) {
     let message =
         '<span><strong>Aire parcellaire:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>' +
-        ' <a  href="#" class=" btn btn-xs btn-white" id="visPar'+id_aire+'">' +
+        ' <a  href="#" class=" btn btn-xs btn-white" id="visPar' + id_aire + '">' +
         ' <i id="fa' + id_aire + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
         ' <a href="#" id="cp' + id_aire + '" class="painter btn btn-xs btn-success ">' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#" id="parExtend'+id_aire+'" class=" btn btn-xs btn-primary">' +
+        ' <a href="#" id="parExtend' + id_aire + '" class=" btn btn-xs btn-primary">' +
         ' <i class="fa fa-1x fa-map-marker"></i>' +
         ' </a>' +
         '</span>';
-        
+
     return message;
 }
 
@@ -164,11 +167,11 @@ function aireParcParams(data, color) {
     $("#options" + data.id_aire).append(
         '' + airePaRow(data.id_aire)
     );
-    $("#visPar"+data.id_aire).on('click',()=>{
-        layerVisibilitySwitcher(data.id_aire,'fa','airePar');
+    $("#visPar" + data.id_aire).on('click', () => {
+        layerVisibilitySwitcher(data.id_aire, 'fa', 'airePar');
     });
 
-    $("#parExtend"+data.id_aire).on('click',()=>{
+    $("#parExtend" + data.id_aire).on('click', () => {
         getextent(data.id_aire);
     });
     $('#cp' + data.id_aire).css({ 'background-color': color.hex1 });
@@ -191,18 +194,18 @@ function airegeoParams(id_aire, color) {
         '' + airegeoRow(id_aire)
     );
     let name = "geo" + id_aire;
-    $("#visGeo"+id_aire).on('click',()=>{
-        layerVisibilitySwitcher(id_aire,'fageo','geo');
+    $("#visGeo" + id_aire).on('click', () => {
+        layerVisibilitySwitcher(id_aire, 'fageo', 'geo');
     });
-      $("#geoExtend"+id_aire).on('click',()=>{
-            zoomExtentVectorLayer("geo"+id_aire);
-        });
+    $("#geoExtend" + id_aire).on('click', () => {
+        zoomExtentVectorLayer("geo" + id_aire);
+    });
     $('#cpgeo' + id_aire).css({ 'background-color': color });
     $('#cpgeo' + id_aire + '').colorpicker().on('changeColor', function (e) {
         changeAireColor(name, e.color.toString('hex'));
         $('#cpgeo' + id_aire).css({ 'background-color': e.color.toString('hex') });
     });
-   
+
 
 }
 
@@ -506,11 +509,11 @@ function errorParcelleSearch(option) {
 function appendParcelle(parcelle) {
     $("#resultatable").append(
         '<tr class="resultPar">' +
-        '<td><a href="#" id="loaderPar'+parcelle.id+'">' + parcelle.idu + '</a></td>' +
+        '<td><a href="#" id="loaderPar' + parcelle.id + '">' + parcelle.idu + '</a></td>' +
         '<td> [' + parcelle.insee + '] ' + parcelle.commune + '</td>' +
         '</tr>'
     );
-    $("#loaderPar"+parcelle.id).on('click',()=>{
+    $("#loaderPar" + parcelle.id).on('click', () => {
         loadParcelle(parcelle.id);
     });
 }
@@ -544,28 +547,28 @@ function searchParcelle() {
 function SearchRow(data, type) {
     let element = returnElement(data, type);
     let str = type.substring(0, 3);
-   
+
     $("#couches").append(
         '<li class="warning-element" id="autrecouche' + element.id + '">' +
         '<h3 class="text-center"> ' + element.valeur.replace(/^\w/, c => c.toUpperCase()) + '<small class="badge badge-warning"> ' + type + '</small>' +
         '</h3>' +
         '<div class="agile-detail">' +
-        ' <a  href="#" class=" btn btn-xs btn-white" id="visAutre'+element.id+'" >' + 
+        ' <a  href="#" class=" btn btn-xs btn-white" id="visAutre' + element.id + '" >' +
         ' <i id="fa' + str + element.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
         ' <a href="#" id="cpo' + element.id + '" class=" btn btn-xs btn-warning"  >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
-        ' <a href="#" class="pull-right btn btn-xs btn-danger" id="remAutre'+element.id+'">' +
+        ' <a href="#" class="pull-right btn btn-xs btn-danger" id="remAutre' + element.id + '">' +
         ' <i class="fa fa-1x fa-trash"></i>' +
         ' </a>' +
-        ' <a href="#"  class=" btn btn-xs btn-primary" id="zoomAutre'+element.id+'">' +
+        ' <a href="#"  class=" btn btn-xs btn-primary" id="zoomAutre' + element.id + '">' +
         ' <i class="fa fa-1x fa-map-marker"></i>' +
         ' </a>' +
         '</div>' +
         ' </li>'
     );
-    searchRomParams(element.id,str);
+    searchRomParams(element.id, str);
 }
 
 /**
@@ -575,20 +578,20 @@ function SearchRow(data, type) {
  * @param {int} id id de la couche
  * @param {string} str type reduit a 3 caractere (com pour commune, par pour parcelle)
  */
-function searchRomParams(id,str){
+function searchRomParams(id, str) {
     let fa = 'fa' + str;
     let name = str + '' + id;
     $('#cpo' + id + '').colorpicker().on('changeColor', function (e) {
         changeAireColor(name, e.color.toString('hex'));
         $('#cpo' + id).css({ 'background-color': e.color.toString('hex') });
     });
-    $("#visAutre"+id).on('click',()=>{
-        layerVisibilitySwitcher(id, fa,str);
+    $("#visAutre" + id).on('click', () => {
+        layerVisibilitySwitcher(id, fa, str);
     });
-    $("#remAutre"+id).on('click',()=>{
-        removerOther(name,id);
+    $("#remAutre" + id).on('click', () => {
+        removerOther(name, id);
     });
-    $("#zoomAutre"+id).on('click',()=>{
+    $("#zoomAutre" + id).on('click', () => {
         zoomExtentVectorLayer(name);
     });
 
@@ -668,7 +671,7 @@ function enableOpacityChangeIgn(little, name) {
  * @param {string} name nom de la couche
  * @param {boolean} visibility visibilité
  */
-function appendIgn(libelle, little, inp, name,visibility) {
+function appendIgn(libelle, little, inp, name, visibility) {
     $("#coucheIGN").append(
         ' <div class=" setings-item">' +
         ' <span>' +
