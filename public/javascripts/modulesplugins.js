@@ -14,8 +14,8 @@
 function GeoportailConfig(){
  try {
         Gp.Services.getConfig({
-            // serverUrl: "/javascripts/autoconf/local.json", //local
-            serverUrl: "/GPautoconf/autoconf.json", //server
+            serverUrl: "/javascripts/autoconf/local.json", //local
+            // serverUrl: "/GPautoconf/autoconf.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,
@@ -31,10 +31,10 @@ function GeoportailConfig(){
  * @description Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
 
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
 
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
@@ -180,22 +180,6 @@ function appendIgnparams(name, libelle, visibility) {
 
 
 
-/**
- * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
- * @function removeDuplicates
- * @description fonction qui retire les doublons dans un tableau d'objet
- */
-function removeDuplicates(arr, key) {
-    if (!(arr instanceof Array) || key && typeof key !== 'string') {
-        return false;
-    }
-    if (key && typeof key === 'string') {
-        return arr.filter((obj, index, arr) => {
-            return arr.map(mapObj => mapObj[key]).indexOf(obj[key]) === index;
-        });
-    }
-}
-
 
 
 
@@ -208,7 +192,9 @@ function LoadLayers() {
     try {
         /**liste des couches chargées en local sur le navigateur */
         let layersData = JSON.parse(window.localStorage.getItem("layers"));
-
+       
+      
+        
         if (!layersData) {
             layersData = [];
         } else {
@@ -458,13 +444,13 @@ function getAireParcellaire(id_aire, callback) {
  * @param {int} id_aire id de la zone
  */
 function addRequest(id_aire) {
-    console.log("debut");
+   
     $.ajax({
         url: "/request/" + id_aire,
         type: 'GET',
         dataType: "json",
         success: function (data) {
-            console.log("ajout requete");
+          //ajout requete
         }
     });
 }
