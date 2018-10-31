@@ -8806,3 +8806,7 @@ body.md-skin {
   .tooltip-static:before {
     border-top-color: #ffcc33;
   }
+
+.painter{
+    background-color: yellow !important;
+}

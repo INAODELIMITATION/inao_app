@@ -553,7 +553,7 @@ function SearchRow(data, type) {
         ' <a  href="#" class=" btn btn-xs btn-white" id="visAutre'+element.id+'" >' + 
         ' <i id="fa' + str + element.id + '" class="fa fa-1x fa-eye"></i>' +
         ' </a>' +
-        ' <a href="#" id="cpo' + element.id + '" class="painter btn btn-xs btn-success" >' +
+        ' <a href="#" id="cpo' + element.id + '" class=" btn btn-xs btn-warning"  >' +
         ' <i class="fa fa-1x fa-paint-brush"></i>' +
         ' </a>' +
         ' <a href="#" class="pull-right btn btn-xs btn-danger" id="remAutre'+element.id+'">' +
@@ -591,6 +591,7 @@ function searchRomParams(id,str){
     $("#zoomAutre"+id).on('click',()=>{
         zoomExtentVectorLayer(name);
     });
+
 
 }
 

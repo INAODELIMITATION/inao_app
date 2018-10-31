@@ -14,8 +14,8 @@
 function GeoportailConfig(){
  try {
         Gp.Services.getConfig({
-            serverUrl: "/javascripts/autoconf/local.json", //local
-            // serverUrl: "/GPautoconf/autoconf.json", //server
+            // serverUrl: "/javascripts/autoconf/local.json", //local
+            serverUrl: "/GPautoconf/autoconf.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,
@@ -31,10 +31,10 @@ function GeoportailConfig(){
  * @description Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
-    setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
+    // setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
 
 
-    // setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
     try {
 
         setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
@@ -748,7 +748,7 @@ function AjaxParcelle() {
 function makeCommune(insee) {
     /**on récupére la commune et callback pour appeller la fonction qui crée la commune */
     fetchCommune(insee, commune => {
-        makeLayerTypeByCoord(commune.geom, "yellow", "com", commune.code_insee);
+        makeLayerTypeByCoord(commune.geom, "#f8ac59", "com", commune.code_insee);
         /**on crée la ligne pour la commune */
         SearchRow(commune, "commune");
     });
@@ -794,7 +794,7 @@ function zoomExtentVectorLayer(name) {
  */
 function makeParcelle(id) {
     fetchParcelle(id, parcelle => {
-        makeLayerTypeByCoord(parcelle.geom, "yellow", "par", parcelle.id);
+        makeLayerTypeByCoord(parcelle.geom, "#f8ac59", "par", parcelle.id);
         SearchRow(parcelle, "parcelle");
 
     });

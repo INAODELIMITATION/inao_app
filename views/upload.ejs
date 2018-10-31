@@ -2,13 +2,14 @@
 <html>
 
 
-<!-- Mirrored from webapplayers.com/inspinia_admin-v2.7.1/form_file_upload.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 17 Sep 2017 19:03:43 GMT -->
+
 
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <META NAME="author" CONTENT="Jean Roger NIGOUMI GUIALA">
+    <meta name="contact" content="mail@jrking-dev.com">
     <title>Import d'un fichier</title>
 
     <!-- appel bibliothèque de style-->
@@ -122,7 +123,7 @@
                     text: "Les utilisateurs du csv ont tous été ajouté avec succès",
                     type: "success",
                     showConfirmButton: true,
-                },()=>{
+                }, () => {
                     window.location.href = '/';
                 });
                 done();
@@ -130,11 +131,11 @@
             init: function () {
                 this.on("maxfilesexceeded", function (file) {
                     swal({
-                    title: "Erreur",
-                    text: "Un seul fichier à la fois",
-                    type: "danger",
-                    showConfirmButton: true,
-                })
+                        title: "Erreur",
+                        text: "Un seul fichier à la fois",
+                        type: "danger",
+                        showConfirmButton: true,
+                    })
                 });
             }
         };

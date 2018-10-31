@@ -4,6 +4,8 @@
 <head>
 
     <!--META-->
+    <META NAME="author" CONTENT="Jean Roger NIGOUMI GUIALA">
+    <meta name="contact" content="mail@jrking-dev.com">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
@@ -16,7 +18,7 @@
     <meta property="og:url" content="http://www.sig-inao.fr/" />
     <meta property="og:image" content="#" />
     <title>
-       sig-inao
+        sig-inao
     </title>
     <!-- appel bibliothèque de style-->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
@@ -41,10 +43,10 @@
                 </div>
                 <div class="ibox-content">
                     <% if(log == "not") {%>
-                        <div class="alert alert-danger alert-dismissable">
-                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                           Impossible de se connecter, login ou mot de passe incorrect.
-                        </div>
+                    <div class="alert alert-danger alert-dismissable">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        Impossible de se connecter, login ou mot de passe incorrect.
+                    </div>
                     <%}%>
                     <div class="row">
                         <div class="col-sm-6 b-r">
@@ -53,12 +55,14 @@
                             <form role="form" method="POST" action="/login">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" placeholder="Enter email" class="form-control" name="login" required>
+                                    <input type="email" placeholder="Enter email" class="form-control" name="login"
+                                        required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Password</label> 
-                                    <input type="password" placeholder="Password" class="form-control" name="password" required>
-                                    </div>
+                                    <label>Password</label>
+                                    <input type="password" placeholder="Password" class="form-control" name="password"
+                                        required>
+                                </div>
                                 <div>
                                     <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
                                         <strong>Se connecter</strong></button>
@@ -81,11 +85,11 @@
                 </div>
             </div>
         </div>
-      
+
 
     </div>
 
-  
+
 </body>
 
 
