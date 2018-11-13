@@ -65,7 +65,7 @@ var checklogin = (req,res, next)=>{
  * @param {*} next 
  */
 var checkloginAdmin = (req,res, next)=>{
-  if(req.session.user.login !== "j.nigoumiguiala@inao.gouv.fr"){
+  if(req.session.user.login !== "m.baussier@inao.gouv.fr"){
    
      res.redirect('/');
   }else{
