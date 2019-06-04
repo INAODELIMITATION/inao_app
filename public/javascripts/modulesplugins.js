@@ -550,7 +550,7 @@ function layerRemover(nom) {
         }
         map.updateSize();
 
-        toastr.error('Couche retiré avec succès', 'Suppression de la couche');
+        //toastr.error('Couche retiré avec succès', 'Suppression de la couche');
     } catch (error) {
         console.log(error);
     }
