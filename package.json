@@ -29,7 +29,7 @@
     "multer": "^1.4.1",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.38.0",
+    "sequelize": "^5.15.1",
     "uglify-es": "^3.3.9",
     "uglify-js": "^3.4.9"
   }
