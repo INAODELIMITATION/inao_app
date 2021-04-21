@@ -20,7 +20,7 @@ module.exports = {
             .findAll({
                 raw: true,
                 where: {
-                    nom_com: { [Op.iLike]: '%' + req.body.commune + '%' }
+                    nom_com: { [Op.iLike]: req.body.commune + '%' }
                 },
                 limit: 15,
                 attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('nom_com')), 'commune'],'code_insee'],
