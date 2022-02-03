@@ -101,7 +101,7 @@ function checkformat(name) {
         case "CADASTRALPARCELS.PARCELS.L93": { format= "image/png"; break;}
         case "CADASTRALPARCELS.PARCELS": {  format= "image/png"; break;}
         case "ADMINEXPRESS_COG_CARTO_2017": {  format= "image/png"; break;}
-        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.NIVEAUXGRIS.L93": {  format= "image/png"; break; }
+        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR.L93": {  format= "image/png"; break; }
         default: {  format= "image/jpeg"; }
     }
     return format;
