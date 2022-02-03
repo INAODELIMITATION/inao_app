@@ -15,7 +15,7 @@ function GeoportailConfig(){
  try {
         Gp.Services.getConfig({
             //serverUrl: "/javascripts/autoconf/local.json", //local
-            serverUrl: "/GPautoconf/autoconf.json", //server
+            serverUrl: "/GPautoconf/autoconf-https.json", //server
             callbackSuffix: "",
             onSuccess: initialisation,
             onFailure: fail,
