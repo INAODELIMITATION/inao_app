@@ -16,7 +16,8 @@ window.addEventListener('beforeunload', (event) => {
 $(document).ready(() => {
 
     /**config geoportail */
-    GeoportailConfig();
+    //GeoportailConfig();
+    initialisation();
     $("#searchChooser").val('empty');
     /**affiche les boutons pour dessiner et supprimer */
     showMapButtons();

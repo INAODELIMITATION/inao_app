@@ -11,7 +11,7 @@
  * @function GeoportailConfig
  * @description configuration du geoportail et lancement application
  */
-function GeoportailConfig(){
+/*function GeoportailConfig(){
  try {
         Gp.Services.getConfig({
             //serverUrl: "/javascripts/autoconf/local.json", //local
@@ -23,7 +23,7 @@ function GeoportailConfig(){
     } catch (error) {
         fail();
     }
-}
+}*/
 
 /**
  * @author Jean Roger NIGOUMI Guiala <mail@jrking-dev.com>
@@ -32,15 +32,15 @@ function GeoportailConfig(){
  */
 function initialisation() {
  
-    //setIgnLayer("CADASTRALPARCELS.PARCELS", 0.7, 'parcelle Cadastrale', true);
-    setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer("CADASTRALPARCELS.PARCELLAIRE_EXPRESS.L93", 0.7, 'parcelle Cadastrale', true);
+    //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
  
     try {
 
         //setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
         createOSM("opensmap", "OpenstreetMap", false, 0.7);
-        setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93", 0.7, "orthoPhotos", false);
-        setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93", 0.7, "SCAN 25 Topographique", false);
+        //setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93", 0.7, "orthoPhotos", false);
+        //setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93", 0.7, "SCAN 25 Topographique", false);
     } catch (error) {
         console.log(error);
     }
@@ -98,6 +98,7 @@ function fail() {
 function checkformat(name) {
     let format;
     switch (name) {
+        case "CADASTRALPARCELS.PARCELLAIRE_EXPRESS.L93": { format= "image/png"; break;}
         case "CADASTRALPARCELS.PARCELS.L93": { format= "image/png"; break;}
         case "CADASTRALPARCELS.PARCELS": {  format= "image/png"; break;}
         case "ADMINEXPRESS_COG_CARTO_2017": {  format= "image/png"; break;}
@@ -121,11 +122,45 @@ function setIgnLayer(name, opacity, libelle, visibility) {
     map.addLayer(
         new ol.layer.Tile({
             name: name,
-            source: new ol.source.GeoportalWMTS({
+            /*source: new ol.source.GeoportalWMTS({
                 layer: name,
                 olParams: {
                     format: format
                 }
+            })*/
+            source : new ol.source.WMTS({
+                url: "https://wxs.ign.fr/lambert93/geoportail/wmts",
+                layer: name,
+                matrixSet: "LAMB93",
+                format: format,
+                style: "normal",
+                tileGrid : new ol.tilegrid.WMTS({
+                    origin: [-20037508,20037508],// topLeftCorner
+                    resolutions: [ 
+                        156543.03392804103,
+                        78271.5169640205,
+                        39135.75848201024,
+                        19567.879241005125,
+                        9783.939620502562,
+                        4891.969810251281,
+                        2445.9849051256406,
+                        1222.9924525628203,
+                        611.4962262814101,
+                        305.74811314070485,
+                        152.87405657035254,
+                        76.43702828517625,
+                        38.218514142588134,
+                        19.109257071294063,
+                        9.554628535647034,
+                        4.777314267823517,
+                        2.3886571339117584,
+                        1.1943285669558792,
+                        0.5971642834779396,
+                        0.29858214173896974,
+                        0.14929107086948493,
+                        0.07464553543474241], // résolutions
+                    matrixIds: ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19"]// ids des TileMatrix
+                }),
             }),
             visible: visibility,
             opacity: opacity
