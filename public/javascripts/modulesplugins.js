@@ -39,7 +39,7 @@ function initialisation() {
         createOSM("opensmap", "OpenstreetMap", false, 0.7);
         //setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
         //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI vecteur', false);
-        setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'ortho-photo 20cm', false);
+        //setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'ortho-photo 20cm', false);
 
     } catch (error) {
         console.log(error);
@@ -98,6 +98,7 @@ function fail() {
 function checkformat(name) {
     let format;
     switch (name) {
+        case "CADASTRALPARCELS.PARCELS": { format= "image/png"; break;}
         case "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2": { format= "image/png"; break;}
         case "CADASTRALPARCELS.PARCELLAIRE_EXPRESS": { format= "image/png"; break;}
         default: {  format= "image/jpeg"; }
