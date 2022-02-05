@@ -11,24 +11,24 @@
 // proj4.defs("EPSG:2154","+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 // ol.proj.proj4.register(proj4);
 
-var extent = [-378305.8099675195, 6008151.219241469, 1320649.5712336518, 7235612.7247730335];
-var projection = new ol.proj.Projection({
+var extent = [-20037508.34, -20037508.34, 20037508.34, 20037508.34];
+/*var projection = new ol.proj.Projection({
   code: 'EPSG:2154',
   extent: extent,
   units: 'm',
   axisOrientation: 'neu'
-}); // definition du EPSG 2154
+}); // definition du EPSG 2154*/
 var zoom = 6;
-ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
-var proj2154 = ol.proj.get('EPSG:3857'); //recupération de la projection
-proj2154.setExtent(extent);
+//ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
+var proj3857 = ol.proj.get('EPSG:3857'); //recupération de la projection
+proj3857.setExtent(extent);
 var projectionExtent = proj2154.getExtent(); //recupération de l'étendu de la projection 
 var variable = 21;
 var resolutions = new Array(variable);
 var matrixIds = new Array(variable);
 var maxResolution = ol.extent.getWidth(projectionExtent) / 256; //recupérationd des résolutions
 for (var i = 0; i < variable; ++i) {
-  matrixIds[i] = 'EPSG:2154:' + i;
+  matrixIds[i] = 'EPSG:3857:' + i;
   resolutions[i] = parseFloat((maxResolution) / Math.pow(2, i));
   //alert(resolutions[i]);
 }
@@ -43,12 +43,12 @@ var sourceL = new ol.source.VectorTile({
 
   }),
 
-  url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aireParcellaire@EPSG:2154@pbf/{z}/{x}/{-y}.pbf',
+  url: 'http://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aireParcellaire@EPSG:3857@pbf/{z}/{x}/{-y}.pbf',
   crossOrigin: 'anonymous',
 });
 var view = new ol.View({
   projection: "EPSG:3857",
-  center: [273516,5876918], //coord en 2154
+  center: [273516,5876918], //coord en 3857
   minZoom: 1.5,
   //maxZoom: 14,
   zoom: zoom
