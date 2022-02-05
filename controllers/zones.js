@@ -70,7 +70,7 @@ module.exports = {
      */
     getExtend(req, res) {
         return sequelize
-            .query("SELECT ST_XMIN(ST_EXTENT(v_lst_zone.geom)), ST_YMIN(ST_EXTENT(v_lst_zone.geom)), ST_XMAX(ST_EXTENT(v_lst_zone.geom)), ST_YMAX(ST_EXTENT(v_lst_zone.geom)) from  metier_inao.v_lst_zone where id_aire = $id_aire AND type_zone =$type_zone;",
+            .query("SELECT ST_TRANSFORM(ST_XMIN(ST_EXTENT(v_lst_zone.geom)),3857), ST_TRANSFORM(ST_YMIN(ST_EXTENT(v_lst_zone.geom)),3857), ST_TRANSFORM(ST_XMAX(ST_EXTENT(v_lst_zone.geom)),3857), ST_TRANSFORM(ST_YMAX(ST_EXTENT(v_lst_zone.geom)),3857) from  metier_inao.v_lst_zone where id_aire = $id_aire AND type_zone =$type_zone;",
                 {
                     bind: {
                          id_aire: req.params.id_aire ,

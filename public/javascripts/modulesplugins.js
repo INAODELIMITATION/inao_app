@@ -32,7 +32,7 @@
  */
 function initialisation() {
  
-    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle Cadastrale', true,'bdparcellaire_o');
+    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle Cadastrale', true);
     //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
  
     try {
@@ -117,7 +117,7 @@ function checkformat(name) {
  * @param {string} libelle nom de la couche affiché à l'écran
  * @param {Boolean} visibility visibilité
  */
-function setIgnLayer(url,name, opacity, libelle, visibility,couleur) {
+function setIgnLayer(url,name, opacity, libelle, visibility) {
     format = checkformat(name);
     map.addLayer(
         new ol.layer.Tile({
@@ -133,7 +133,7 @@ function setIgnLayer(url,name, opacity, libelle, visibility,couleur) {
                 layer: name,
                 matrixSet: "PM",
                 format: format,
-                style: couleur,
+                style: "normal",
                 tileGrid : new ol.tilegrid.WMTS({
                     origin: [-20037508,20037508],// topLeftCorner
                     resolutions: [ 
