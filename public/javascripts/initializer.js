@@ -22,7 +22,7 @@ var zoom = 6;
 //ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
 var proj3857 = ol.proj.get('EPSG:3857'); //recupération de la projection
 proj3857.setExtent(extent);
-var projectionExtent = proj2154.getExtent(); //recupération de l'étendu de la projection 
+var projectionExtent = proj3857.getExtent(); //recupération de l'étendu de la projection 
 var variable = 21;
 var resolutions = new Array(variable);
 var matrixIds = new Array(variable);
