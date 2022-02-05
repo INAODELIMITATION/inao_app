@@ -39,7 +39,7 @@ function initialisation() {
 
         //setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
         createOSM("opensmap", "OpenstreetMap", false, 0.7);
-        setIgnLayer('https://wxs.ign.fr/administratif/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', true);
+        setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', true);
         //setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93", 0.7, "orthoPhotos", false);
         //setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93", 0.7, "SCAN 25 Topographique", false);
     } catch (error) {
