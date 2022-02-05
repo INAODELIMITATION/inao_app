@@ -32,13 +32,14 @@
  */
 function initialisation() {
  
-    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
     //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
  
     try {
 
         //setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
         createOSM("opensmap", "OpenstreetMap", false, 0.7);
+        setIgnLayer('https://wxs.ign.fr/administratif/geoportail/wmts','ADMINEXPRESS-COG-CARTO.LATEST', 1, 'limites administratives', true);
         //setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93", 0.7, "orthoPhotos", false);
         //setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93", 0.7, "SCAN 25 Topographique", false);
     } catch (error) {
