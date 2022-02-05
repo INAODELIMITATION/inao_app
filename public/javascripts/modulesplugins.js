@@ -32,7 +32,7 @@
  */
 function initialisation() {
  
-    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle Cadastrale', true,'bdparcellaire_o');
     //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
  
     try {
@@ -117,7 +117,7 @@ function checkformat(name) {
  * @param {string} libelle nom de la couche affiché à l'écran
  * @param {Boolean} visibility visibilité
  */
-function setIgnLayer(url,name, opacity, libelle, visibility) {
+function setIgnLayer(url,name, opacity, libelle, visibility,couleur) {
     format = checkformat(name);
     map.addLayer(
         new ol.layer.Tile({
@@ -133,7 +133,7 @@ function setIgnLayer(url,name, opacity, libelle, visibility) {
                 layer: name,
                 matrixSet: "PM",
                 format: format,
-                style: "normal",
+                style: couleur,
                 tileGrid : new ol.tilegrid.WMTS({
                     origin: [-20037508,20037508],// topLeftCorner
                     resolutions: [ 
@@ -650,10 +650,10 @@ function makeLayerTypeByCoord(coord, couleur, type, id) {
     let name = String(type + '' + id);
     try {
         map.addLayer(new ol.layer.Vector({
-            projection: "EPSG:2154",
+            projection: "EPSG:3857",
             name: name,
             source: new ol.source.Vector({
-                projection: "EPSG:2154",
+                projection: "EPSG:3857",
                 features: (new ol.format.GeoJSON({
                     defaultDataProjection:'EPSG:2154'
                 })).readFeatures(coord,{
