@@ -654,7 +654,12 @@ function makeLayerTypeByCoord(coord, couleur, type, id) {
             name: name,
             source: new ol.source.Vector({
                 projection: "EPSG:2154",
-                features: (new ol.format.GeoJSON()).readFeatures(coord)
+                features: (new ol.format.GeoJSON({
+                    defaultDataProjection:'EPSG:2154'
+                })).readFeatures(coord,{
+                    dataProjection:'EPSG:2154',
+                    featureProjection: 'EPSG:3857'
+                })
             }),
             style: styleColorStroke(couleur),
         }));
