@@ -18,9 +18,9 @@ var projection = new ol.proj.Projection({
   units: 'm',
   axisOrientation: 'neu'
 }); // definition du EPSG 2154
-var zoom = 2.2;
+var zoom = 6;
 ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
-var proj2154 = ol.proj.get('EPSG:2154'); //recupération de la projection
+var proj2154 = ol.proj.get('EPSG:3857'); //recupération de la projection
 proj2154.setExtent(extent);
 var projectionExtent = proj2154.getExtent(); //recupération de l'étendu de la projection 
 var variable = 21;
@@ -47,8 +47,8 @@ var sourceL = new ol.source.VectorTile({
   crossOrigin: 'anonymous',
 });
 var view = new ol.View({
-  projection: "EPSG:2154",
-  center: [489353.59, 6587552.20], //coord en 2154
+  projection: "EPSG:3857",
+  center: [273516,5876918], //coord en 2154
   minZoom: 1.5,
   //maxZoom: 14,
   zoom: zoom

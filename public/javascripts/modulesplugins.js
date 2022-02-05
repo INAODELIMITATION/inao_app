@@ -32,7 +32,7 @@
  */
 function initialisation() {
  
-    setIgnLayer("CADASTRALPARCELS.PARCELLAIRE_EXPRESS.L93", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle Cadastrale', true);
     //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
  
     try {
@@ -117,7 +117,7 @@ function checkformat(name) {
  * @param {string} libelle nom de la couche affiché à l'écran
  * @param {Boolean} visibility visibilité
  */
-function setIgnLayer(name, opacity, libelle, visibility) {
+function setIgnLayer(url,name, opacity, libelle, visibility) {
     format = checkformat(name);
     map.addLayer(
         new ol.layer.Tile({
@@ -129,9 +129,9 @@ function setIgnLayer(name, opacity, libelle, visibility) {
                 }
             })*/
             source : new ol.source.WMTS({
-                url: "https://wxs.ign.fr/lambert93/geoportail/wmts",
+                url: url,
                 layer: name,
-                matrixSet: "LAMB93",
+                matrixSet: "PM",
                 format: format,
                 style: "normal",
                 tileGrid : new ol.tilegrid.WMTS({
