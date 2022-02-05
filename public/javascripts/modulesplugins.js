@@ -36,12 +36,11 @@ function initialisation() {
     //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
  
     try {
-
-        //setIgnLayer("ADMINEXPRESS_COG_CARTO_2017", 0.7, "couche Administrative", true);
         createOSM("opensmap", "OpenstreetMap", false, 0.7);
-        setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', true);
-        //setIgnLayer("ORTHOIMAGERY.ORTHOPHOTOS.BDORTHO.L93", 0.7, "orthoPhotos", false);
-        //setIgnLayer("GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOPO.L93", 0.7, "SCAN 25 Topographique", false);
+        setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
+        setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI vecteur', false);
+        setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'ortho-photo 20cm', false);
+
     } catch (error) {
         console.log(error);
     }
@@ -99,11 +98,8 @@ function fail() {
 function checkformat(name) {
     let format;
     switch (name) {
-        case "CADASTRALPARCELS.PARCELLAIRE_EXPRESS.L93": { format= "image/png"; break;}
-        case "CADASTRALPARCELS.PARCELS.L93": { format= "image/png"; break;}
-        case "CADASTRALPARCELS.PARCELS": {  format= "image/png"; break;}
-        case "ADMINEXPRESS_COG_CARTO_2017": {  format= "image/png"; break;}
-        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR.L93": {  format= "image/png"; break; }
+        case "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2": { format= "image/png"; break;}
+        case "CADASTRALPARCELS.PARCELLAIRE_EXPRESS": { format= "image/png"; break;}
         default: {  format= "image/jpeg"; }
     }
     return format;
