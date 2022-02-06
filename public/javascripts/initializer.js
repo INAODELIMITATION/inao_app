@@ -48,7 +48,7 @@ var sourceL = new ol.source.VectorTile({
 });
 var view = new ol.View({
   projection: "EPSG:3857",
-  center: [273516,5876918], //coord en 3857
+  center: [257516,5866918], //coord en 3857
   minZoom: 1.5,
   //maxZoom: 14,
   zoom: zoom

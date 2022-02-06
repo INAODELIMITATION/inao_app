@@ -32,11 +32,11 @@
  */
 function initialisation() {
  
-    setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
+    //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
     //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
  
     try {
-        createOSM("opensmap", "OpenstreetMap", false, 0.7);
+        //createOSM("opensmap", "OpenstreetMap", false, 0.7);
         setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', false);
         //setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
         //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI vecteur', false);
@@ -100,6 +100,7 @@ function checkformat(name) {
     let format;
     switch (name) {
         case "CADASTRALPARCELS.PARCELS": { format= "image/png"; break;}
+        case "HR.ORTHOIMAGERY.ORTHOPHOTOS": { format= "image/jpeg"; break;}
         case "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2": { format= "image/png"; break;}
         case "CADASTRALPARCELS.PARCELLAIRE_EXPRESS": { format= "image/png"; break;}
         default: {  format= "image/jpeg"; }
