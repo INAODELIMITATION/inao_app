@@ -33,7 +33,7 @@
 function initialisation() {
  
     //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
-    setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', false);
+    setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', true);
  
     try {
         //createOSM("opensmap", "OpenstreetMap", false, 0.7);
@@ -130,10 +130,10 @@ function setIgnLayer(url,name, opacity, libelle, visibility) {
             })*/
             source : new ol.source.WMTS({
                 url: 'https://wxs.ign.fr/ortho/geoportail/wmts',
-                layer: HR.ORTHOIMAGERY.ORTHOPHOTOS,
+                layer: 'HR.ORTHOIMAGERY.ORTHOPHOTOS',
                 matrixSet: 'PM',
-                format: "image/jpeg",
-                style: "normal",
+                format: 'image/jpeg',
+                style: 'normal',
                 tileGrid : new ol.tilegrid.WMTS({
                     origin: [-20037508,20037508],// topLeftCorner
                     resolutions: [ 
