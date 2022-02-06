@@ -129,10 +129,10 @@ function setIgnLayer(url,name, opacity, libelle, visibility) {
                 }
             })*/
             source : new ol.source.WMTS({
-                url: url,
-                layer: name,
-                matrixSet: "PM",
-                format: format,
+                url: 'https://wxs.ign.fr/ortho/geoportail/wmts',
+                layer: HR.ORTHOIMAGERY.ORTHOPHOTOS,
+                matrixSet: 'PM',
+                format: "image/jpeg",
                 style: "normal",
                 tileGrid : new ol.tilegrid.WMTS({
                     origin: [-20037508,20037508],// topLeftCorner
