@@ -31,12 +31,12 @@
  * @description Fonction d'initialisation de notre carte lors du lancement de l'application
  */
 function initialisation() {
- 
+    alert("test-");
     //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
     setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', true);
  
     try {
-        //createOSM("opensmap", "OpenstreetMap", false, 0.7);
+        createOSM("opensmap", "OpenstreetMap", false, 0.7);
         //setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', false);
         //setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
         //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI vecteur', false);
@@ -118,6 +118,7 @@ function checkformat(name) {
  * @param {Boolean} visibility visibilité
  */
 function setIgnLayer(url,name, opacity, libelle, visibility) {
+    alert("test");
     format = checkformat(name);
     map.addLayer(
         new ol.layer.Tile({
@@ -129,10 +130,10 @@ function setIgnLayer(url,name, opacity, libelle, visibility) {
                 }
             })*/
             source : new ol.source.WMTS({
-                url: 'https://wxs.ign.fr/ortho/geoportail/wmts',
-                layer: 'HR.ORTHOIMAGERY.ORTHOPHOTOS',
+                url: url,
+                layer: name,
                 matrixSet: 'PM',
-                format: 'image/jpeg',
+                format: format,
                 style: 'normal',
                 tileGrid : new ol.tilegrid.WMTS({
                     origin: [-20037508,20037508],// topLeftCorner
