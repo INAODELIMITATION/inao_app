@@ -33,11 +33,11 @@
 function initialisation() {
  
     //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
-    //setIgnLayer("CADASTRALPARCELS.PARCELS.L93", 0.7, 'parcelle Cadastrale', true);
+    setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', false);
  
     try {
         //createOSM("opensmap", "OpenstreetMap", false, 0.7);
-        setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', false);
+        //setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', false);
         //setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
         //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI vecteur', false);
         
