@@ -18,7 +18,7 @@ var extent = [-20037508.34, -20037508.34, 20037508.34, 20037508.34];
   units: 'm',
   axisOrientation: 'neu'
 }); // definition du EPSG 2154*/
-var zoom = 5;
+var zoom = 6;
 //ol.proj.addProjection(projection); //inclusion du EPSG dans openlayer
 var proj3857 = ol.proj.get('EPSG:3857'); //recupération de la projection
 proj3857.setExtent(extent);
