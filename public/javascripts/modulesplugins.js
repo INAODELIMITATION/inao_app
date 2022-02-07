@@ -33,7 +33,7 @@
 function initialisation() {
     alert("test-");
     //setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
-    setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', true);
+    setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'photo aerienne', true);
  
     try {
         //createOSM("opensmap", "OpenstreetMap", false, 0.7);
