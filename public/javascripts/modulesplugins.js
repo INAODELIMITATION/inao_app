@@ -48,7 +48,7 @@ function initialisation() {
 
     LoadLayers();
 
-    //map.getView().fit(extent, map.getSize());
+    map.getView().fit(extent, map.getSize());
 
 
 }
