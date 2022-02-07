@@ -33,9 +33,10 @@
 function initialisation() {
     alert("test-");
     setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
-    //setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'azerty', true);
+    
  
     try {
+        setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'ortho', false);
         //createOSM("opensmap", "OpenstreetMap", false, 0.7);
         //setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'orthophoto', false);
         //setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
@@ -196,7 +197,8 @@ function changeOpacity(name, opacity) {
  */
 function appendIgnparams(name, libelle, visibility) {
     /**le nom réduit de la couche utilisé comme id du champ */
-    let little = name.substring(0, 4);
+    let little = name.slice(-4);
+    little.slice()
     let inp;
     if (visibility == true) {
         inp = ' <input type="checkbox" checked  name="collapsemenu" class="onoffswitch-checkbox" id="' + little + '">';
