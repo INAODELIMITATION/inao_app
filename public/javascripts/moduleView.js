@@ -242,6 +242,7 @@ function layerVisibilitySwitcher(id, fa, precede) {
 function ignLayerswitcher(name) {
 
     let little = name.substring(0, 4);
+    alert(little+"test")
     try {
         let vectLayer = getLayer(name);
 
