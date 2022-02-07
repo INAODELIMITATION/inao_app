@@ -32,13 +32,13 @@
  */
 function initialisation() {
 
-    createOSM("opensmap", "OpenstreetMap", true, 0.7);
+    createOSM("opensmap", "OpenstreetMap", true, 1);
     
  
     try {
         setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
         setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'ortho', false);
-        setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.7, 'parcelle cadastrale', true);
+        setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.4, 'parcelle cadastrale', true);
         setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI vecteur', false);
         setIgnLayer('https://wxs.ign.fr/administratif/geoportail/wmts','LIMITES_ADMINISTRATIVES_EXPRESS.LATEST', 0.7, 'limites administratives', true);
     } catch (error) {
