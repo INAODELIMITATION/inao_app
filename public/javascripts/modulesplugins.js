@@ -36,11 +36,14 @@ function initialisation() {
     
  
     try {
-        setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'plan IGN', false);
-        setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'ortho', false);
-        setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.4, 'parcelle cadastrale', true);
-        setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI vecteur', false);
-        setIgnLayer('https://wxs.ign.fr/administratif/geoportail/wmts','LIMITES_ADMINISTRATIVES_EXPRESS.LATEST', 0.7, 'limites administratives', true);
+        setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'Plan IGN', false);
+        setIgnLayer('https://wxs.ign.fr/e8jtt8d9vd9bi15uy3g56jx3/geoportail/wmts?SERVICE=WMTS&REQUEST=GetCapabilities','GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR', 0.7, 'Scan25 IGN', false);
+        setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'Ortho 20cm', false);
+        setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.4, 'BD Parcellaire IGN', true);
+        setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELLAIRE_EXPRESS', 0.7, 'PCI Vecteur', false);
+        setIgnLayer('https://wxs.ign.fr/administratif/geoportail/wmts','LIMITES_ADMINISTRATIVES_EXPRESS.LATEST', 0.7, 'Limites Administratives', true);
+        e8jtt8d9vd9bi15uy3g56jx3
+
     } catch (error) {
         console.log(error);
     }
@@ -103,6 +106,7 @@ function checkformat(name) {
         case "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2": { format= "image/png"; break;}
         case "CADASTRALPARCELS.PARCELLAIRE_EXPRESS": { format= "image/png"; break;}
         case "LIMITES_ADMINISTRATIVES_EXPRESS.LATEST": { format= "image/png"; break;}
+        case "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR": { format= "image/jpeg"; break;}
         default: {  format= "image/jpeg"; }
     }
     return format;
