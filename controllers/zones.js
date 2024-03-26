@@ -115,7 +115,7 @@ module.exports = {
         .query("SELECT DISTINCT vlst.lbl_aire,  vlst.id_aire"+
        " FROM metier_inao.v_lst_lbl_aire vlst"+
        " LEFT JOIN metier_inao.v_lst_zone vzone USING(id_aire)"+
-        "WHERE ST_INTERSECTS(ST_TRANSFORM(ST_GEOMFROMTEXT('POINT("+req.params.x+" "+ req.params.y+")',3857),2154),vzone.geom);",{
+        "WHERE ST_INTERSECTS(ST_TRANSFORM(ST_GEOMFROMTEXT('POINT("+req.params.x+" "+ req.params.y+")',3857),2154),vzone.geom) AND type_zone = 2;",{
 
             // bind:{
             //    X: req.params.x,
