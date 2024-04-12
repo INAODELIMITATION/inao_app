@@ -36,7 +36,8 @@ function initialisation() {
     
  
     try {
-        setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'Plan IGN', false);
+        //setIgnLayer('https://wxs.ign.fr/cartes/geoportail/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'Plan IGN', false);
+        setIgnLayer('https://data.geopf.fr/wmts','GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2', 0.7, 'Plan IGN', false);
         setIgnLayer('https://wxs.ign.fr/e8jtt8d9vd9bi15uy3g56jx3/geoportail/wmts?SERVICE=WMTS&REQUEST=GetCapabilities','GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR', 0.7, 'Scan25 IGN', false);
         setIgnLayer('https://wxs.ign.fr/ortho/geoportail/wmts','HR.ORTHOIMAGERY.ORTHOPHOTOS', 0.7, 'Ortho 20cm', false);
         setIgnLayer('https://wxs.ign.fr/parcellaire/geoportail/wmts','CADASTRALPARCELS.PARCELS', 0.4, 'BD Parcellaire IGN', true);
