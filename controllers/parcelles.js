@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 
-const Parcelle = require('../models').t_parcelle;
+const Parcelle = require('../models').parcelle;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 var env = process.env.NODE_ENV || 'development';

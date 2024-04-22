@@ -1,12 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Parcelle = sequelize.define('parcelle', {
-    idu: DataTypes.STRING,
-    insee: DataTypes.STRING,
-    dep: DataTypes.STRING,
-    commune: DataTypes.STRING,
-    section: DataTypes.STRING,
-    numpar: DataTypes.INTEGER,
+    idu: DataTypes.STRING(200),
+    insee: DataTypes.STRING(200),
+    dep: DataTypes.TEXT,
+    commune: DataTypes.TEXT,
+    section: DataTypes.STRING(200),
+    numpar: DataTypes.STRING(200),
     geom: DataTypes.GEOMETRY('MULTIPOLYGON',2154)
   },
    {
