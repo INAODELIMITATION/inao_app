@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Parcelle = sequelize.define('t_parcelle', {
+  var Parcelle = sequelize.define('parcelle', {
     idu: DataTypes.STRING,
     insee: DataTypes.STRING,
     dep: DataTypes.STRING,
@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
    {
     timestamps: false, //n'ajoute pas les attributs createdAt et updatedAt
     freezeTableName: true, // n'ajoute pas de s au nom de la table
-    schema:'ign_bd_cadastre',
+    schema:'metier_inao',
    });
   Parcelle.associate = function(models) {
     // associations can be defined here
