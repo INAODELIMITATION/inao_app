@@ -44,7 +44,7 @@ module.exports = {
                             insee: req.body.insee,
                             section: { [Op.iLike]: '%' + changeUndefined(req.body.section) + '%' }
                         },
-                        sequelize.where(sequelize.cast(sequelize.col('t_parcelle.numpar'), 'varchar'),
+                        sequelize.where(sequelize.cast(sequelize.col('parcelle.numpar'), 'varchar'),
                             { [Op.iLike]: '%' + changeUndefined(req.body.numpar) + '%' }),
                     ],
                 },
