@@ -42,7 +42,7 @@ var sourceL = new ol.source.VectorTile({
     origin: ol.extent.getTopLeft(projectionExtent),
 
   }),
-  url: 'http://51.255.93.191:8080/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@WebMercatorQuad@pbf/{z}/{x}/{-y}.pbf',
+  url: 'https://geoserver.sig-inao.fr/geoserver/gwc/service/tms/1.0.0/inao:aire_parcellaire@WebMercatorQuad@pbf/{z}/{x}/{-y}.pbf',
   crossOrigin: 'anonymous',
 });
 var view = new ol.View({
