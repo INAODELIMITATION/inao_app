@@ -27,7 +27,7 @@ function setTimeconnect(user) {
             bind: {
                 login: user.login
             }
-        }).spread((results, metadata) => {
+        }).then((results, metadata) => {
         }).catch(error => response.status(400).send(error));
 }
 
