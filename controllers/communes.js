@@ -23,10 +23,10 @@ module.exports = {
                     nom_com: { [Op.iLike]: req.body.commune + '%' }
                 },
                 limit: 15,
-                attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('nom_com')), 'commune'],'code_insee'],
+                attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('nom_officiel')), 'commune'],'code_insee'],
                 order: [
                    
-                    ['nom_com', 'ASC'],
+                    ['nom_officiel', 'ASC'],
                 ]
             })
             .then(communes => {
@@ -49,7 +49,7 @@ module.exports = {
                 where: {
                     code_insee: req.params.insee,
                 },
-                attributes: ['nom_com', 'code_insee','geom'],
+                attributes: ['nom_officiel', 'code_insee','geom'],
                 
             })
             .then(commune => {
