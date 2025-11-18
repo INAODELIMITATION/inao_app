@@ -614,7 +614,7 @@ function returnElement(data, type) {
     if (type == "commune") {
         return {
             id: data.code_insee,
-            valeur: data.nom_com
+            valeur: data.nom_officiel
         };
     }
 
