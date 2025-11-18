@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING
       },
-      nom_com: {
+      nom_officiel: {
         type: Sequelize.STRING
       },
       code_insee: {
