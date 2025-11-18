@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false, //n'ajoute pas les attributs createdAt et updatedAt
     freezeTableName: true, // n'ajoute pas de s au nom de la table
     schema:'new_data',
-    table_name:'ign_adminexpress_commune_2025'
+    tableName:'ign_adminexpress_commune_2025'
   });
   Commune.associate = function(models) {
     // associations can be defined here
